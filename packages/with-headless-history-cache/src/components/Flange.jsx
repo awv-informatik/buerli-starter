@@ -3,29 +3,22 @@ import { useFirstMountState } from 'react-use'
 import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/classcad'
 import { useControls } from 'leva'
 import debounce from 'lodash/debounce'
+import { Status } from './Pending'
 
-// A small hook creating a useState that will debounce and set the value as a React pending transition.
-// A pending transition will allow you to suspend without blocking the UI, the current view will hang on
-// until new results are in, as opposed to going into the suspense fallback while loading.
-// For more details on useTransition look into: https://react.dev/reference/react/startTransition
+// A useState that will debounce and set values via React pending transition w/o blocking the UI
 function usePendingState(key, start, initialState, config = {}) {
   const [value, setValue] = useState(initialState)
   // useControls is a hook from the leva library, it creates GUI panels for key:value pairs
-  useControls({
-    [key]: {
-      value,
-      ...config,
-      // Debounce the slider to avoid too many requests with a safe margin of 100ms
-      onChange: debounce(v => start(() => setValue(v)), 100),
-    },
-  })
+  useControls({ [key]: { value, ...config, onChange: debounce(v => start(() => setValue(v)), 100) } })
   return value
 }
 
-export function Flange({ buerli, tunnel, ...props }) {
-  const [hovered, hover] = useState(false)
-  const [pending, start] = useTransition()
+export function Flange({ buerli, ...props }) {
   const isFirstMount = useFirstMountState()
+  const [hovered, hover] = useState(false)
+  // For more details on useTransition look into: https://react.dev/reference/react/startTransition
+  const [pending, start] = useTransition()
+
   const thickness = usePendingState('thickness', start, 30, { min: 30, max: 60, step: 10 })
   const upperCylDiam = usePendingState('upperCylDiam', start, 190, { min: 100, max: 200, step: 10 })
   const upperCylHoleDiam = usePendingState('upperCylHoleDiam', start, 'upperCylDiam - thickness')
@@ -33,7 +26,7 @@ export function Flange({ buerli, tunnel, ...props }) {
   const baseCylDiam = usePendingState('baseCylDiam', start, 'upperCylDiam + 4 * thickness')
   const holeOffset = usePendingState('holeOffset', start, '(upperCylDiam / 2) + thickness')
   const holes = usePendingState('holes', start, 4, { min: 1, max: 6, step: 1 })
-  const holeAngle = usePendingState('holeAngle', start, 'C:PI * 2 / holes')  
+  const holeAngle = usePendingState('holeAngle', start, 'C:PI * 2 / holes')
   const expressions = [
     { name: 'thickness', value: thickness },
     { name: 'upperCylDiam', value: upperCylDiam },
@@ -45,9 +38,7 @@ export function Flange({ buerli, tunnel, ...props }) {
     { name: 'holeAngle', value: holeAngle },
   ]
 
-  // headless/cache will suspend if the dependencies change. The returned value will then be available
-  // and can be used to render the scene. Cache is memoized, the same cache keys will immediately return
-  // an already cached entry. This block creates a flange and results in a part, it will only run once.
+  // This block creates a flange and results in a part, it will only run once.
   const part = buerli.cache(
     async api => {
       const part = api.createPart('flange')
@@ -74,8 +65,6 @@ export function Flange({ buerli, tunnel, ...props }) {
   )
 
   // In this block we use the part that was generated previously and change its expressions.
-  // The resulting solid is then being turned into a THREE.Geometry, which we return. This block
-  // executes whevenever the expressions change, with memoization of previously generated geometries.
   const [geo] = buerli.cache(
     async api => {
       // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
@@ -89,7 +78,7 @@ export function Flange({ buerli, tunnel, ...props }) {
   return (
     <mesh geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} castShadow receiveShadow {...props}>
       <meshStandardMaterial color={pending ? 'gray' : hovered ? 'hotpink' : 'orange'} />
-      <tunnel.In>{pending ? 'Pending ...' : ''}</tunnel.In>
+      {pending && <Status>Pending</Status>}
     </mesh>
   )
 }

@@ -1,37 +1,48 @@
-import { Suspense } from 'react'
+import { Suspense, useRef } from 'react'
 import { history } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
-import { Canvas } from '@react-three/fiber'
-import { Center, ContactShadows, OrbitControls, Environment } from '@react-three/drei'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { Leva } from 'leva'
-import tunnel from 'tunnel-rat'
 import { Flange } from './components/Flange'
+import { Status, Out } from './components/Pending'
 
 // Create a headless history socket
 const buerli = headless(history, 'ws://localhost:9091')
-// Create a tunnel that will allow the canvas to write into the DOM
-const title = tunnel()
 
-export default function App() {
-  return (
-    <>
-      <Canvas shadows orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
-        <color attach="background" args={['#f0f0f0']} />
-        <ambientLight />
-        <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
+export const App = () => (
+  <>
+    <Canvas shadows orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
+      <color attach="background" args={['#f0f0f0']} />
+      <ambientLight intensity={0.5} />
+      <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
+      <group position={[0, -1, 0]}>
         {/** The suspense fallback will fire on first load and show a moving sphere */}
-        <Suspense fallback={<title.In>Loading ...</title.In>}>
-          <group position={[0, -1, 0]}>
-            <Center top>
-              <Flange buerli={buerli} tunnel={title} scale={0.01} rotation={[-Math.PI / 2, 0, 0]} />
-            </Center>
-            <ContactShadows />
-          </group>
+        <Suspense fallback={<Fallback />}>
+          <Center top>
+            <Flange buerli={buerli} scale={0.015} rotation={[-Math.PI / 2, 0, 0]} />
+          </Center>
         </Suspense>
-        <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
-        <Environment preset="city" />
-      </Canvas>
-      <Leva neverHide titleBar={{ title: <title.Out /> }} />
-    </>
+        <ContactShadows blur={4} color="orange" />
+      </group>
+      <CameraControls minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
+      <Environment preset="city" />
+    </Canvas>
+    <Leva neverHide titleBar={{ title: <Out /> }} />
+  </>
+)
+
+function Fallback() {
+  const ref = useRef()
+  useFrame((state, delta) => {
+    ref.current.rotation.x += delta
+    ref.current.rotation.y += delta
+  })
+  return (
+    <mesh ref={ref} position={[0, 1.5, 0]}>
+      <boxGeometry />
+      <meshStandardMaterial color="orange" />
+      <Status>Loading</Status>
+    </mesh>
   )
 }
