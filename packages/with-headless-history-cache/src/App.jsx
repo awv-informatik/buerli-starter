@@ -3,25 +3,31 @@ import { history } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Center, OrbitControls, Environment } from '@react-three/drei'
-import { useControls } from 'leva'
+import { Leva, useControls } from 'leva'
 import debounce from 'lodash/debounce'
+import tunnel from 'tunnel-rat'
 
 // Create a headless history socket
 const { cache } = headless(history, 'ws://localhost:9091')
+// Create a tunnel that will allow the canvas to write into the DOM
+const title = tunnel()
 
 export default function App() {
   return (
-    <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
-      <color attach="background" args={['#f0f0f0']} />
-      <ambientLight />
-      <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
-      {/** The suspense fallback will fire on first load and show a moving sphere */}
-      <Suspense fallback={<Fallback />}>
-        <Model scale={0.1} rotation={[0, -Math.PI / 2, 0]} />
-      </Suspense>
-      <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
-      <Environment preset="city" />
-    </Canvas>
+    <>
+      <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
+        <color attach="background" args={['#f0f0f0']} />
+        <ambientLight />
+        <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
+        {/** The suspense fallback will fire on first load and show a moving sphere */}
+        <Suspense fallback={<Fallback />}>
+          <Model scale={0.1} rotation={[0, -Math.PI / 2, 0]} />
+        </Suspense>
+        <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
+        <Environment preset="city" />
+      </Canvas>
+      <Leva titleBar={{ title: <title.Out /> }} />
+    </>
   )
 }
 
@@ -54,17 +60,26 @@ function Model(props) {
       const a = await api.cylinder(part, [wcsx], 10, width)
       const b = await api.cylinder(part, [wcsy], 10, width)
       await api.boolean(part, 0, [a, b])
+      // Create an array of THREE.Geometry classes from the part
       return await api.createBufferGeometry(part)
     },
-    ["cyclinders", width],
+    ['cyclinders', width],
   )
   return (
-    <Center cacheKey={width} {...props}>
-      {/** The resulting geometry can be directly attached to a mesh, which is under your full control */}
-      <mesh geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} castShadow receiveShadow >
-        <meshStandardMaterial color={pending ? 'gray' : hovered ? 'hotpink' : 'orange'} />
-      </mesh>
-    </Center>
+    <>
+      <Center cacheKey={width} {...props}>
+        {/** The resulting geometry can be directly attached to a mesh, which is under your full control */}
+        <mesh
+          geometry={geo}
+          onPointerOver={() => hover(true)}
+          onPointerOut={() => hover(false)}
+          castShadow
+          receiveShadow>
+          <meshStandardMaterial color={pending ? 'gray' : hovered ? 'hotpink' : 'orange'} />
+        </mesh>
+      </Center>
+      <title.In>{pending ? 'Pending ...' : ''}</title.In>
+    </>
   )
 }
 
