@@ -13,8 +13,7 @@ This example shows how to use headless/history/cache with direct, declarative ac
 
 At the same time you have control over the loading and pending state. Loading fallbacks are controlled via React.Suspense, pending state is controlled via React.useTransition. Pending is meant to unblock the UI, it will leave the current result on screen even while a new requests have been made and are currently suspending.
 
-#### References
+### References
 
-[Suspense](https://react.dev/reference/react/Suspense)
-
-[useTransition](https://react.dev/reference/react/useTransition)
+- [Suspense](https://react.dev/reference/react/Suspense)
+- [useTransition](https://react.dev/reference/react/useTransition)
