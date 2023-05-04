@@ -1,0 +1,38 @@
+# FROM --platform=linux/amd64 ubuntu:bionic
+FROM --platform=linux/x86_64 ubuntu:bionic
+
+# Install linux dependencies
+RUN apt-get update
+RUN apt-get install -y libicu60
+RUN apt-get install -y libglu1-mesa-dev
+RUN apt-get install -y ocl-icd-opencl-dev
+RUN apt-get install -y locales
+
+# Language settings
+ENV LANG C
+ENV LANGUAGE C
+ENV LC_ALL C
+
+# Install node and npm
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+RUN apt-get install -y nodejs
+
+# Install ClassCAD
+ENV CC_DIR /classcad
+RUN mkdir -p $CC_DIR
+WORKDIR $CC_DIR
+
+RUN npm init -y
+RUN npm i @classcad/linux-x64
+RUN chmod +x ./node_modules/@classcad/linux-x64/ClassCADInstance
+
+# Copy runtimes to libs
+RUN cp ./node_modules/@classcad/linux-x64/libboost_thread.so.1.65.1 /lib/x86_64-linux-gnu
+
+# Copy the .ccapp downloaded from buerli.io.
+COPY modeling.ccapp modeling.ccapp
+
+# Start the server
+EXPOSE 9091/tcp
+CMD npx classcad --ip 0.0.0.0 --port 9091 --instances 1 --ccappfile modeling.ccapp

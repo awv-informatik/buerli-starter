@@ -1,0 +1,17 @@
+version: "3.5"
+
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    image: buerli/starter
+    container_name: buerli-starter
+    tty: true
+    stdin_open: true
+    ports:
+      - 9091:9091
+    restart: unless-stopped
+networks:
+  default:
+    name: buerli-starter
