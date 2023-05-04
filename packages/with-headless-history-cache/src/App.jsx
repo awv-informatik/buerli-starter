@@ -5,7 +5,6 @@ import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, OrbitControls, Environment } from '@react-three/drei'
 import { Leva } from 'leva'
 import tunnel from 'tunnel-rat'
-import { Fallback } from './components/Fallback'
 import { Flange } from './components/Flange'
 
 // Create a headless history socket
