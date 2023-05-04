@@ -1,4 +1,6 @@
 ```shell
+git clone https://github.com/awv-informatik/buerli-starter
+cd buerli-starter
 npm install
-npm run dev
+npm run with-headless-history-run
 ```

@@ -6,5 +6,10 @@
   "license": "MIT",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "with-headless-history-cache": "cd packages/with-headless-history-cache && vite",
+    "with-headless-history-run": "cd packages/with-headless-history-run && vite",
+    "with-headless-solid-cache": "cd packages/with-headless-solid-cache && vite"
+  }
 }

@@ -5,8 +5,7 @@
 git clone https://github.com/awv-informatik/buerli-starter
 cd buerli-starter
 npm install
-cd packages/with-headless-history-cache
-npm run dev
+npm run with-headless-history-cache
 ```
 
 This example shows how to use headless/history/cache with direct, declarative access to resulting geometries.
