@@ -1,4 +1,5 @@
 import { useState, useTransition } from 'react'
+import { useFirstMountState } from 'react-use'
 import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/classcad'
 import { useControls } from 'leva'
 import debounce from 'lodash/debounce'
@@ -24,6 +25,7 @@ function usePendingState(key, start, initialState, config = {}) {
 export function Flange({ buerli, tunnel, ...props }) {
   const [hovered, hover] = useState(false)
   const [pending, start] = useTransition()
+  const isFirstMount = useFirstMountState()
   const thickness = usePendingState('thickness', start, 30, { min: 30, max: 60, step: 10 })
   const upperCylDiam = usePendingState('upperCylDiam', start, 190, { min: 100, max: 200, step: 10 })
   const upperCylHoleDiam = usePendingState('upperCylHoleDiam', start, 'upperCylDiam - thickness')
@@ -31,7 +33,7 @@ export function Flange({ buerli, tunnel, ...props }) {
   const baseCylDiam = usePendingState('baseCylDiam', start, 'upperCylDiam + 4 * thickness')
   const holeOffset = usePendingState('holeOffset', start, '(upperCylDiam / 2) + thickness')
   const holes = usePendingState('holes', start, 4, { min: 1, max: 6, step: 1 })
-  const holeAngle = usePendingState('holeAngle', start, 'C:PI * 2 / holes')
+  const holeAngle = usePendingState('holeAngle', start, 'C:PI * 2 / holes')  
   const expressions = [
     { name: 'thickness', value: thickness },
     { name: 'upperCylDiam', value: upperCylDiam },
@@ -57,8 +59,8 @@ export function Flange({ buerli, tunnel, ...props }) {
       const subCylFlange = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylHoleDiam', 'ExpressionSet.flangeHeight')
       const solid = api.boolean(part, BooleanOperationType.SUBTRACTION, [flangeSolid1, subCylFlange])
       const wcsHole1Bottom = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [], [0, upperCylDiam / 2 + thickness, 0], [0, 0, 0])
-      const waCenter = api.createWorkAxis(part, WorkAxisType.WA_FIXED, [], [0, 0, 0], [0, 0, 1])
       const subCylHole1 = api.cylinder(part, [wcsHole1Bottom], 30, 50)
+      const waCenter = api.createWorkAxis(part, WorkAxisType.WA_FIXED, [], [0, 0, 0], [0, 0, 1])
       const pattern = api.circularPattern(part, [subCylHole1], [waCenter], {
         inverted: 0,
         angle: 'ExpressionSet.holeAngle',
@@ -76,7 +78,8 @@ export function Flange({ buerli, tunnel, ...props }) {
   // executes whevenever the expressions change, with memoization of previously generated geometries.
   const [geo] = buerli.cache(
     async api => {
-      api.setExpressions({ partId: part, members: expressions })
+      // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
+      if (!isFirstMount) api.setExpressions({ partId: part, members: expressions })
       return await api.createBufferGeometry(part)
     },
     ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle],
