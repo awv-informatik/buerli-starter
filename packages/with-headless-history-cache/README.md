@@ -2,7 +2,8 @@
 <br />
 
 ```shell
-git clone https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-headless-history-cache
+git clone https://github.com/awv-informatik/buerli-starter
+cd buerli-starter/packages/with-headless-history-cache
 npm install
 npm run dev
 ```
