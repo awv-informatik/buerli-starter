@@ -5,7 +5,7 @@ import { useControls } from 'leva'
 import debounce from 'lodash/debounce'
 import { Status } from './Pending'
 
-// A useState that will debounce and set values via React pending transition w/o blocking the UI
+// A useState that will debounce and set values via React pending transitions w/o blocking the UI
 function usePendingState(key, start, initialState, config = {}) {
   const [value, setValue] = useState(initialState)
   // useControls is a hook from the leva library, it creates GUI panels for key:value pairs
