@@ -3,7 +3,7 @@ npm install
 npm run dev
 ```
 
-<img src="/intro.jpg" width="100%" />
+<img src="intro.jpg" width="100%" />
 
 This example shows how to use headless/history/cache with direct, declarative access to resulting geometries.
 
