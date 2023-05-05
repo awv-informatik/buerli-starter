@@ -19,8 +19,8 @@ export function Scene(props) {
 
   return (
     <group {...props}>
-      <Bounds fit clip observe>
-        <Resize scale={1}>
+      <Bounds fit observe>
+        <Resize scale={2}>
           <Center top ref={geometry}>
             <BuerliGeometry suspend />
           </Center>

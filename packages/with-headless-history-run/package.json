@@ -13,23 +13,23 @@
     "@buerli.io/classcad": "0.7.1-beta.0",
     "@buerli.io/headless": "0.7.1-beta.0",
     "@buerli.io/react": "0.7.1-beta.0",
-    "@react-three/drei": "^9.66.1",
+    "@react-three/drei": "^9.66.3",
     "@react-three/fiber": "^8.13.0",
-    "@react-three/postprocessing": "^2.9.2",
-    "@types/three": "^0.150.2",
+    "@react-three/postprocessing": "^2.10.0",
+    "@types/three": "^0.152.0",
     "leva": "^0.9.34",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.152.0"
+    "three": "^0.152.2"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.1",
+    "@types/react": "^18.2.5",
+    "@types/react-dom": "^18.2.3",
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.39.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.3.5",
-    "vite": "^4.3.3"
+    "eslint-plugin-react-refresh": "^0.4.1",
+    "vite": "^4.3.4"
   }
 }
