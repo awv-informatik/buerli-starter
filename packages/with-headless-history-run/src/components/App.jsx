@@ -44,13 +44,14 @@ export default function App({ width = 50 }) {
 
 function Fallback() {
   const ref = useRef()
-  useFrame((state) => {
-    ref.current.position.x = Math.sin(state.clock.elapsedTime * 2)
+  useFrame((state, delta) => {
+    ref.current.rotation.x += delta
+    ref.current.rotation.y += delta
   })
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[0.15, 64, 64]} />
-      <meshBasicMaterial color='#556' />
+    <mesh ref={ref} position={[0, 0, 0]}>
+      <boxGeometry />
+      <meshStandardMaterial color="orange" />
     </mesh>
   )
 }
