@@ -1,13 +1,8 @@
 import { Suspense, useRef } from 'react'
-import { history } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { Flange } from './components/Flange'
 import { Status } from './components/Pending'
-
-// Create a headless history socket
-const buerli = headless(history, 'ws://localhost:9091')
 
 export const App = () => (
   <Canvas shadows orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
@@ -18,7 +13,7 @@ export const App = () => (
       {/** The suspense fallback will fire on first load and show a moving sphere */}
       <Suspense fallback={<Fallback />}>
         <Center top>
-          <Flange buerli={buerli} scale={0.015} rotation={[-Math.PI / 2, 0, 0]} />
+          <Flange scale={0.015} rotation={[-Math.PI / 2, 0, 0]} />
         </Center>
       </Suspense>
       <ContactShadows blur={4} color="orange" />

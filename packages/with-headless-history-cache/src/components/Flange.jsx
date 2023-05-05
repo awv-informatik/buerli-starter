@@ -1,9 +1,14 @@
 import { useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
+import { history } from '@buerli.io/headless'
+import { headless } from '@buerli.io/react'
 import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/classcad'
 import { useControls } from 'leva'
 import debounce from 'lodash/debounce'
 import { Status } from './Pending'
+
+// Create a headless history socket
+const buerli = headless(history, 'ws://localhost:9091')
 
 // A useState that will debounce and set values via React pending transitions w/o blocking the UI
 function usePendingState(key, start, initialState, config = {}) {
@@ -13,7 +18,7 @@ function usePendingState(key, start, initialState, config = {}) {
   return value
 }
 
-export function Flange({ buerli, ...props }) {
+export function Flange(props) {
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
