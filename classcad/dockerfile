@@ -34,4 +34,4 @@ COPY modeling.ccapp modeling.ccapp
 
 # Start the server
 EXPOSE 9091/tcp
-CMD npx classcad --ip 0.0.0.0 --port 9091 --instances 1 --ccappfile modeling.ccapp
+CMD npx classcad --ip 0.0.0.0 --port 9091 --instances 2 --ccappfile modeling.ccapp
