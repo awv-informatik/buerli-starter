@@ -5193,6 +5193,7 @@
     "@types/three" "^0.152.0"
     "gltfjsx" "^6.1.11"
     "leva" "^0.9.34"
+    "maath" "^0.5.3"
     "react" "^18.2.0"
     "react-dom" "^18.2.0"
     "react-spinners" "^0.13.8"
