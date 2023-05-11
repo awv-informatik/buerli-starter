@@ -22,7 +22,7 @@ temp/
 /act/
 .DS_Store
 
-
+**/*.ccapp
 
 # Logs
 logs
