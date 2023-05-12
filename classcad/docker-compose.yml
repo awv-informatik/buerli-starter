@@ -5,8 +5,8 @@ services:
     build:
       context: ./
       dockerfile: dockerfile
-    image: buerli/starter
-    container_name: buerli-starter
+    image: buerli/server
+    container_name: buerli-server
     tty: true
     stdin_open: true
     ports:
@@ -14,4 +14,4 @@ services:
     restart: unless-stopped
 networks:
   default:
-    name: buerli-starter
+    name: buerli-server

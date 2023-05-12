@@ -1,12 +1,8 @@
 {
+  "name": "with-history-cache-robot",
   "private": true,
-  "name": "buerli-starter-react",
   "version": "0.0.0",
-  "main": "src/main.jsx",
-  "license": "MIT",
-  "workspaces": [
-    "packages/*"
-  ],
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,9 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@buerli.io/classcad": "0.7.1",
+    "@buerli.io/headless": "0.7.1",
+    "@buerli.io/react": "0.7.1",
+    "@react-three/drei": "^9.68.2",
+    "@react-three/fiber": "^8.13.0",
+    "@types/three": "^0.152.0",
     "leva": "^0.9.34",
+    "maath": "^0.5.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-spinners": "^0.13.8",
+    "three": "^0.152.2",
+    "tunnel-rat": "^0.1.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.6",

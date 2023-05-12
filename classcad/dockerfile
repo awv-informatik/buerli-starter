@@ -6,6 +6,7 @@ RUN apt-get install -y libicu60
 RUN apt-get install -y libglu1-mesa-dev
 RUN apt-get install -y ocl-icd-opencl-dev
 RUN apt-get install -y locales
+RUN apt-get install -y libarchive-dev
 
 # Language settings
 ENV LANG C
@@ -23,7 +24,7 @@ RUN mkdir -p $CC_DIR
 WORKDIR $CC_DIR
 
 RUN npm init -y
-RUN npm i @classcad/linux-x64
+RUN npm i @classcad/linux-x64@0.0.3
 RUN chmod +x ./node_modules/@classcad/linux-x64/ClassCADInstance
 
 # Copy runtimes to libs

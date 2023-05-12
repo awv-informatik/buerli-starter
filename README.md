@@ -1,3 +1,5 @@
+A collection of self-contained mini examples showing various features of Buerli, and how to employ them in a React content.
+
 First, clone the repository.
 
 ```shell
@@ -9,6 +11,7 @@ Place your modeling.ccapp file into the /classcad folder and docker-compose up. 
 
 ```shell
 npm install
-# Start an example
-npm run with-headless-history-cache
+npm run dev
 ```
+
+All examples inside /packages are self contained and can be run and forked individually!
