@@ -1,4 +1,4 @@
-A collection of self-contained mini examples showing various features of Buerli, and how to employ them in a React content.
+A collection of self-contained mini examples showing various features of Buerli, and how to employ them in a React context.
 
 First, clone the repository.
 

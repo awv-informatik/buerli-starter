@@ -1,10 +1,11 @@
+import { Suspense, lazy } from 'react'
 import { Leva, useControls, folder } from 'leva'
 
-import SolidCache from '../packages/with-solid-cache/src/App'
-import HistoryRun from '../packages/with-history-run/src/App'
-import HistoryCache from '../packages/with-history-cache/src/App'
-import HistoryCacheAs1ac214Jsx from '../packages/with-history-cache-as1ac214-jsx/src/App'
-import HistoryCacheRobot from '../packages/with-history-cache-robot/src/App'
+const SolidCache = lazy(() => import('../packages/with-solid-cache/src/App'))
+const HistoryRun = lazy(() => import('../packages/with-history-run/src/App'))
+const HistoryCache = lazy(() => import('../packages/with-history-cache/src/App'))
+const HistoryCacheAs1ac214Jsx = lazy(() => import('../packages/with-history-cache-as1ac214-jsx/src/App'))
+const HistoryCacheRobot = lazy(() => import('../packages/with-history-cache-robot/src/App'))
 
 const sandboxes = {
   History: {
@@ -20,25 +21,21 @@ const sandboxes = {
 
 export default function App() {
   const { type } = useControls({
-    headless: folder({
-      type: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) },
-    }),
+    headless: folder({ type: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } }),
   })
-
   const [sandbox] = useControls(
-    () => ({
-      headless: folder({
-        [type]: { value: Object.keys(sandboxes[type])[0], options: Object.keys(sandboxes[type]) },
-      }),
-    }),
+    () => ({ headless: folder({ [type]: { value: Object.keys(sandboxes[type])[0], options: Object.keys(sandboxes[type]) } }) }),
     [type],
   )
-
   const El = sandboxes[type][sandbox[type]]
   return (
     <>
-      <El />
-      <Leva neverHide />
+      <Suspense fallback={null}>
+        <El />
+      </Suspense>
+      <div style={{ position: 'relative', zIndex: 0 }}>
+        <Leva neverHide />
+      </div>
     </>
   )
 }
