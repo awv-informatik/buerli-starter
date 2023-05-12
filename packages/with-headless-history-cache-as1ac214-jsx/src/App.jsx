@@ -1,8 +1,7 @@
 import { Suspense, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { Robot } from './components/Robot'
-import { Status } from './components/Pending'
+import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
+import { Asm } from './components/Asm'
 
 export const App = () => (
   <Canvas shadows orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
@@ -12,7 +11,9 @@ export const App = () => (
     <group position={[0, -1, 0]}>
       {/** The suspense fallback will fire on first load and show a moving sphere */}
       <Suspense fallback={<Fallback />}>
-        <Robot scale={0.015} />
+        <Center top>
+          <Asm scale={0.015} />
+        </Center>
       </Suspense>
       <ContactShadows scale={20} blur={2} />
     </group>
@@ -31,7 +32,6 @@ function Fallback() {
     <mesh ref={ref} position={[0, 1.5, 0]}>
       <boxGeometry />
       <meshStandardMaterial color="orange" />
-      <Status>Loading</Status>
     </mesh>
   )
 }
