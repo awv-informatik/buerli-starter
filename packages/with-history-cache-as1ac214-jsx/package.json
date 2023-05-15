@@ -13,7 +13,7 @@
     "@buerli.io/classcad": "0.7.1",
     "@buerli.io/headless": "0.7.1",
     "@buerli.io/react": "0.7.1",
-    "@react-three/drei": "^9.68.2",
+    "@react-three/drei": "^9.68.3",
     "@react-three/fiber": "^8.13.0",
     "@types/three": "^0.152.0",  
     "leva": "^0.9.34",

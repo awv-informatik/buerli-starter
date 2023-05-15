@@ -747,10 +747,10 @@
   "resolved" "https://registry.npmjs.org/@react-spring/types/-/types-9.6.1.tgz"
   "version" "9.6.1"
 
-"@react-three/drei@^9.66.3", "@react-three/drei@^9.68.2", "@react-three/drei@>=9.34.1":
-  "integrity" "sha512-By462DHLWE2P6yW0jsg5XveV3ZLJRGPYMJHJRZyg1nDiLxAw66R4sVXkO0ClwFOe5bwGhLHgEsqx07sfwBjQqw=="
-  "resolved" "https://registry.npmjs.org/@react-three/drei/-/drei-9.68.2.tgz"
-  "version" "9.68.2"
+"@react-three/drei@^9.68.3", "@react-three/drei@>=9.34.1":
+  "integrity" "sha512-u+70dPPiM1rfJ/Wd4lbbyaC0QbQwvQd1NuMfIE78UzvMtOI8LjVLJNmdvzhAfcEL+RuqQlboSgd2/NjcLv9aDQ=="
+  "resolved" "https://registry.npmjs.org/@react-three/drei/-/drei-9.68.3.tgz"
+  "version" "9.68.3"
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@react-spring/three" "~9.6.1"
@@ -3634,6 +3634,11 @@
   "resolved" "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
   "version" "1.2.0"
 
+"use-zustand@^0.0.4":
+  "integrity" "sha512-UkuONsZoniFoDsm5Xp/gEA1579UOn/ZgKbaE48gHhK+pmBx//PX4UlKdrbaWPpUnORnVTd4/0CvI/rv+1tmn4g=="
+  "resolved" "https://registry.npmjs.org/use-zustand/-/use-zustand-0.0.4.tgz"
+  "version" "0.0.4"
+
 "utility-types@^3.10.0":
   "integrity" "sha512-O11mqxmi7wMKCo6HKFt5AhO4BwY3VV68YU07tgxfz8zJTIxr4BpsezN49Ffwy9j3ZpwwJp4fkRwjRzq3uWE6Rg=="
   "resolved" "https://registry.npmjs.org/utility-types/-/utility-types-3.10.0.tgz"
@@ -3707,7 +3712,7 @@
     "@buerli.io/classcad" "0.7.1"
     "@buerli.io/headless" "0.7.1"
     "@buerli.io/react" "0.7.1"
-    "@react-three/drei" "^9.68.2"
+    "@react-three/drei" "^9.68.3"
     "@react-three/fiber" "^8.13.0"
     "@types/three" "^0.152.0"
     "leva" "^0.9.34"
@@ -3723,7 +3728,7 @@
     "@buerli.io/classcad" "0.7.1"
     "@buerli.io/headless" "0.7.1"
     "@buerli.io/react" "0.7.1"
-    "@react-three/drei" "^9.68.2"
+    "@react-three/drei" "^9.68.3"
     "@react-three/fiber" "^8.13.0"
     "@types/three" "^0.152.0"
     "leva" "^0.9.34"
@@ -3741,7 +3746,7 @@
     "@buerli.io/classcad" "0.7.1"
     "@buerli.io/headless" "0.7.1"
     "@buerli.io/react" "0.7.1"
-    "@react-three/drei" "^9.66.3"
+    "@react-three/drei" "^9.68.3"
     "@react-three/fiber" "^8.13.0"
     "@types/three" "^0.152.0"
     "leva" "^0.9.34"
@@ -3759,7 +3764,7 @@
     "@buerli.io/classcad" "0.7.1"
     "@buerli.io/headless" "0.7.1"
     "@buerli.io/react" "0.7.1"
-    "@react-three/drei" "^9.66.3"
+    "@react-three/drei" "^9.68.3"
     "@react-three/fiber" "^8.13.0"
     "@react-three/postprocessing" "^2.10.0"
     "@types/three" "^0.152.0"
@@ -3767,6 +3772,7 @@
     "react" "^18.2.0"
     "react-dom" "^18.2.0"
     "three" "^0.152.2"
+    "zustand" "^4.3.8"
 
 "with-solid-cache@file:/Users/ph/dev/buerli/buerli-starter/packages/with-solid-cache":
   "resolved" "file:packages/with-solid-cache"
@@ -3775,12 +3781,13 @@
     "@buerli.io/classcad" "0.7.1"
     "@buerli.io/headless" "0.7.1"
     "@buerli.io/react" "0.7.1"
-    "@react-three/drei" "^9.66.3"
+    "@react-three/drei" "^9.68.3"
     "@react-three/fiber" "^8.13.0"
     "@types/three" "^0.152.0"
     "leva" "^0.9.34"
     "react" "^18.2.0"
     "react-dom" "^18.2.0"
+    "react-spinners" "^0.13.8"
     "three" "^0.152.2"
     "tunnel-rat" "^0.1.2"
 
@@ -3842,6 +3849,13 @@
     "use-sync-external-store" "1.2.0"
 
 "zustand@^4.3.2":
+  "integrity" "sha512-4h28KCkHg5ii/wcFFJ5Fp+k1J3gJoasaIbppdgZFO4BPJnsNxL0mQXBSFgOgAdCdBj35aDTPvdAJReTMntFPGg=="
+  "resolved" "https://registry.npmjs.org/zustand/-/zustand-4.3.8.tgz"
+  "version" "4.3.8"
+  dependencies:
+    "use-sync-external-store" "1.2.0"
+
+"zustand@^4.3.8":
   "integrity" "sha512-4h28KCkHg5ii/wcFFJ5Fp+k1J3gJoasaIbppdgZFO4BPJnsNxL0mQXBSFgOgAdCdBj35aDTPvdAJReTMntFPGg=="
   "resolved" "https://registry.npmjs.org/zustand/-/zustand-4.3.8.tgz"
   "version" "4.3.8"

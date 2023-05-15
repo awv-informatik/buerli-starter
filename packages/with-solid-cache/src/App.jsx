@@ -2,9 +2,9 @@ import * as THREE from 'three'
 import { Suspense, useState, useRef, useTransition } from 'react'
 import { solid } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { Center, OrbitControls, Environment, ContactShadows } from '@react-three/drei'
-import { Leva, useControls } from 'leva'
+import { Leva, useControls, folder } from 'leva'
 import debounce from 'lodash/debounce'
 import tunnel from 'tunnel-rat'
 import { Status, Out } from './Pending'
@@ -22,7 +22,7 @@ export default function App() {
         <ambientLight />
         <spotLight position={[10, 5, -15]} angle={0.2} castShadow />
         {/** The suspense fallback will fire on first load and show a moving sphere */}
-        <Suspense fallback={<Fallback />}>
+        <Suspense fallback={<Status>Loading</Status>}>
           <group position={[0, -1, 0]}>
             <Center top>
               <Model scale={0.035} />
@@ -49,17 +49,19 @@ function Model(props) {
   const [hovered, hover] = useState(false)
 
   useControls({
-    width: {
-      value: width,
-      min: 10,
-      max: 100,
-      step: 10,
-      // Debounce the slider to avoid too many requests with a safe margin of 100ms
-      onChange: debounce(v => trans(() => setWidth(v)), 100),
-    },
-    cut1: { value: cut1, min: 20, max: 70, step: 10, onChange: debounce(v => trans(() => setCut1(v)), 100) },
-    cut2: { value: cut2, min: 20, max: 60, step: 10, onChange: debounce(v => trans(() => setCut2(v)), 100) },
-    offset: { value: offset, min: 1, max: 4, step: 1, onChange: debounce(v => trans(() => setOffset(v)), 100) },
+    bracket: folder({
+      width: {
+        value: width,
+        min: 10,
+        max: 100,
+        step: 10,
+        // Debounce the slider to avoid too many requests with a safe margin of 100ms
+        onChange: debounce(v => trans(() => setWidth(v)), 100),
+      },
+      cut1: { value: cut1, min: 20, max: 70, step: 10, onChange: debounce(v => trans(() => setCut1(v)), 100) },
+      cut2: { value: cut2, min: 20, max: 60, step: 10, onChange: debounce(v => trans(() => setCut2(v)), 100) },
+      offset: { value: offset, min: 1, max: 4, step: 1, onChange: debounce(v => trans(() => setOffset(v)), 100) },
+    }),
   })
 
   // headless/cache will suspend if the dependencies change. The returned value will then be available
@@ -98,19 +100,5 @@ function Model(props) {
       </mesh>
       {pending && <Status>Pending</Status>}
     </group>
-  )
-}
-
-function Fallback() {
-  const ref = useRef()
-  useFrame(state => {
-    ref.current.position.x = Math.sin(state.clock.elapsedTime * 2)
-  })
-  return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[0.15, 64, 64]} />
-      <meshBasicMaterial color="#556" />
-      <Status>Loading</Status>
-    </mesh>
   )
 }

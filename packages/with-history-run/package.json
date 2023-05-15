@@ -13,14 +13,16 @@
     "@buerli.io/classcad": "0.7.1",
     "@buerli.io/headless": "0.7.1",
     "@buerli.io/react": "0.7.1",
-    "@react-three/drei": "^9.66.3",
+    "@react-three/drei": "^9.68.3",
     "@react-three/fiber": "^8.13.0",
     "@react-three/postprocessing": "^2.10.0",
     "@types/three": "^0.152.0",
     "leva": "^0.9.34",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.152.2"
+    "three": "^0.152.2",
+    "use-zustand": "^0.0.4",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/react": "^18.2.5",
