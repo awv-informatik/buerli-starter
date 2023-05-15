@@ -1,21 +1,15 @@
 import { Suspense, lazy } from 'react'
 import { Leva, useControls, folder } from 'leva'
 
-const SolidCache = lazy(() => import('../packages/with-solid-cache/src/App'))
-const HistoryRun = lazy(() => import('../packages/with-history-run/src/App'))
-const HistoryCache = lazy(() => import('../packages/with-history-cache/src/App'))
-const HistoryCacheAs1ac214Jsx = lazy(() => import('../packages/with-history-cache-as1ac214-jsx/src/App'))
-const HistoryCacheRobot = lazy(() => import('../packages/with-history-cache-robot/src/App'))
-
 const sandboxes = {
   History: {
-    Run: HistoryRun,
-    Cache: HistoryCache,
-    CacheAs1ac214Jsx: HistoryCacheAs1ac214Jsx,
-    CacheRobot: HistoryCacheRobot,
+    Run: lazy(() => import('../packages/with-history-run/src/App')),
+    Cache: lazy(() => import('../packages/with-history-cache/src/App')),
+    CacheAs1ac214Jsx: lazy(() => import('../packages/with-history-cache-as1ac214-jsx/src/App')),
+    CacheRobot: lazy(() => import('../packages/with-history-cache-robot/src/App')),
   },
   Solid: {
-    Cache: SolidCache,
+    Cache: lazy(() => import('../packages/with-solid-cache/src/App')),
   },
 }
 
