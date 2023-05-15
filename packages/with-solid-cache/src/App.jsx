@@ -6,13 +6,10 @@ import { Canvas } from '@react-three/fiber'
 import { Center, OrbitControls, Environment, ContactShadows } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import debounce from 'lodash/debounce'
-import tunnel from 'tunnel-rat'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
 const { cache } = headless(solid, 'ws://localhost:9091')
-// Create a tunnel that will allow the canvas to write into the DOM
-const title = tunnel()
 
 export default function App() {
   return (
