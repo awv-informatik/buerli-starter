@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Leva, useControls, folder } from 'leva'
 
 const sandboxes = {
@@ -24,12 +25,23 @@ export default function App() {
   const El = sandboxes[type][sandbox[type]]
   return (
     <>
-      <Suspense fallback={null}>
-        <El />
-      </Suspense>
+      <ErrorBoundary fallbackRender={fallbackRender}>
+        <Suspense fallback={null}>
+          <El />
+        </Suspense>
+      </ErrorBoundary>
       <div style={{ position: 'relative', zIndex: 0 }}>
         <Leva neverHide />
       </div>
     </>
+  )
+}
+
+function fallbackRender({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
+    </div>
   )
 }

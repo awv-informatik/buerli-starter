@@ -160,7 +160,7 @@ function Assembly(props) {
           />
         </group>
         <mesh castShadow receiveShadow geometry={n['52D'].geometry} material={n['52D'].material} position={[232.53, 85.36, 50]}>
-          <MeshTransmissionMaterial thickness={10} anisotropy={0.5} chromaticAberration={1} roughness={0.1} clearcoat={1} />
+          <MeshTransmissionMaterial thickness={10} anisotropy={1} chromaticAberration={1} roughness={0.75} samples={20} clearcoat={1} />
         </mesh>
       </group>
       <group position={[190, -101.75, -70.53]} rotation={[0, -Math.PI / 2, 0]}>
