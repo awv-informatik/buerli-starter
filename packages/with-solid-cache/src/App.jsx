@@ -1,9 +1,9 @@
 import * as THREE from 'three'
-import { Suspense, useState, useRef, useTransition } from 'react'
+import { Suspense, useState, useTransition } from 'react'
 import { solid } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
-import { Center, OrbitControls, Environment, ContactShadows } from '@react-three/drei'
+import { useTexture, Decal, AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import debounce from 'lodash/debounce'
 import { Status, Out } from './Pending'
@@ -14,7 +14,7 @@ const { cache } = headless(solid, 'ws://localhost:9091')
 export default function App() {
   return (
     <>
-      <Canvas orthographic camera={{ position: [10, 10, 10], zoom: 100 }}>
+      <Canvas shadows orthographic camera={{ position: [10, 5, 10], zoom: 100 }}>
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight />
         <spotLight position={[10, 5, -15]} angle={0.2} castShadow />
@@ -24,7 +24,9 @@ export default function App() {
             <Center top>
               <Model scale={0.035} />
             </Center>
-            <ContactShadows />
+            <AccumulativeShadows temporal alphaTest={0.85} opacity={0.75} frames={100} scale={20}>
+              <RandomizedLight radius={6} position={[-15, 10, -20]} bias={0.0001} />
+            </AccumulativeShadows>
           </group>
         </Suspense>
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
@@ -43,21 +45,14 @@ function Model(props) {
   const [cut1, setCut1] = useState(40)
   const [cut2, setCut2] = useState(40)
   const [offset, setOffset] = useState(1)
-  const [hovered, hover] = useState(false)
+  const sticker = useTexture('/awv.png')
 
   useControls({
     bracket: folder({
-      width: {
-        value: width,
-        min: 10,
-        max: 100,
-        step: 10,
-        // Debounce the slider to avoid too many requests with a safe margin of 100ms
-        onChange: debounce(v => trans(() => setWidth(v)), 100),
-      },
-      cut1: { value: cut1, min: 20, max: 70, step: 10, onChange: debounce(v => trans(() => setCut1(v)), 100) },
-      cut2: { value: cut2, min: 20, max: 60, step: 10, onChange: debounce(v => trans(() => setCut2(v)), 100) },
-      offset: { value: offset, min: 1, max: 4, step: 1, onChange: debounce(v => trans(() => setOffset(v)), 100) },
+      width: { value: width, min: 10, max: 100, step: 10, onChange: debounce(v => trans(() => setWidth(v)), 40) },
+      cut1: { value: cut1, min: 20, max: 70, step: 10, onChange: debounce(v => trans(() => setCut1(v)), 40) },
+      cut2: { value: cut2, min: 20, max: 60, step: 10, onChange: debounce(v => trans(() => setCut2(v)), 40) },
+      offset: { value: offset, min: 1, max: 4, step: 1, onChange: debounce(v => trans(() => setOffset(v)), 40) },
     }),
   })
 
@@ -89,11 +84,29 @@ function Model(props) {
     },
     ['bracket', width, cut1, cut2, offset],
   )
+
   return (
     <group {...props}>
       {/** The resulting geometry can be directly attached to a mesh, which is under your full control */}
-      <mesh geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} castShadow receiveShadow>
-        <meshStandardMaterial color={pending ? 'gray' : hovered ? 'hotpink' : 'orange'} />
+      <mesh geometry={geo} castShadow receiveShadow>
+        <meshStandardMaterial metalness={1} roughness={0.2} />
+        <Decal position={[80, 15, 16]} scale={20} rotation={[Math.PI / 2, 0, -Math.PI / 3]}>
+          <meshPhysicalMaterial
+            transparent
+            polygonOffset
+            polygonOffsetFactor={-10}
+            map={sticker}
+            map-flipY={false}
+            map-anisotropy={16}
+            iridescence={1}
+            iridescenceIOR={1}
+            iridescenceThicknessRange={[0, 1400]}
+            roughness={1}
+            clearcoat={0.5}
+            metalness={0.75}
+            toneMapped={false}
+          />
+        </Decal>
       </mesh>
       {pending && <Status>Pending</Status>}
     </group>
