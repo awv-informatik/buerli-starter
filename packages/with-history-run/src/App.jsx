@@ -35,7 +35,7 @@ export default function App() {
           <TiltShift2 blur={0.25} samples={6} />
         </EffectComposer>
       </Canvas>
-      <Leva titleBar={{ title: <Out /> }} />
+      <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
   )
 }

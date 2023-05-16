@@ -30,7 +30,7 @@ export default function App() {
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
         <Environment preset="city" />
       </Canvas>
-      <Leva titleBar={{ title: <Out /> }} />
+      <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
   )
 }
