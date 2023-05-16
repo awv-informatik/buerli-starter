@@ -65,7 +65,7 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
   )
   return (
     <group {...props}>
-      <mesh receiveShadow castShadow geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)} castShadow receiveShadow>
+      <mesh castShadow receiveShadow geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
         <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
       </mesh>
     </group>
