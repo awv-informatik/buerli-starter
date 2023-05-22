@@ -16,7 +16,7 @@ yarn run dev
 
 All examples inside /packages are self contained and can be run and forked individually!
 
-### Starters
+### Starters
 
 <p>
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-run"><img width="20%" src="packages/with-history-run/thumbnail.jpg" alt="Demo"/></a>
@@ -44,7 +44,7 @@ type HeadlessConfig = Partial<BuerliState['options']> & {
 headless(impl: typeof solid | typeof history, url: string, config: HeadlessConfig = {})
 ```
 
-#### Run
+#### Run
 
 Either use `run` which merely executes and `<BuerliGeometry>` to display the results asynchroneously (although the `suspend` option would allow you to orchestrate inside useEffect and useLayoutEffect).
 
