@@ -103,28 +103,3 @@ function Scene({ width = 100 }) {
   )
 }
 ```
-
-#### Typescript
-
-All input and output types are correctly inferred.
-
-```tsx
-const { cache } = headless(history, 'ws://localhost:9091', { store: { foo: 'bar' } })
-
-function Foo() {
-  const baz = cache(
-    async (api, store, dep1, dep2, ...rest) => {
-      // typeof api === typeof ApiHistory
-      // typeof store === { foo: string }
-      // typeof dep1 === string
-      // typeof dep2 === number
-      // typeof rest === [boolean, { hello: string }]
-      const part = api.createPart('foo')
-      // typeof part === typeof ID
-      return store.foo
-    },
-    ['hi', 1, true, { hello: 'world' }],
-  )
-  // typeof baz === string
-}
-```
