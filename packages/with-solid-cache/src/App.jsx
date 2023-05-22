@@ -15,7 +15,7 @@ const { cache } = headless(solid, 'ws://localhost:9091')
 export default function App() {
   return (
     <>
-      <Canvas shadows orthographic camera={{ position: [10, 5, 10], zoom: 100 }}>
+      <Canvas shadows orthographic camera={{ position: [10, 10, 0], zoom: 100 }}>
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight />
         <spotLight position={[10, 5, -15]} angle={0.2} castShadow />
@@ -26,7 +26,7 @@ export default function App() {
               <Model scale={0.035} />
             </Center>
             <AccumulativeShadows temporal alphaTest={0.85} opacity={0.75} frames={100} scale={20}>
-              <RandomizedLight radius={6} position={[-15, 10, -20]} bias={0.0001} />
+              <RandomizedLight radius={6} position={[-15, 10, -10]} bias={0.0001} />
             </AccumulativeShadows>
           </group>
         </Suspense>
@@ -43,7 +43,7 @@ function Model(props) {
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, trans] = useTransition()
   const [width, setWidth] = useState(100)
-  const [cut1, setCut1] = useState(40)
+  const [cut1, setCut1] = useState(70)
   const [cut2, setCut2] = useState(40)
   const [offset, setOffset] = useState(1)
   const sticker = useTexture(awvLogoUrl)

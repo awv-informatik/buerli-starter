@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react'
 import { solid } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, ContactShadows } from '@react-three/drei'
+import { OrbitControls, SoftShadows, Edges } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
@@ -12,24 +12,32 @@ const { cache } = headless(solid, 'ws://localhost:9091')
 export default function App() {
   return (
     <>
-      <Canvas shadows orthographic camera={{ position: [0, 5, 10], zoom: 80 }}>
+      <Canvas shadows orthographic camera={{ position: [0, 0, 100], zoom: 80 }}>
         <color attach="background" args={['#f0f0f0']} />
-        <ambientLight />
-        <spotLight position={[10, 15, -15]} angle={0.2} castShadow />
-        <Physics debug>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[20, 15, 15]} castShadow>
+          <orthographicCamera attach="shadow-camera" args={[-50, 50, 50, -50, 1, 1000]} />
+        </directionalLight>
+        <Physics>
           <Suspense fallback={<Status>Loading</Status>}>
             <RigidBody position={[0, 10, 0]} rotation={[4, 5, 6]} colliders="hull">
-              <Model scale={0.035} />
+              <Model scale={0.03} />
             </RigidBody>
-            <RigidBody position={[2, 20, 0]} rotation={[1, 2, 3]} colliders="hull">
-              <Model scale={0.035} />
+            <RigidBody position={[1, 20, 0]} rotation={[1, 2, 3]} colliders="hull">
+              <Model scale={0.04} />
+            </RigidBody>
+            <RigidBody position={[-0.5, 40, -0.5]} rotation={[1, 2, 3]} colliders="hull">
+              <Model scale={0.05} />
             </RigidBody>
           </Suspense>
-          <ContactShadows position={[0, -2, 0]} scale={20} blur={2} />
+          <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+            <planeGeometry args={[100, 100]} />
+            <shadowMaterial transparent opacity={0.75} />
+          </mesh>
           <CuboidCollider position={[0, -3, 0]} type="fixed" args={[40, 1, 40]} />
         </Physics>
+        <SoftShadows size={10} samples={20} />
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
-        <Environment preset="city" />
       </Canvas>
       <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
@@ -67,6 +75,7 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
     <group {...props}>
       <mesh castShadow receiveShadow geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
         <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+        <Edges />
       </mesh>
     </group>
   )
