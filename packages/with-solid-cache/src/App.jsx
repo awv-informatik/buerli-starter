@@ -7,6 +7,7 @@ import { useTexture, Decal, AccumulativeShadows, RandomizedLight, Center, OrbitC
 import { Leva, useControls, folder } from 'leva'
 import debounce from 'lodash/debounce'
 import { Status, Out } from './Pending'
+import awvLogoUrl from './resources/awv.png'
 
 // Create a headless history socket
 const { cache } = headless(solid, 'ws://localhost:9091')
@@ -45,7 +46,7 @@ function Model(props) {
   const [cut1, setCut1] = useState(40)
   const [cut2, setCut2] = useState(40)
   const [offset, setOffset] = useState(1)
-  const sticker = useTexture('/awv.png')
+  const sticker = useTexture(awvLogoUrl)
 
   useControls({
     bracket: folder({
