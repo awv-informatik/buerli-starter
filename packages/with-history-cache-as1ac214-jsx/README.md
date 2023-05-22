@@ -1,4 +1,4 @@
-<img src="intro.jpg" width="100%" />
+<img src="thumbnail.jpg" width="100%" />
 <br />
 
 ```shell

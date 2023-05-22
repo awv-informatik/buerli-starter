@@ -1,8 +1,11 @@
+<img src="thumbnail.jpg" width="100%" />
+<br />
+
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
 cd buerli-starter
 npm install
-npm run with-headless-solid-cache
+npm run with-headless-solid-reuse
 ```
 
 This example shows how to use headless/solid/cache with direct, declarative access to resulting geometries.

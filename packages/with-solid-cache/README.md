@@ -1,3 +1,6 @@
+<img src="thumbnail.jpg" width="100%" />
+<br />
+
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
 cd buerli-starter
