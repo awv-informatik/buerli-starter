@@ -16,15 +16,15 @@ yarn run dev
 
 All examples inside /packages are self contained and can be run and forked individually!
 
-### Starters
+### Starters
 
 <p>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-run"><img width="20%" src="packages/with-history-run/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache"><img width="20%" src="packages/with-history-cache/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-as1ac214-jsx"><img width="20%" src="packages/with-history-cache-as1ac214-jsx/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-robot"><img width="20%" src="packages/with-history-cache-robot/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache"><img width="20%" src="packages/with-solid-cache/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-solid-reuse"><img width="20%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-run"><img width="32%" src="packages/with-history-run/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache"><img width="32%" src="packages/with-history-cache/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-as1ac214-jsx"><img width="32%" src="packages/with-history-cache-as1ac214-jsx/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-robot"><img width="32%" src="packages/with-history-cache-robot/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache"><img width="32%" src="packages/with-solid-cache/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-solid-reuse"><img width="32%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
 </p>
 
 ### API
@@ -44,7 +44,7 @@ type HeadlessConfig = Partial<BuerliState['options']> & {
 headless(impl: typeof solid | typeof history, url: string, config: HeadlessConfig = {})
 ```
 
-#### Run
+#### Run
 
 Either use `run` which merely executes and `<BuerliGeometry>` to display the results asynchroneously (although the `suspend` option would allow you to orchestrate inside useEffect and useLayoutEffect).
 
@@ -101,30 +101,5 @@ function Scene({ width = 100 }) {
       <meshStandardMaterial />
     </mesh>
   )
-}
-```
-
-### Typescript
-
-All input and output types are correctly inferred.
-
-```tsx
-const { cache } = headless(history, 'ws://localhost:9091', { store: { foo: 'bar' } })
-
-function Foo() {
-  const baz = cache(
-    async (api, store, dep1, dep2, ...rest) => {
-      // typeof api === typeof ApiHistory
-      // typeof store === { foo: string }
-      // typeof dep1 === string
-      // typeof dep2 === number
-      // typeof rest === [boolean, { hello: string }]
-      const part = api.createPart('foo')
-      // typeof part === typeof ID
-      return store.foo
-    },
-    ['hi', 1, true, { hello: 'world' }],
-  )
-  // typeof baz === string
 }
 ```
