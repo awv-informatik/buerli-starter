@@ -19,12 +19,12 @@ All examples inside /packages are self contained and can be run and forked indiv
 ### Starters
 
 <p>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-run"><img width="20%" src="packages/with-history-run/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache"><img width="20%" src="packages/with-history-cache/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-as1ac214-jsx"><img width="20%" src="packages/with-history-cache-as1ac214-jsx/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-robot"><img width="20%" src="packages/with-history-cache-robot/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache"><img width="20%" src="packages/with-solid-cache/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-solid-reuse"><img width="20%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-run"><img width="19%" src="packages/with-history-run/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache"><img width="19%" src="packages/with-history-cache/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-as1ac214-jsx"><img width="19%" src="packages/with-history-cache-as1ac214-jsx/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-robot"><img width="19%" src="packages/with-history-cache-robot/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache"><img width="19%" src="packages/with-solid-cache/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-solid-reuse"><img width="19%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
 </p>
 
 ### API
@@ -104,7 +104,7 @@ function Scene({ width = 100 }) {
 }
 ```
 
-### Typescript
+#### Typescript
 
 All input and output types are correctly inferred.
 
