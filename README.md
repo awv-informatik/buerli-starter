@@ -24,7 +24,7 @@ All examples inside /packages are self contained and can be run and forked indiv
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-as1ac214-jsx"><img width="32%" src="packages/with-history-cache-as1ac214-jsx/thumbnail.jpg" alt="Demo"/></a>
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-cache-robot"><img width="32%" src="packages/with-history-cache-robot/thumbnail.jpg" alt="Demo"/></a>
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache"><img width="32%" src="packages/with-solid-cache/thumbnail.jpg" alt="Demo"/></a>
-  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-history-solid-reuse"><img width="32%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache-reuse"><img width="32%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
 </p>
 
 ### API
