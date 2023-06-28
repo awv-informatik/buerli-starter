@@ -3,9 +3,9 @@
 
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
-cd buerli-starter
+cd buerli-starter/packages/with-headless-solid-reuse
 npm install
-npm run with-headless-solid-reuse
+npm run dev
 ```
 
 This example shows how to use headless/solid/cache with direct, declarative access to resulting geometries.

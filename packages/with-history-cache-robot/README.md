@@ -3,9 +3,9 @@
 
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
-cd buerli-starter
+cd buerli-starter/packages/with-history-cache-robot
 npm install
-npm run with-headless-history-cache
+npm run dev
 ```
 
 This example shows how to use headless/history/cache with direct, declarative access to resulting geometries.

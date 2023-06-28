@@ -3,9 +3,9 @@
 
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
-cd buerli-starter
+cd buerli-starter/packages/with-history-run
 npm install
-npm run with-headless-history-run
+npm run dev
 ```
 
 Demonstrates the usage of `headless.run` to execute a script and display the results in a BuerliGeometry component. The suspend option would allow you to orchestrate inside useEffect and useLayoutEffect.
