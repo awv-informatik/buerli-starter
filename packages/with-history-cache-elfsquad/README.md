@@ -5,7 +5,7 @@ This example shows how to use headless/history/cache with the Elfsquad CPQ.
 
 Elfsquad provides CPQ software for manufacturing companies that develop, produce and sell complex products. All within your own management.
 
-### Running the example
+### Running the example
 
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
