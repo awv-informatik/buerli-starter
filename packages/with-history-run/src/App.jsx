@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
-import { BrepElemType, ChamferType } from '@buerli.io/classcad'
+import { EdgeTypes } from '@buerli.io/core'
+import { ChamferType } from '@buerli.io/classcad'
 import { history } from '@buerli.io/headless'
 import { headless, BuerliGeometry } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
@@ -45,10 +46,10 @@ function Scene({ drawingId, width = 50, ...props }) {
   useEffect(() => {
     buerli.run(async (api, store) => {
       const part = await api.createPart('Part')
-      const wcsx = await api.createWorkCoordSystem(part, 8, [], [], [0, -width / 5, -width / 8], [0, 0, 0])
+      const wcsx = await api.createWorkCoordSystem(part, 8, [], [0, 0, 0], [0, -width / 5, -width / 8], [0, 0, 0])
       await api.cylinder(part, [wcsx], 10, width)      
-      const edges = (store.edges = await api.findOrSelect(part, BrepElemType.EDGE, 2, null))      
-      await api.chamfer(part, ChamferType.EQUAL_DISTANCE, edges, 2, 2, 45)
+      const edges = (store.edges = await api.selectGeometry(EdgeTypes, 2))
+      await api.chamfer(part, ChamferType.EQUAL_DISTANCE, edges.map(e => e.graphicId), 2, 2, 45)
     })
   }, [])
 
