@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
 import { ChamferType, WorkCoordSystemType } from '@buerli.io/classcad'
-import { GraphicType } from '@buerli.io/core'
+import { EdgeTypes } from '@buerli.io/core'
 import { history } from '@buerli.io/headless'
 import { headless, BuerliGeometry } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
@@ -48,7 +48,7 @@ function Scene({ drawingId, width = 50, ...props }) {
       const part = await api.createPart('Part')
       const wcsx = await api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_Custom, [], [0, -width / 5, -width / 8], [0, 0, 0])      
       await api.cylinder(part, [wcsx], 10, width)
-      const selection = (store.edges = await api.selectGeometry([GraphicType.CIRCLE], 2))
+      const selection = (store.edges = await api.selectGeometry(EdgeTypes, 2))
       await api.chamfer(part, ChamferType.EQUAL_DISTANCE, selection.map(sel => sel.graphicId), 2, 2, 45)
     })
   }, [])
