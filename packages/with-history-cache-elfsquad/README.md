@@ -5,6 +5,11 @@ This example shows how to use headless/history/cache with the Elfsquad CPQ.
 
 Elfsquad provides CPQ software for manufacturing companies that develop, produce and sell complex products. All within your own management.
 
+Reviews
+Starter, fixed the problems, added explanation for run (stateful) /cache (clientside)
+Node - Modeler, Buerligon
+viewcube
+
 ### Running the example
 
 ```shell
