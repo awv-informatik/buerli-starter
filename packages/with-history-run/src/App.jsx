@@ -8,11 +8,9 @@ import { Canvas } from '@react-three/fiber'
 import { Resize, Center, Bounds, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
 import { EffectComposer, TiltShift2 } from '@react-three/postprocessing'
 import { Leva } from 'leva'
-import { suspend } from 'suspend-react'
 import { Status, Out } from './Pending'
 
 const buerli = headless(history, 'ws://localhost:9091')
-buerli.useDrawingId = () => suspend(() => buerli.api.then(() => buerli.instance.drawingId), [buerli.instance])
 
 export default function App() {
   const drawingId = buerli.useDrawingId()
@@ -44,12 +42,12 @@ export default function App() {
 function Scene({ drawingId, width = 50, ...props }) {
   const geometry = useRef()
   useEffect(() => {
-    buerli.run(async (api, store) => {
+    buerli.run(async api => {
       const part = await api.createPart('Part')
-      const wcsx = await api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_Custom, [], [0, -width / 5, -width / 8], [0, 0, 0])      
+      const wcsx = await api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_Custom, [], [0, -width / 5, -width / 8], [0, 0, 0])
       await api.cylinder(part, [wcsx], 10, width)
-      const selection = (store.edges = await api.selectGeometry(EdgeTypes, 2))
-      await api.chamfer(part, ChamferType.EQUAL_DISTANCE, selection.map(sel => sel.graphicId), 2, 2, 45)
+      const selection = (await api.selectGeometry(EdgeTypes, 2)).map(sel => sel.graphicId)
+      await api.chamfer(part, ChamferType.EQUAL_DISTANCE, selection, 2, 2, 45)
     })
   }, [])
 
