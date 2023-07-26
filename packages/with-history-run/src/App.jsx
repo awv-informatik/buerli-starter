@@ -44,7 +44,7 @@ function Scene({ drawingId, width = 50, ...props }) {
   useEffect(() => {
     buerli.run(async api => {
       const part = await api.createPart('Part')
-      const wcsx = await api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_Custom, [], [0, -width / 5, -width / 8], [0, 0, 0])
+      const wcsx = await api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, -width / 5, -width / 8], [0, 0, 0])
       await api.cylinder(part, [wcsx], 10, width)
       const selection = (await api.selectGeometry(EdgeTypes, 2)).map(sel => sel.graphicId)
       await api.chamfer(part, ChamferType.EQUAL_DISTANCE, selection, 2, 2, 45)

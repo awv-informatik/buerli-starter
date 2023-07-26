@@ -74,13 +74,13 @@ export function Flange(props) {
     async api => {
       const part = api.createPart('flange')
       api.createExpressions(part, ...expressions)
-      const wcsCenter = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [], [0, 0, 0], [0, 0, 0])
+      const wcsCenter = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, 0, 0], [0, 0, 0])
       const baseCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.baseCylDiam', 'ExpressionSet.thickness')
       const upperCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylDiam', 'ExpressionSet.flangeHeight')
       const flangeSolid1 = api.boolean(part, BooleanOperationType.UNION, [baseCyl, upperCyl])
       const subCylFlange = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylHoleDiam', 'ExpressionSet.flangeHeight')
       const solid = api.boolean(part, BooleanOperationType.SUBTRACTION, [flangeSolid1, subCylFlange])
-      const wcsHole1Bottom = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [], [0, upperCylDiam / 2 + thickness, 0], [0, 0, 0])
+      const wcsHole1Bottom = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, upperCylDiam / 2 + thickness, 0], [0, 0, 0])
       const subCylHole1 = api.cylinder(part, [wcsHole1Bottom], 30, 50)
       const waCenter = api.createWorkAxis(part, WorkAxisType.WA_FIXED, [], [0, 0, 0], [0, 0, 1])
       const pattern = api.circularPattern(part, [subCylHole1], [waCenter], {
