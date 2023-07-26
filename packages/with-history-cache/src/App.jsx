@@ -100,7 +100,9 @@ export function Flange(props) {
     async api => {
       // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
       if (!isFirstMount) api.setExpressions({ partId: part, members: expressions })
-      return await api.createBufferGeometry(part)
+      const a = await api.createBufferGeometry(part)
+      console.log(part, a)
+      return a
     },
     ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle],
   )

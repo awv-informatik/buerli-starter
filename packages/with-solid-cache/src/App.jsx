@@ -9,8 +9,6 @@ import debounce from 'lodash/debounce'
 import { Status, Out } from './Pending'
 import awvLogoUrl from './resources/awv.png'
 
-import { Geometry } from 'three-stdlib'
-
 // Create a headless history socket
 const { cache } = headless(solid, 'ws://localhost:9091')
 
