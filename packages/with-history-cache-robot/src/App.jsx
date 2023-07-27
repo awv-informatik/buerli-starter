@@ -9,7 +9,19 @@ import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 import robotArm from './resources/Robot6Axis.ofb?raw'
 
-const buerli = headless(history, 'ws://localhost:9091')
+const { cache, store } = headless(history, 'ws://localhost:9091', {
+  store: {
+    asm: null,
+    constraints: [
+      { name: 'Base-J1', value: 0, step: 5, min: 0, max: 360, node: null },
+      { name: 'J1-J2', value: 0, step: 1, min: -60, max: 160, node: null },
+      { name: 'J2-J3', value: 0, step: 1, min: -230, max: 45, node: null },
+      { name: 'J3-J4', value: 0, step: 1, min: -180, max: 180, node: null },
+      { name: 'J4-J5', value: 0, step: 1, min: -90, max: 90, node: null },
+      { name: 'J5-J6', value: 0, step: 1, min: -180, max: 180, node: null },
+    ],
+  },
+})
 
 export default function App() {
   return (
@@ -33,52 +45,57 @@ export default function App() {
   )
 }
 
-function useAxis(key, config = { value: 0 }, start) {
-  // Create state value
-  const [value, setValue] = useState(config.value)
-  // Tie it to leva GUI panel
-  useControls({ robot6: folder({ [key]: { value, ...config, onChange: debounce(v => start(() => setValue(v)), 40) } }) })
-  // On change update the constraint value
-  return buerli.cache(
-    async (api, store) => {
-      const { constrId } = await api.getRevoluteConstraint(store.asm, key)
-      const constrValue = { constrId: constrId, paramName: 'zRotationValue', value: (value / 180) * Math.PI }
-      await api.update3dConstraintValues(constrValue)
-      return value
-    },
-    ['robot-axis', key, value],
-  )
-}
-
 function Robot(props) {
-  // 1. Create scene, return scene nodes
-  const nodes = buerli.cache(
-    async (api, store) => {
-      store.asm = (await api.load(robotArm, 'ofb'))[0]
-      return (await api.createScene()).nodes
+  // 1. Create scene, fetch constraints, return scene nodes
+  const { nodes } = cache(
+    async api => {
+      const root = await api.load(robotArm, 'ofb')
+      store.asm = root[0]
+      store.constraints.forEach(async constraint => (constraint.node = await api.getRevoluteConstraint(store.asm, constraint.name)))
+      return await api.createScene()
     },
     ['robot'],
   )
 
   // 2. Hold axis values in state, update them on change, useTransition creates pending state
   const [pending, start] = useTransition()
-  const a1 = useAxis('Base-J1', { value: 0, step: 5, min: 0, max: 360 }, start)
-  const a2 = useAxis('J1-J2', { value: 0, step: 1, min: -60, max: 160 }, start)
-  const a3 = useAxis('J2-J3', { value: 0, step: 1, min: -230, max: 45 }, start)
-  const a4 = useAxis('J3-J4', { value: 0, step: 1, min: -180, max: 180 }, start)
-  const a5 = useAxis('J4-J5', { value: 0, step: 1, min: -90, max: 90 }, start)
-  const a6 = useAxis('J5-J6', { value: 0, step: 1, min: -180, max: 180 }, start)
+  const [values, setValues] = useState(store.constraints.map(constraint => constraint.value))
+  useControls({
+    robot6: folder(
+      store.constraints.reduce(
+        (prev, { node, name, ...config }, index) => ({
+          ...prev,
+          [name]: {
+            ...config,
+            onChange: debounce(v => start(() => setValues(values => values.map((value, i) => (i === index ? v : value)))), 40),
+          },
+        }),
+        {},
+      ),
+    ),
+  })
 
   // 3. Create a structure-only scene whenever values change
-  const { nodes: structure } = buerli.cache(api => api.createScene(undefined, { structureOnly: true }), ['robot-struct', a1, a2, a3, a4, a5, a6])
+  const { nodes: structure } = cache(
+    async api => {
+      const constraints = store.constraints.map(({ node }, index) => ({
+        constrId: node.constrId,
+        paramName: 'zRotationValue',
+        value: (values[index] / 180) * Math.PI,
+      }))
+      await api.update3dConstraintValues(...constraints)
+      return await api.createScene(undefined, { structureOnly: true })
+    },
+    ['robot-struct', ...values],
+  )
 
   // 4. useFrame to update the position and rotations of the nodes
   const ref = useRef()
   useFrame((state, delta) => {
-    for (let i = 0; i < 7; i++) {
-      easing.damp3(ref.current.children[i].position, structure[`NAUO${i + 1}`].position, 0.1, delta)
-      easing.dampQ(ref.current.children[i].quaternion, structure[`NAUO${i + 1}`].quaternion, 0.1, delta)
-    }
+    ref.current.children.forEach((child, index) => {
+      easing.damp3(child.position, structure[`NAUO${index + 1}`].position, 0.1, delta)
+      easing.dampQ(child.quaternion, structure[`NAUO${index + 1}`].quaternion, 0.1, delta)
+    })
   })
 
   // 5. The view is declarative, it just needs to hold the initial geometries
