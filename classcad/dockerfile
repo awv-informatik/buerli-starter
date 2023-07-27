@@ -7,6 +7,7 @@ RUN apt-get install -y libglu1-mesa-dev
 RUN apt-get install -y ocl-icd-opencl-dev
 RUN apt-get install -y locales
 RUN apt-get install -y libarchive-dev
+RUN apt-get install -y libgomp1
 
 # Language settings
 ENV LANG C
@@ -15,7 +16,7 @@ ENV LC_ALL C
 
 # Install node and npm
 RUN apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 RUN apt-get install -y nodejs
 
 # Install ClassCAD
@@ -24,7 +25,7 @@ RUN mkdir -p $CC_DIR
 WORKDIR $CC_DIR
 
 RUN npm init -y
-RUN npm i @classcad/linux-x64@0.0.4
+RUN npm i @classcad/linux-x64@0.0.5
 RUN chmod +x ./node_modules/@classcad/linux-x64/ClassCADInstance
 
 # Copy runtimes to libs
