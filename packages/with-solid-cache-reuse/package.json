@@ -9,10 +9,8 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "@buerli.io/classcad": "0.9.0-beta.1",
-    "@buerli.io/headless": "0.9.0-beta.1",
-    "@buerli.io/react": "0.9.0-beta.1",
+  "dependencies": {    
+    "@buerli.io/react": "0.9.0",
     "@react-three/drei": "^9.77.6",
     "@react-three/fiber": "^8.13.4",
     "@react-three/rapier": "^0.15.1",

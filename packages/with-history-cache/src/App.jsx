@@ -2,9 +2,8 @@ import { Suspense, useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { history } from '@buerli.io/headless'
+import { history, BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
-import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/classcad'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
@@ -100,9 +99,7 @@ export function Flange(props) {
     async api => {
       // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
       if (!isFirstMount) api.setExpressions({ partId: part, members: expressions })
-      const a = await api.createBufferGeometry(part)
-      console.log(part, a)
-      return a
+      return await api.createBufferGeometry(part)
     },
     ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle],
   )
