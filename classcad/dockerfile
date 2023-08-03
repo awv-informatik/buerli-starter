@@ -2,7 +2,6 @@ FROM --platform=linux/x86_64 ubuntu:bionic
 
 # Install linux dependencies
 RUN apt-get update
-RUN apt-get install -y libicu60
 RUN apt-get install -y libglu1-mesa-dev
 RUN apt-get install -y ocl-icd-opencl-dev
 RUN apt-get install -y locales
@@ -16,7 +15,7 @@ ENV LC_ALL C
 
 # Install node and npm
 RUN apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash
 RUN apt-get install -y nodejs
 
 # Install ClassCAD
@@ -28,8 +27,8 @@ RUN npm init -y
 RUN npm i @classcad/linux-x64@0.0.5
 RUN chmod +x ./node_modules/@classcad/linux-x64/ClassCADInstance
 
-# Copy runtimes to libs
-RUN cp ./node_modules/@classcad/linux-x64/libboost_thread.so.1.65.1 /lib/x86_64-linux-gnu
+# Add classcad package dir to LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH="/classcad/node_modules/@classcad/linux-x64:$LD_LIBRARY_PATH"
 
 # Copy the .ccapp downloaded from buerli.io.
 COPY modeling.ccapp modeling.ccapp
