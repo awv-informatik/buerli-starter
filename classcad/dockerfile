@@ -24,7 +24,7 @@ RUN mkdir -p $CC_DIR
 WORKDIR $CC_DIR
 
 RUN npm init -y
-RUN npm i @classcad/linux-x64@0.0.5
+RUN npm i @classcad/linux-x64@0.0.6
 RUN chmod +x ./node_modules/@classcad/linux-x64/ClassCADInstance
 
 # Add classcad package dir to LD_LIBRARY_PATH
