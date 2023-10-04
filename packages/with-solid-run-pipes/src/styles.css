@@ -20,10 +20,3 @@ body,
 body {
   background: #f0f0f0;
 }
-
-.annotation {
-  padding: 10px 20px;
-  border-radius: 7px;
-  background: black;
-  color: white;
-}

@@ -5,6 +5,7 @@ import { Leva, useControls, folder } from 'leva'
 const sandboxes = {
   History: {
     Run: lazy(() => import('../packages/with-history-run/src/App')),
+    RunGripper: lazy(() => import('../packages/with-history-run-gripper/src/App')),
     Cache: lazy(() => import('../packages/with-history-cache/src/App')),
     CacheAs1ac214Jsx: lazy(() => import('../packages/with-history-cache-as1ac214-jsx/src/App')),
     CacheRobot: lazy(() => import('../packages/with-history-cache-robot/src/App')),
@@ -12,6 +13,7 @@ const sandboxes = {
   Solid: {
     Cache: lazy(() => import('../packages/with-solid-cache/src/App')),
     Reuse: lazy(() => import('../packages/with-solid-cache-reuse/src/App')),
+    Pipes: lazy(() => import('../packages/with-solid-run-pipes/src/App')),
   },
 }
 

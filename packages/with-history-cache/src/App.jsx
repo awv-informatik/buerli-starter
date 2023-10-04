@@ -1,9 +1,10 @@
-import { Suspense, useState, useTransition } from 'react'
+import { Suspense, useEffect, useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { history, BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
+import { ccAPI } from '@buerli.io/classcad'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
@@ -49,6 +50,8 @@ export function Flange(props) {
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
   const [pending, start] = useTransition()
 
+  const id = buerli.useDrawingId()
+
   const thickness = usePendingState('thickness', start, 30, { min: 30, max: 60, step: 10 })
   const upperCylDiam = usePendingState('upperCylDiam', start, 190, { min: 100, max: 200, step: 10 })
   const upperCylHoleDiam = usePendingState('upperCylHoleDiam', start, 'upperCylDiam - thickness')
@@ -71,7 +74,10 @@ export function Flange(props) {
   // This block creates a flange and results in a part, it will only run once.
   const part = buerli.cache(
     async api => {
-      const part = api.createPart('flange')
+      
+      ccAPI.common.setFacetingParameters(id, 0.1, 0)
+
+      const part = api.createPart('flange')      
       api.createExpressions(part, ...expressions)
       const wcsCenter = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, 0, 0], [0, 0, 0])
       const baseCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.baseCylDiam', 'ExpressionSet.thickness')
