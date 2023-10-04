@@ -12,7 +12,7 @@ const { cache } = headless(solid, 'ws://localhost:9091')
 export default function App() {
   return (
     <>
-      <Canvas shadows orthographic camera={{ position: [0, 0, 100], zoom: 80 }}>
+      <Canvas shadows orthographic camera={{ position: [-50, 0, 100], zoom: 50 }}>
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight intensity={0.5} />
         <directionalLight position={[20, 15, 15]} castShadow>
