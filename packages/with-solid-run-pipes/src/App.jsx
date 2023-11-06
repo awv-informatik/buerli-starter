@@ -52,16 +52,11 @@ const plugin = createPlugin({
 
 export default function App() {
   const [buffer, set] = useState(null)
-  useControls({
-    pipes: folder({
-      upload: plugin(set),
-    }),
-  })
-
+  useControls({ pipes: folder({ upload: plugin(set) }) })
   return (
     <>
       <Canvas shadows orthographic camera={{ position: [10, 5, 10], zoom: 175 }}>
-        <color attach="background" args={['#f0f0f0']} />    
+        <color attach="background" args={['#f0f0f0']} />
         <group position={[0, -1, 0]}>
           <Suspense fallback={<Status>Loading</Status>}>
             {buffer && (

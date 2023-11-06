@@ -1,6 +1,7 @@
 import { Suspense, useState, useRef, useTransition } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
+import { EffectComposer, N8AO } from '@react-three/postprocessing'
 import { history } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
 import debounce from 'lodash/debounce'
@@ -35,10 +36,13 @@ export default function App() {
           <Suspense fallback={<Status>Loading</Status>}>
             <Robot scale={0.015} />
           </Suspense>
-          <ContactShadows scale={20} blur={2} />
+          <ContactShadows scale={50} blur={1} />
         </group>
         <CameraControls minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
         <Environment preset="city" />
+        <EffectComposer multisampling={8} disableNormalPass>
+          <N8AO aoRadius={2} intensity={1} />
+        </EffectComposer>
       </Canvas>
       <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
