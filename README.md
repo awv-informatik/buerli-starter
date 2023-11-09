@@ -7,7 +7,7 @@ git clone https://github.com/awv-informatik/buerli-starter
 cd buerli-starter
 ```
 
-Place your modeling.ccapp file into the /classcad folder and docker-compose up. Now run:
+Visit [https://buerli.io](https://buerli.io), sign in, download and place your *.ccapp file into the /classcad folder, rename it "modeling.ccapp" and docker-compose up. Now run:
 
 ```shell
 yarn

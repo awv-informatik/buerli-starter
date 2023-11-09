@@ -30,10 +30,10 @@ export default function App() {
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight intensity={0.5} />
         <spotLight position={[20, 10, 25]} angle={0.5} penumbra={1} castShadow />
-        <group position={[0, -1, 0]}>
+        <group position={[0, -3, 0]}>
           {/** The suspense fallback will fire on first load and show a moving sphere */}
           <Suspense fallback={<Status>Loading</Status>}>
-            <Robot scale={0.015} />
+            <Robot scale={0.01} />
           </Suspense>
           <ContactShadows scale={20} blur={2} />
         </group>
