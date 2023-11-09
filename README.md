@@ -5,16 +5,23 @@ First, clone the repository.
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
 cd buerli-starter
+yarn
 ```
 
-Visit [https://buerli.io](https://buerli.io), sign in, download and place your *.ccapp file into the /classcad folder, rename it "modeling.ccapp" and docker-compose up. Now run:
+Visit [https://buerli.io](https://buerli.io), sign in, download your `*.ccapp` file and place it into the `/classcad` folder, rename it `modeling.ccapp`. Now you can start the docker classcad service.
 
 ```shell
-yarn
+cd classcad
+docker compose -f docker-compose.yml up --build
+```
+
+Open another shell, navigate to the `/buerli-starter` folder, start the dev server.
+
+```shell
 yarn run dev
 ```
 
-All examples inside /packages are self contained and can be run and forked individually!
+All examples inside `/packages` are self contained and can be ran and forked individually!
 
 ## Starters
 
