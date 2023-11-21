@@ -270,6 +270,24 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
+"@buerli.io/classcad@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@buerli.io/classcad/-/classcad-0.10.0.tgz#f289ac9a506bb0ce12730bd13e2698e10a760458"
+  integrity sha512-+NFqCi9vd7bryp+ropLw5rJMcOd0RMUj6yzUl6kLtMy5ED7hUn5rvZD4s1JdIQH4vUXxmd2pqpgeoY5F6cR8DQ==
+  dependencies:
+    "@buerli.io/core" "0.10.0"
+    "@types/events" "^3.0.0"
+    base64-arraybuffer "^0.2.0"
+    comlink "^4.3.1"
+    events "^3.3.0"
+    js-untar "^2.0.0"
+    pako "^2.0.3"
+    path-browserify "^1.0.1"
+    socket.io-client "^4.4.1"
+    strict-event-emitter-types "^2.0.0"
+    uuid "^9.0.0"
+    xmlhttprequest-ssl "^2.0.0"
+
 "@buerli.io/classcad@0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@buerli.io/classcad/-/classcad-0.9.0.tgz#30264223223a770bec3cdbd1ab11d30675af19de"
@@ -288,6 +306,16 @@
     uuid "^3.3.2"
     xmlhttprequest-ssl "^2.0.0"
 
+"@buerli.io/core@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@buerli.io/core/-/core-0.10.0.tgz#02d80a1741bca0f0bdbcfed9f4d63c3a701652ab"
+  integrity sha512-QNl44088Ib3EJpFlOuKq6wRQnuemi+cazyfGCVT59j6Btqvb5AKIwvqgZ1A0Bz//A8qFJKhOi1VJ5Xw+VxQ2tw==
+  dependencies:
+    fast-json-patch "^3.1.1"
+    jsonpatch "^3.1.0"
+    uuid "^9.0.0"
+    zustand "^4.1.4"
+
 "@buerli.io/core@0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@buerli.io/core/-/core-0.9.0.tgz#7f90d3587539a4782b0f9e9d0769e519c8ac9f7e"
@@ -298,6 +326,14 @@
     uuid "^3.3.2"
     zustand "^4.1.4"
 
+"@buerli.io/headless@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@buerli.io/headless/-/headless-0.10.0.tgz#33d879af2b830785ab308b03cdf07e72d906f0e3"
+  integrity sha512-MbYLML6UyLc5IEkfacQvV9rc3pjhK500XKRwxklLaUBp6iIeZ0My3+N2jW+jQA5w2QeLZ3dfuWwgKvFq7g1+lg==
+  dependencies:
+    "@buerli.io/classcad" "0.10.0"
+    flat-promise "^1.0.3"
+
 "@buerli.io/headless@0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@buerli.io/headless/-/headless-0.9.0.tgz#0142206eb250b3fb3769a7b81f8a93f325c0c980"
@@ -305,6 +341,44 @@
   dependencies:
     "@buerli.io/classcad" "0.9.0"
     flat-promise "^1.0.3"
+
+"@buerli.io/react-cad@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@buerli.io/react-cad/-/react-cad-0.10.0.tgz#59ccd261204889e2b8e088d3985674e09fe80dbb"
+  integrity sha512-GgMtT/65EONC45zH51ZEOg8SYUq+p2V00FPxArhLT445GSbgl/Ao8XIyFb7/7VUbmEZyq4jq862UMkuHELn2Xw==
+  dependencies:
+    "@buerli.io/classcad" "0.10.0"
+    "@buerli.io/react" "0.10.0"
+    "@dnd-kit/core" "^6.0.8"
+    "@dnd-kit/modifiers" "^6.0.1"
+    "@dnd-kit/sortable" "^7.0.2"
+    "@react-three/postprocessing" "2.15.0"
+    antd "^4.23.4"
+    path-browserify "^1.0.1"
+    postprocessing "6.33.0"
+    react-colorful "^5.3.0"
+    react-uid "^2.3.1"
+    styled-components "^5.3.1"
+    three-rounded-box "^0.1.1"
+    uuid "^9.0.0"
+    zustand "^4.1.4"
+
+"@buerli.io/react@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@buerli.io/react/-/react-0.10.0.tgz#3265a70927318a17e56a06f9abe3dca380ece46b"
+  integrity sha512-ojEBJMCGxhdz6AOYGykAnKFyDLLuezNsOgOuydruXaLJHjWpK6Dj/zE9uf3niewLC2duxUrd1LW5whioJWVk/w==
+  dependencies:
+    "@ant-design/icons" "^4.7.0"
+    "@buerli.io/core" "0.10.0"
+    "@buerli.io/headless" "0.10.0"
+    antd "^4.23.4"
+    deepmerge "^4.2.2"
+    lodash-es "^4.17.15"
+    react-spring "^8.0.27"
+    styled-components "^5.3.1"
+    suspend-react "^0.0.10"
+    uuid "^9.0.0"
+    zustand "^4.1.4"
 
 "@buerli.io/react@0.9.0":
   version "0.9.0"
@@ -359,6 +433,45 @@
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/@dimforge/rapier3d-compat/-/rapier3d-compat-0.11.2.tgz#ae2b335f545decf1e82ff45bb10368e143de0fcb"
   integrity sha512-vdWmlkpS3G8nGAzLuK7GYTpNdrkn/0NKCe0l1Jqxc7ZZOB3N0q9uG/Ap9l9bothWuAvxscIt0U97GVLr0lXWLg==
+
+"@dnd-kit/accessibility@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/accessibility/-/accessibility-3.1.0.tgz#1054e19be276b5f1154ced7947fc0cb5d99192e0"
+  integrity sha512-ea7IkhKvlJUv9iSHJOnxinBcoOI3ppGnnL+VDJ75O45Nss6HtZd8IdN8touXPDtASfeI2T2LImb8VOZcL47wjQ==
+  dependencies:
+    tslib "^2.0.0"
+
+"@dnd-kit/core@^6.0.8":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/core/-/core-6.1.0.tgz#e81a3d10d9eca5d3b01cbf054171273a3fe01def"
+  integrity sha512-J3cQBClB4TVxwGo3KEjssGEXNJqGVWx17aRTZ1ob0FliR5IjYgTxl5YJbKTzA6IzrtelotH19v6y7uoIRUZPSg==
+  dependencies:
+    "@dnd-kit/accessibility" "^3.1.0"
+    "@dnd-kit/utilities" "^3.2.2"
+    tslib "^2.0.0"
+
+"@dnd-kit/modifiers@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/modifiers/-/modifiers-6.0.1.tgz#9e39b25fd6e323659604cc74488fe044d33188c8"
+  integrity sha512-rbxcsg3HhzlcMHVHWDuh9LCjpOVAgqbV78wLGI8tziXY3+qcMQ61qVXIvNKQFuhj75dSfD+o+PYZQ/NUk2A23A==
+  dependencies:
+    "@dnd-kit/utilities" "^3.2.1"
+    tslib "^2.0.0"
+
+"@dnd-kit/sortable@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/sortable/-/sortable-7.0.2.tgz#791d550872457f3f3c843e00d159b640f982011c"
+  integrity sha512-wDkBHHf9iCi1veM834Gbk1429bd4lHX4RpAwT0y2cHLf246GAvU2sVw/oxWNpPKQNQRQaeGXhAVgrOl1IT+iyA==
+  dependencies:
+    "@dnd-kit/utilities" "^3.2.0"
+    tslib "^2.0.0"
+
+"@dnd-kit/utilities@^3.2.0", "@dnd-kit/utilities@^3.2.1", "@dnd-kit/utilities@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@dnd-kit/utilities/-/utilities-3.2.2.tgz#5a32b6af356dc5f74d61b37d6f7129a4040ced7b"
+  integrity sha512-+MKAJEOfaBe5SmV6t34p80MMKhjvUz0vRrvVJbPT0WElzaOJ/1xs+D+KDv+tD/NE5ujfrChEcshd4fLn0wpiqg==
+  dependencies:
+    tslib "^2.0.0"
 
 "@emotion/is-prop-valid@^1.1.0":
   version "1.2.1"
@@ -904,6 +1017,16 @@
     scheduler "^0.21.0"
     suspend-react "^0.1.3"
     zustand "^3.7.1"
+
+"@react-three/postprocessing@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-2.15.0.tgz#9bea5aec5492d04e6d27fbdeaa6a2ce8cea0e10e"
+  integrity sha512-kldXieRcn8tB3bIVwRAFa1ojG11tkuMLAFYOra32E7y9n1nhVU4FKx+GxmblHSiRWpvGnEje/kYxDKTPjKj4eA==
+  dependencies:
+    maath "^0.6.0"
+    n8ao "^1.6.6"
+    postprocessing "^6.32.1"
+    three-stdlib "^2.23.4"
 
 "@react-three/postprocessing@^2.10.0":
   version "2.14.13"
@@ -2662,6 +2785,11 @@ postcss@^8.4.24:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+postprocessing@6.33.0:
+  version "6.33.0"
+  resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.33.0.tgz#7331c871e350d4c60a3a342b4ed7fd5e688303e8"
+  integrity sha512-W6KGnF8OVyPtB9f5o2z8abJOefDeT9aoOrI/HmMmJM6/gXTKRc66MrL+qNoGmeeA3moWWsTk0mc9M+shN3vXaA==
+
 postprocessing@^6.32.1:
   version "6.32.2"
   resolved "https://registry.yarnpkg.com/postprocessing/-/postprocessing-6.32.2.tgz#4b6fe0c821e448986c566379df6c3ecd163995a7"
@@ -3068,7 +3196,7 @@ rc-virtual-list@^3.2.0, rc-virtual-list@^3.5.1:
     rc-resize-observer "^1.0.0"
     rc-util "^5.15.0"
 
-react-colorful@^5.5.1:
+react-colorful@^5.3.0, react-colorful@^5.5.1:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.6.1.tgz#7dc2aed2d7c72fac89694e834d179e32f3da563b"
   integrity sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==
@@ -3139,6 +3267,13 @@ react-spring@^8.0.27:
   dependencies:
     "@babel/runtime" "^7.3.1"
     prop-types "^15.5.8"
+
+react-uid@^2.3.1:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/react-uid/-/react-uid-2.3.3.tgz#6a485ccc868555997f3506c6db97a3e735d97adf"
+  integrity sha512-iNpDovcb9qBpBTo8iUgqRSQOS8GV3bWoNaTaUptHkXtAooXSo0OWe7vN6TqqB8x3x0bNBbQx96kkmSltQ5h9kQ==
+  dependencies:
+    tslib "^2.0.0"
 
 react-universal-interface@^0.6.2:
   version "0.6.2"
@@ -3543,6 +3678,11 @@ three-mesh-bvh@^0.6.0:
   resolved "https://registry.yarnpkg.com/three-mesh-bvh/-/three-mesh-bvh-0.6.1.tgz#63cebe46ff90221286f97e1fea59b433bb95304f"
   integrity sha512-8fE6UwD5Ep8bAHd3Mp/Vw+7J3T10eGL95Lj98WQ9o3QEtAmlvmMhV+xxhrwYetfawzCPlgPYAB8Dl9+k1JveCQ==
 
+three-rounded-box@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/three-rounded-box/-/three-rounded-box-0.1.1.tgz#9db98145032b188e7b6b7e497ffefb580ecd639d"
+  integrity sha512-pOl0ZmZZtbs4TZsST7UViFkxA0LAfLepJKAU5fOJuvk0IsvVUTjufn3et2ZmJNpjVn8K61MTbFagIyoA61yTXg==
+
 three-stdlib@2.21.6:
   version "2.21.6"
   resolved "https://registry.yarnpkg.com/three-stdlib/-/three-stdlib-2.21.6.tgz#764711f317a355a47138a8a5abe95bff0a0bbd45"
@@ -3627,6 +3767,11 @@ ts-easing@^0.2.0:
   resolved "https://registry.yarnpkg.com/ts-easing/-/ts-easing-0.2.0.tgz#c8a8a35025105566588d87dbda05dd7fbfa5a4ec"
   integrity sha512-Z86EW+fFFh/IFB1fqQ3/+7Zpf9t2ebOAxNI/V6Wo7r5gqiqtxmgTlQ1qbqQcjLKYeSHPTsEmvlJUDg/EuL0uHQ==
 
+tslib@^2.0.0:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
+  integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
+
 tslib@^2.0.3, tslib@^2.1.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.0.tgz#b295854684dbda164e181d259a22cd779dcd7bc3"
@@ -3706,6 +3851,11 @@ uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^9.0.0:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 v8n@^1.3.3:
   version "1.5.1"

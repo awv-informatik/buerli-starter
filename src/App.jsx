@@ -12,6 +12,7 @@ const sandboxes = {
   Solid: {
     Cache: lazy(() => import('../packages/with-solid-cache/src/App')),
     Reuse: lazy(() => import('../packages/with-solid-cache-reuse/src/App')),
+    Stepviewer: lazy(() => import('../packages/with-solid-stepviewer/src/App')),
   },
 }
 
