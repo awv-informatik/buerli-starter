@@ -1,13 +1,14 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { solid } from '@buerli.io/headless'
-import { useDrawing, elements, headless, BuerliPluginsGeometry, BuerliGeometry } from '@buerli.io/react'
+import { useDrawing, headless, BuerliPluginsGeometry, BuerliGeometry } from '@buerli.io/react'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
-import { Status, Out } from './Pending'
-import { plugin } from './Openfile'
+import { Status, Out } from './components/Pending'
+import { plugin } from './components/Openfile'
+import { elements } from './components/elements'
 
 const { cache, useDrawingId } = headless(solid, 'ws://localhost:9091', {
   elements,
@@ -29,7 +30,7 @@ export default function App() {
         <Suspense fallback={<Status>Loading</Status>}>{buffer && <Model buffer={buffer} />}</Suspense>
         <BuerliPluginsGeometry drawingId={drawingId} />
       </Canvas>
-      <GlobalPlugins drawingId={drawingId} />      
+      <GlobalPlugins drawingId={drawingId} />
       <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
   )

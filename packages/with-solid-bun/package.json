@@ -1,0 +1,14 @@
+{
+  "name": "with-solid-bun",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@buerli.io/classcad": "0.10.0",
+    "@buerli.io/headless": "0.10.0",
+    "three": "^0.152.2"
+  }
+}
