@@ -28,8 +28,7 @@ test('radii', async () => {
   for (const file of files) {
     // Read file
     const stream = await readFile(file, null)
-    const buffer = stream.buffer
-    await api.import(buffer)
+    await api.import(stream.buffer)
     // Test pipe length
     const state = baseApi.getState()
     const containers = Object.values(state.drawing.refs[solid.drawingId].graphic.containers)
