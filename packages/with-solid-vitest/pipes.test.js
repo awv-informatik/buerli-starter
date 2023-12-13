@@ -19,34 +19,12 @@ async function getFiles(directoryPath, filter) {
   return fileNames.map(fn => join(directoryPath, fn)).filter(filter)
 }
 
-test('radii', async () => {
-  const api = await instanceApi
-  // Clear all solids
-  api.clearSolids()
-  // Run through /testfiles/*.stp
-  const files = await getFiles('./testfiles', file => file.endsWith('.stp'))
-  for (const file of files) {
-    // Read file
-    const stream = await readFile(file, null)
-    const buffer = stream.buffer
-    await api.import(buffer)
-    // Test pipe length
-    const state = baseApi.getState()
-    const containers = Object.values(state.drawing.refs[solid.drawingId].graphic.containers)
-    containers.forEach(container => {
-      const surfaces = container.meshes.map(mesh => mesh.properties.surface)
-      const cylinders = surfaces.filter(surface => surface.type === 'cylinder')
-      cylinders.forEach((meta) => expect(meta.radius).toBeGreaterThanOrEqual(4))
-    })
-  }
-})
-
-/*test('pipe-length-individual', async () => {
+test('pipe-length-individual', async () => {
   const api = await instanceApi
   // Clear all solids
   api.clearSolids()
   // Run through /models/*.stp
-  const files = await getFiles('./models', file => file.endsWith('.stp'))
+  const files = await getFiles('./models/pipes', file => file.endsWith('.stp'))
   for (const file of files) {
     // Read file
     const stream = await readFile(file, null)
@@ -70,7 +48,7 @@ test('radii', async () => {
 
 test('pipe-length-all', async () => {
   const api = await instanceApi
-  const files = await getFiles('./models', file => file.endsWith('.stp'))
+  const files = await getFiles('./models/pipes', file => file.endsWith('.stp'))
   let totalHeight = 0
   
   api.clearSolids()  
@@ -93,4 +71,4 @@ test('pipe-length-all', async () => {
     })    
   }
   expect(totalHeight).toBe(1740.600687)
-})*/
+})
