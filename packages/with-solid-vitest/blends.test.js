@@ -2,15 +2,12 @@ import { expect, test } from 'vitest'
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import * as THREE from 'three'
 import { init, SocketIOClient } from '@buerli.io/classcad'
 import { api as baseApi } from '@buerli.io/core'
 import { solid as Solid } from '@buerli.io/headless'
 
 init(id => new SocketIOClient('ws://localhost:9091', id), {})
 
-const a = new THREE.Vector3()
-const b = new THREE.Vector3()
 const solid = new Solid()
 const instanceApi = new Promise(res => solid.init(res))
 
@@ -29,7 +26,7 @@ test('radii', async () => {
     // Read file
     const stream = await readFile(file, null)
     await api.import(stream.buffer)
-    // Test pipe length
+    // Test cylinder radius
     const state = baseApi.getState()
     const containers = Object.values(state.drawing.refs[solid.drawingId].graphic.containers)
     containers.forEach(container => {
