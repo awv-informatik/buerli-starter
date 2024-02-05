@@ -13,4 +13,27 @@ body,
 
 body {
   background: #f0f0f0;
+  padding: 20px;
+}
+
+.ant-tabs, .ant-tabs-content, .ant-tabs-tabpane {
+  height: 100%;
+}
+
+.ant-tabs-tab-active {
+  background: #bdd5ff!important;
+}
+
+.ant-tabs-tabpane {
+  padding-left: 0!important;
+}
+
+.editable-row .ant-form-item-explain {
+  position: absolute;
+  top: 100%;
+  font-size: 12px;
+}
+
+.ant-table-cell {
+  white-space: nowrap;
 }

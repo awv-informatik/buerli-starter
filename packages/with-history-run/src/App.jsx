@@ -8,35 +8,6 @@ import { EffectComposer, TiltShift2 } from '@react-three/postprocessing'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
-const buerli = headless(history, 'ws://localhost:9091')
-
-export default function App() {
-  const drawingId = buerli.useDrawingId()
-  return (
-    <>
-      <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
-        <color attach="background" args={['#f0f0f0']} />
-        <ambientLight />
-        <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
-        <Suspense fallback={<Status>Loading</Status>}>
-          <group position={[0, -1, 0]}>
-            <Scene drawingId={drawingId} />
-            <AccumulativeShadows alphaTest={0.65} frames={50} scale={20}>
-              <RandomizedLight radius={4} position={[-10, 6, -15]} bias={0.0001} />
-            </AccumulativeShadows>
-          </group>
-        </Suspense>
-        <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
-        <Environment preset="city" />
-        <EffectComposer disableNormalPass multisampling={4}>
-          <TiltShift2 blur={0.25} samples={6} />
-        </EffectComposer>
-      </Canvas>
-      <Leva neverHide titleBar={{ title: <Out /> }} />
-    </>
-  )
-}
-
 function Scene({ drawingId, width = 50, ...props }) {
   const geometry = useRef()
   useEffect(() => {

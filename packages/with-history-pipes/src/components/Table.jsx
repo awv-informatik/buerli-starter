@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import './Table.css'
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd'
+import { useState } from 'react'
+import { Form, Input, InputNumber, Table, Typography } from 'antd'
 import { PipeType } from '../model/Pipes'
 
 const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
@@ -14,12 +13,7 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
         <Form.Item
           name={dataIndex}
           style={{ margin: 0 }}
-          rules={[
-            {
-              required: cPIndexRequired || sPInputRequired,
-              message: `Please Input ${title}!`,
-            },
-          ]}>
+          rules={[{ required: cPIndexRequired || sPInputRequired, message: `Please Input ${title}!` }]}>
           {inputType === 'number' ? <InputNumber disabled={disabled} /> : <Input disabled={disabled} />}
         </Form.Item>
       ) : (
@@ -29,22 +23,14 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
   )
 }
 
-const PipesTable = ({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) => {
+export default function PipesTable({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) {
   const [form] = Form.useForm()
   const [editingKey, setEditingKey] = useState('')
   const isEditing = record => record.key === editingKey
   const isLastItem = record => record.key === data[data.length - 1].key
 
   const editItem = record => {
-    form.setFieldsValue({
-      name: '',
-      type: '',
-      length: undefined,
-      angle: undefined,
-      radius: undefined,
-      rotation: undefined,
-      ...record,
-    })
+    form.setFieldsValue({ name: '', type: '', length: undefined, angle: undefined, radius: undefined, rotation: undefined, ...record })
     setEditingKey(record.key)
   }
 
@@ -78,10 +64,6 @@ const PipesTable = ({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) =>
     }
   }
 
-  const cancel = () => {
-    setEditingKey('')
-  }
-
   const saveItem = async key => {
     try {
       const row = await form.validateFields()
@@ -103,58 +85,26 @@ const PipesTable = ({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) =>
   }
 
   const columns = [
-    {
-      title: 'name',
-      dataIndex: 'name',
-      width: '8%',
-      editable: true,
-    },
-    {
-      title: 'type',
-      dataIndex: 'type',
-      width: '5%',
-      editable: false,
-    },
-    {
-      title: 'length [mm]',
-      dataIndex: 'length',
-      width: '5%',
-      editable: true,
-    },
-    {
-      title: 'angle [°]',
-      dataIndex: 'angle',
-      width: '5%',
-      editable: true,
-    },
-    {
-      title: 'radius [mm]',
-      dataIndex: 'radius',
-      width: '5%',
-      editable: true,
-    },
-    {
-      title: 'rotation [°]',
-      dataIndex: 'rotation',
-      width: '5%',
-      editable: true,
-    },
+    { title: 'name', dataIndex: 'name', width: '8%', editable: true },
+    { title: 'type', dataIndex: 'type', width: '5%', editable: false },
+    { title: 'len [mm]', dataIndex: 'length', width: '1%', editable: true },
+    { title: 'ang [°]', dataIndex: 'angle', width: '1%', editable: true },
+    { title: 'rad [mm]', dataIndex: 'radius', width: '1%', editable: true },
+    { title: 'rot [°]', dataIndex: 'rotation', width: '1%', editable: true },
     {
       title: 'operation',
       dataIndex: 'operation',
       render: (_, record) => {
         const editable = isEditing(record)
         const isLast = isLastItem(record)
-        const length = data.length
-        console.info(length)
         return editable ? (
           <span>
             <Typography.Link onClick={() => saveItem(record.key)} style={{ marginRight: 8 }}>
               Save
             </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
+            <Typography.Link onClick={() => setEditingKey('')} style={{ marginRight: 8 }}>
+              Cancel
+            </Typography.Link>
           </span>
         ) : (
           <span>
@@ -178,9 +128,7 @@ const PipesTable = ({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) =>
   ]
 
   const mergedColumns = columns.map(col => {
-    if (!col.editable) {
-      return col
-    }
+    if (!col.editable) return col
     return {
       ...col,
       onCell: record => ({
@@ -196,16 +144,15 @@ const PipesTable = ({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) =>
   return (
     <Form form={form} component={false}>
       <Table
+        style={{ minWidth: 750 }}
         bordered
         components={{ body: { cell: EditableCell } }}
         dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={false}
-        size="small"
+        size="middle"
       />
     </Form>
   )
 }
-
-export default PipesTable
