@@ -41,7 +41,8 @@ export class Pipes {
     })
     if (item.type === PipeType.CurvedPipe) {
       const constr = await this.api.getFastenedConstraint(this.rootAsm, item.name + 'FC')
-      await this.api.updateFastenedConstraints({ ...constr, zRotation: item.rotation })
+      console.log(constr)
+      await this.api.updateFastenedConstraints({ ...constr, zRotation: (item.rotation / 180) * Math.PI })
     }
   }
 
@@ -105,7 +106,7 @@ export class Pipes {
       const pipeInstBefore = this.pipeInstances[Number(item.key) - 1]
       const [wcs0] = await this.api.getWorkGeometry(pipeInstance, CCClasses.CCWorkCSys, 'WCS0')
       const [wcs1] = await this.api.getWorkGeometry(pipeInstBefore, CCClasses.CCWorkCSys, 'WCS1')
-      const id = await this.api.createFastenedConstraint(
+      await this.api.createFastenedConstraint(
         this.rootAsm,
         { matePath: [pipeInstBefore], wcsId: wcs1, flip: FlipType.FLIP_Z, reoriented: ReorientedType.REORIENTED_0 },
         { matePath: [pipeInstance], wcsId: wcs0, flip: FlipType.FLIP_Z, reoriented: ReorientedType.REORIENTED_0 },
