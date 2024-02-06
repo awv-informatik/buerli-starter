@@ -7,7 +7,9 @@ import { Tabs } from 'antd'
 import PipesTable from './components/Table'
 import { PipeType, Pipes } from './model/Pipes'
 
-const defaultData = [{ key: '0', name: 'Default', type: PipeType.StraightPipe, length: 100, angle: null, radius: null, rotation: null }]
+const defaultData = [
+  { key: '0', name: 'Default', type: PipeType.StraightPipe, length: 100, angle: undefined, radius: undefined, rotation: undefined },
+]
 
 export default function App() {
   const [activeKey, setActiveKey] = useState()
@@ -40,6 +42,7 @@ function Tab({ id }) {
   const onEditPipe = useCallback(item => buerli.run(api => pipes.edit(item)), [buerli])
   const onAddPipe = useCallback(item => buerli.run(api => pipes.add(item)), [buerli])
   const onDeletePipe = useCallback(() => buerli.run(api => pipes.delete()), [buerli])
+  buerli.api.then(api => (window.b = api.getDrawing()))
   return (
     <div style={{ display: 'flex', flexDirection: 'rows', height: '100%', gap: 20 }}>
       <PipesTable data={data} onSetData={setData} onEditPipe={onEditPipe} onAddPipe={onAddPipe} onDeletePipe={onDeletePipe} />
