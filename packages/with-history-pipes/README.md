@@ -5,7 +5,7 @@ npm install
 npm run dev
 ```
 
-Demonstrates the usage of `headless.useBuerli` which ties a headless session to a mounted component. As long as that component is mounted the session persists.
+Demonstrates the usage of `useHeadless` which ties a headless session to a mounted component. As long as that component is mounted the session persists.
 
 ```jsx
 import { History } from '@buerli.io/headless'
