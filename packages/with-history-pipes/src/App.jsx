@@ -47,7 +47,7 @@ function Tab({ id }) {
     <div style={{ display: 'flex', flexDirection: 'rows', height: '100%', gap: 20 }}>
       <PipesTable data={data} onSetData={setData} onEditPipe={onEditPipe} onAddPipe={onAddPipe} onDeletePipe={onDeletePipe} />
       <div style={{ overflow: 'hidden', flex: 'auto', height: '100%', width: '100%', borderRadius: 8, background: '#fafafa' }}>
-        <Canvas orthographic gl={{ antialias: false }} camera={{ position: [10, 10, 10], up: [0, 0, 1], zoom: 100 }}>
+        <Canvas orthographic camera={{ position: [10, 10, 10], up: [0, 0, 1], zoom: 100 }}>
           <ambientLight />
           <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
           <Suspense fallback={null}>

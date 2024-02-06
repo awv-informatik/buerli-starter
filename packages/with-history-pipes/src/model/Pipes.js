@@ -41,7 +41,6 @@ export class Pipes {
     })
     if (item.type === PipeType.CurvedPipe) {
       const constr = await this.api.getFastenedConstraint(this.rootAsm, item.name + 'FC')
-      console.log(constr, item.rotation)
       await this.api.updateFastenedConstraints({ ...constr, zRotation: item.rotation })
     }
   }
@@ -115,7 +114,6 @@ export class Pipes {
         item.rotation ? (item.rotation / 180) * Math.PI : 0,
         item.name + 'FC',
       )
-      console.log("fc", id)
     }
   }
 }

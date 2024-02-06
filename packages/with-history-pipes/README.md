@@ -1,49 +1,20 @@
-<img src="thumbnail.jpg" width="100%" />
-<br />
-
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
-cd buerli-starter/packages/with-history-run
+cd buerli-starter/packages/with-history-pipes
 npm install
 npm run dev
 ```
 
-Demonstrates the usage of `headless.run` to execute a script and display the results in a BuerliGeometry component. The suspend option would allow you to orchestrate inside useEffect and useLayoutEffect.
+Demonstrates the usage of `headless.useBuerli` which ties a headless session to a mounted component. As long as that component is mounted the session persists.
 
 ```jsx
-import { BuerliGeometry, headless } from '@buerli.io/react'
-import { history } from '@buerli.io/headless'
+import { History } from '@buerli.io/headless'
+import { BuerliGeometry, useHeadless } from '@buerli.io/react'
 
-const { run } = headless(history, 'ws://localhost:9091')
-
-function Scene({ width = 100 }) {
-  const ref = useRef()
-  useEffect(() => {
-    run(async api => {
-      const part = await api.createPart('Part')
-      const wcsy = await api.createWorkCoordSystem(part, 8, [], [], [0, width / 3, 0], [Math.PI / 3, 0, 0])
-      const wcsx = await api.createWorkCoordSystem(part, 8, [], [], [0, -width / 5, -width / 8], [0, 0, 0])
-      const a = await api.cylinder(part, [wcsx], 10, width)
-      const b = await api.cylinder(part, [wcsy], 10, width)
-      await api.boolean(part, 0, [a, b])
-    })
-  }, [])
-
-  useLayoutEffect(() => {
-    // You can access the scene graph *before* it is rendered on screen here ...
-    // This works because buerli geometry suspends.
-    ref.current.traverse((child) => {
-      // Make all meshes orange
-      if (obj.type === 'Mesh') {
-        obj.material = new THREE.MeshStandardMaterial({ color: 'orange', roughness: 0.5 })
-      }
-    })
-  })
-
+function Tab({ id }) {
+  const buerli = useHeadless(History, `ws://localhost:9091?session=${id}`)
+  // ...
   return (
-    <group ref={ref}>
-      <BuerliGeometry suspend />
-    <group>
-  )
-}
+    <Canvas>
+      <BuerliGeometry drawingId={drawingId} suspend selection />
 ```
