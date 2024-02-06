@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@buerli.io/react": "0.10.0",
+    "@buerli.io/react": "0.11.0",
     "@react-three/drei": "^9.77.6",
     "@react-three/fiber": "^8.13.4",
     "@types/three": "^0.152.0",
