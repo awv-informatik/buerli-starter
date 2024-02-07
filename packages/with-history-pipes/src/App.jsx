@@ -1,7 +1,19 @@
-import { useRef, useCallback, useState, Suspense } from 'react'
+import * as THREE from 'three'
+import { useRef, useCallback, useState, Suspense, useLayoutEffect } from 'react'
 import { History } from '@buerli.io/headless'
 import { BuerliGeometry, useHeadless } from '@buerli.io/react'
-import { Bounds, Center, OrbitControls, Resize, GizmoHelper, GizmoViewport } from '@react-three/drei'
+import {
+  Environment,
+  AccumulativeShadows,
+  RandomizedLight,
+  Bounds,
+  Center,
+  OrbitControls,
+  Resize,
+  GizmoHelper,
+  GizmoViewport,
+} from '@react-three/drei'
+import { EffectComposer, N8AO, ToneMapping } from '@react-three/postprocessing'
 import { Canvas } from '@react-three/fiber'
 import { Tabs } from 'antd'
 import PipesTable from './components/Table'
@@ -47,24 +59,48 @@ function Tab({ id }) {
     <div style={{ display: 'flex', flexDirection: 'rows', height: '100%', gap: 20 }}>
       <PipesTable data={data} onSetData={setData} onEditPipe={onEditPipe} onAddPipe={onAddPipe} onDeletePipe={onDeletePipe} />
       <div style={{ overflow: 'hidden', flex: 'auto', height: '100%', width: '100%', borderRadius: 8, background: '#fafafa' }}>
-        <Canvas orthographic camera={{ position: [10, 10, 10], up: [0, 0, 1], zoom: 100 }}>
-          <ambientLight />
-          <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
+        <Canvas shadows flat orthographic gl={{ antialias: false }} camera={{ position: [10, 10, 10], zoom: 100 }}>
+          <ambientLight intensity={0.5} />
           <Suspense fallback={null}>
             <Bounds fit observe>
               <Resize>
                 <Center top>
-                  <BuerliGeometry drawingId={drawingId} suspend selection />
+                  <View drawingId={drawingId} />
                 </Center>
               </Resize>
             </Bounds>
+            <AccumulativeShadows color="black" frames={100} temporal alphaTest={0.65} opacity={0.75}>
+              <RandomizedLight radius={6} position={[2, 5, -20]} />
+            </AccumulativeShadows>
           </Suspense>
           <OrbitControls makeDefault />
-          <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+          <GizmoHelper renderPriority={2} alignment="bottom-right" margin={[80, 80]}>
             <GizmoViewport />
           </GizmoHelper>
+          <Environment preset="city" />
+          <EffectComposer disableNormalPass>
+            <N8AO aoRadius={0.3} intensity={3} />
+            <ToneMapping />
+          </EffectComposer>
         </Canvas>
       </div>
     </div>
+  )
+}
+
+function View({ drawingId }) {
+  const ref = useRef()
+  useLayoutEffect(() => {
+    ref.current.traverse(child => {
+      if (child.isMesh) {
+        child.receiveShadow = child.castShadow = true
+        child.material = new THREE.MeshStandardMaterial({ color: '#ddd', roughness: 0.15, metalness: 0.75 })
+      }
+    })
+  })
+  return (
+    <group ref={ref}>
+      <BuerliGeometry drawingId={drawingId} suspend selection />
+    </group>
   )
 }

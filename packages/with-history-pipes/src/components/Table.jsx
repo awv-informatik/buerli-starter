@@ -2,27 +2,6 @@ import { useState } from 'react'
 import { Form, Input, InputNumber, Table, Typography } from 'antd'
 import { PipeType } from '../model/Pipes'
 
-const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
-  const cPIndexes = ['angle', 'radius', 'rotation']
-  const cPIndexRequired = cPIndexes.some(i => i === dataIndex) && record.type === PipeType.CurvedPipe
-  const sPInputRequired = dataIndex === 'length' && record.type === PipeType.StraightPipe
-  const disabled = !(cPIndexRequired || sPInputRequired)
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{ margin: 0 }}
-          rules={[{ required: cPIndexRequired || sPInputRequired, message: `Please Input ${title}!` }]}>
-          {inputType === 'number' ? <InputNumber disabled={disabled} /> : <Input disabled={disabled} />}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  )
-}
-
 export default function PipesTable({ data, onSetData, onEditPipe, onAddPipe, onDeletePipe }) {
   const [form] = Form.useForm()
   const [editingKey, setEditingKey] = useState('')
@@ -154,5 +133,26 @@ export default function PipesTable({ data, onSetData, onEditPipe, onAddPipe, onD
         size="middle"
       />
     </Form>
+  )
+}
+
+function EditableCell({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) {
+  const cPIndexes = ['angle', 'radius', 'rotation']
+  const cPIndexRequired = cPIndexes.some(i => i === dataIndex) && record.type === PipeType.CurvedPipe
+  const sPInputRequired = dataIndex === 'length' && record.type === PipeType.StraightPipe
+  const disabled = !(cPIndexRequired || sPInputRequired)
+  return (
+    <td {...restProps}>
+      {editing ? (
+        <Form.Item
+          name={dataIndex}
+          style={{ margin: 0 }}
+          rules={[{ required: cPIndexRequired || sPInputRequired, message: `Please Input ${title}!` }]}>
+          {inputType === 'number' ? <InputNumber disabled={disabled} /> : <Input disabled={disabled} />}
+        </Form.Item>
+      ) : (
+        children
+      )}
+    </td>
   )
 }
