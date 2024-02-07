@@ -88,13 +88,15 @@ function Tab({ id }) {
   )
 }
 
+const steel = new THREE.MeshStandardMaterial({ color: '#ddd', roughness: 0.15, metalness: 0.75 })
+
 function View({ drawingId }) {
   const ref = useRef()
   useLayoutEffect(() => {
     ref.current.traverse(child => {
       if (child.isMesh) {
         child.receiveShadow = child.castShadow = true
-        child.material = new THREE.MeshStandardMaterial({ color: '#ddd', roughness: 0.15, metalness: 0.75 })
+        child.material = steel
       }
     })
   })
