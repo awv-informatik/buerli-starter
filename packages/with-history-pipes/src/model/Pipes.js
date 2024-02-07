@@ -22,7 +22,7 @@ export class Pipes {
       await this.addInstance(pipePart, data[i].name)
     }
     // Connect the pipe instances by constraints
-    if (this.pipeInstances.length > 1)
+    if (this.pipeInstances.length > 0)
       for (let i = 0; i < this.pipeInstances.length; i++) await this.constrainInstance(data[i], this.pipeInstances[i])
     return this
   }
