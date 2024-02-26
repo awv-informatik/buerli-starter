@@ -13,9 +13,9 @@ async function app() {
 
   console.log('taking snapshots...')
 
-  const blends = await getFiles('public/models/blends', '.stp', 'public/models/')
-  const pipes = await getFiles('public/models/pipes', '.stp', 'public/models/')
-  
+  const blends = await getFiles('public/models/blends', '.stp', join('public/models'))
+  const pipes = await getFiles('public/models/pipes', '.stp', join('public/models'))
+
   await Promise.all([
     ...blends.map(file => snapshot(browser, file)),
     ...pipes.map(file => snapshot(browser, file)),
