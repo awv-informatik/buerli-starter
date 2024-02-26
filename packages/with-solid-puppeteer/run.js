@@ -13,8 +13,8 @@ async function app() {
 
   console.log('taking snapshots...')
 
-  const blends = await getFiles('public/models/blends', '.stp', join('public/models'))
-  const pipes = await getFiles('public/models/pipes', '.stp', join('public/models'))
+  const blends = await getFiles('public/models/blends', '.stp', 'public/models')
+  const pipes = await getFiles('public/models/pipes', '.stp', 'public/models')
 
   await Promise.all([
     ...blends.map(file => snapshot(browser, file)),
@@ -32,7 +32,7 @@ async function getFiles(directoryPath, extension, replace) {
   return fileNames
     .map(fn => join(directoryPath, fn))
     .filter(file => file.endsWith(extension))
-    .map(file => file.replace(replace, ''))
+    .map(file => file.replace(join(replace), ''))
 }
 
 async function snapshot(browser, file) {
