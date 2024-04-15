@@ -72,12 +72,12 @@ function Tab({ id }) {
             <AccumulativeShadows color="black" frames={100} temporal alphaTest={0.65} opacity={0.75}>
               <RandomizedLight radius={6} position={[2, 5, -20]} />
             </AccumulativeShadows>
+            <Environment preset="city" />
           </Suspense>
           <OrbitControls makeDefault />
           <GizmoHelper renderPriority={2} alignment="bottom-right" margin={[80, 80]}>
             <GizmoViewport />
           </GizmoHelper>
-          <Environment preset="city" />
           <EffectComposer disableNormalPass>
             <N8AO aoRadius={0.3} intensity={3} />
             <ToneMapping />
