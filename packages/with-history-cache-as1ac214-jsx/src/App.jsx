@@ -14,8 +14,8 @@ export default function App() {
     <>
       <Canvas shadows orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
         <color attach="background" args={['#f0f0f0']} />
-        <ambientLight intensity={0.5} />
-        <spotLight position={[20, 10, 25]} angle={0.5} penumbra={1} castShadow />
+        <ambientLight intensity={0.5 * Math.PI} />
+        <spotLight decay={0} position={[20, 10, 25]} angle={0.5} penumbra={1} castShadow />
         <group position={[0, -2, 0]}>
           {/** The suspense fallback will fire on first load and show a moving sphere */}
           <Suspense fallback={<Status>Loading</Status>}>

@@ -4,7 +4,6 @@ import { history, EdgeTypes, ChamferType, WorkCoordSystemType } from '@buerli.io
 import { headless, BuerliGeometry } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { Resize, Center, Bounds, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
-import { EffectComposer, TiltShift2 } from '@react-three/postprocessing'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
@@ -16,8 +15,8 @@ export default function App() {
     <>
       <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
         <color attach="background" args={['#f0f0f0']} />
-        <ambientLight />
-        <spotLight position={[-10, 5, -15]} angle={0.2} castShadow />
+        <ambientLight intensity={Math.PI} />
+        <spotLight decay={0} position={[-10, 5, -15]} angle={0.2} castShadow />
         <Suspense fallback={<Status>Loading</Status>}>
           <group position={[0, -1, 0]}>
             <Scene drawingId={drawingId} />
@@ -28,9 +27,6 @@ export default function App() {
         </Suspense>
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
         <Environment preset="city" />
-        <EffectComposer disableNormalPass multisampling={4}>
-          <TiltShift2 blur={0.25} samples={6} />
-        </EffectComposer>
       </Canvas>
       <Leva neverHide titleBar={{ title: <Out /> }} />
     </>

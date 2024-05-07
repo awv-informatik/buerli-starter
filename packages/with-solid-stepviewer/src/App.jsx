@@ -23,8 +23,8 @@ export default function App() {
     <>
       <Canvas shadows orthographic camera={{ position: [1000, 1000, 0], zoom: 20, far: 10000 }}>
         <color attach="background" args={['#f0f0f0']} />
-        <ambientLight />
-        <spotLight position={[10, 5, -15]} angle={0.2} castShadow />
+        <ambientLight intensity={Math.PI} />
+        <spotLight decay={0} position={[10, 5, -15]} angle={0.2} castShadow />
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
         <Environment preset="city" />
         <Suspense fallback={<Status>Loading</Status>}>{buffer && <Model buffer={buffer} />}</Suspense>

@@ -7,9 +7,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@buerli.io/classcad": "0.11.0",
-    "@buerli.io/headless": "0.11.0",
-    "three": "^0.152.2"
+    "@buerli.io/classcad": "0.12.0",
+    "@buerli.io/headless": "0.12.0",
+    "three": "^0.164.1"
   },
   "devDependencies": {
     "vitest": "^1.0.4"
