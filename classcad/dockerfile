@@ -23,7 +23,8 @@ RUN arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/x64/) && \
     chmod +x "./node_modules/@classcad/linux-${arch}/ClassCADInstance"
 
 # Copy the .ccapp downloaded from buerli.io.
-COPY modeling.ccapp modeling.ccapp
+# Replace <PATH-TO-CCAPP-FILE> with the path pointing to the downloaded .ccapp file.
+COPY FreeBaseModeling-0.0.9.ccapp modeling.ccapp
 
 # Start the server
 EXPOSE 9091/tcp

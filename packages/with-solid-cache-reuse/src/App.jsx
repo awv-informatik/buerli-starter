@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react'
 import { solid } from '@buerli.io/headless'
 import { headless } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, SoftShadows, Edges } from '@react-three/drei'
+import { OrbitControls, SoftShadows, Outlines } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
@@ -14,7 +14,7 @@ export default function App() {
     <>
       <Canvas shadows orthographic camera={{ position: [0, 0, 100], zoom: 80 }}>
         <color attach="background" args={['#f0f0f0']} />
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.5 * Math.PI} />
         <directionalLight position={[20, 15, 15]} castShadow>
           <orthographicCamera attach="shadow-camera" args={[-50, 50, 50, -50, 1, 1000]} />
         </directionalLight>
@@ -74,8 +74,8 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
   return (
     <group {...props}>
       <mesh castShadow receiveShadow geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
-        <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-        <Edges />
+        <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />        
+        <Outlines thickness={0.5} />
       </mesh>
     </group>
   )

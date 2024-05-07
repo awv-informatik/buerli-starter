@@ -23,7 +23,7 @@ export default function App() {
     <>
       <Canvas gl={{ preserveDrawingBuffer: true }} shadows={shadows} orthographic camera={{ position: direction, zoom: 450 }}>
         <color attach="background" args={[bg]} />
-        <ambientLight intensity={ambience} />
+        <ambientLight intensity={ambience * Math.PI} />
         <spotLight
           decay={0}
           intensity={diffuse}

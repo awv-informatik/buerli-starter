@@ -13,7 +13,6 @@ import {
   GizmoHelper,
   GizmoViewport,
 } from '@react-three/drei'
-import { EffectComposer, N8AO, ToneMapping } from '@react-three/postprocessing'
 import { Canvas } from '@react-three/fiber'
 import { Tabs } from 'antd'
 import PipesTable from './components/Table'
@@ -60,7 +59,7 @@ function Tab({ id }) {
       <PipesTable data={data} onSetData={setData} onEditPipe={onEditPipe} onAddPipe={onAddPipe} onDeletePipe={onDeletePipe} />
       <div style={{ overflow: 'hidden', flex: 'auto', height: '100%', width: '100%', borderRadius: 8, background: '#fafafa' }}>
         <Canvas shadows flat orthographic gl={{ antialias: false }} camera={{ position: [10, 10, 10], zoom: 100 }}>
-          <ambientLight intensity={0.5} />
+          <ambientLight intensity={0.5 * Math.PI} />
           <Suspense fallback={null}>
             <Bounds fit observe>
               <Resize>
@@ -78,10 +77,6 @@ function Tab({ id }) {
           <GizmoHelper renderPriority={2} alignment="bottom-right" margin={[80, 80]}>
             <GizmoViewport />
           </GizmoHelper>
-          <EffectComposer disableNormalPass>
-            <N8AO aoRadius={0.3} intensity={3} />
-            <ToneMapping />
-          </EffectComposer>
         </Canvas>
       </div>
     </div>
