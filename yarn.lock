@@ -1614,17 +1614,6 @@
     postprocessing "^6.32.1"
     three-stdlib "^2.23.4"
 
-"@react-three/postprocessing@^2.16.2":
-  version "2.16.2"
-  resolved "https://registry.yarnpkg.com/@react-three/postprocessing/-/postprocessing-2.16.2.tgz#a6ed5aa0775d843eba845915c41160ce7fff3e79"
-  integrity sha512-2ya1gXLDpzyfbELobi3rPHNNZZCrCfyq20GMYJD1yD7ZyBFSpRG9YSPMBnOal6A89kXanPBw273h6/Dqev0n7g==
-  dependencies:
-    buffer "^6.0.3"
-    maath "^0.6.0"
-    n8ao "^1.6.6"
-    postprocessing "^6.32.1"
-    three-stdlib "^2.23.4"
-
 "@react-three/rapier@^0.15.1":
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/@react-three/rapier/-/rapier-0.15.1.tgz#61818665c38a92875fda9053e987f07f1c08af64"
