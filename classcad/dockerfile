@@ -19,7 +19,7 @@ WORKDIR /classcad
 RUN npm init -y
 
 RUN arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/x64/) && \
-    npm i "@classcad/linux-${arch}@0.0.8" && \
+    npm i "@classcad/linux-${arch}@0.0.9" && \
     chmod +x "./node_modules/@classcad/linux-${arch}/ClassCADInstance"
 
 # Copy the .ccapp downloaded from buerli.io.
