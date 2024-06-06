@@ -74,7 +74,7 @@ function Tab({ id }) {
             <Environment preset="city" />
           </Suspense>
           <OrbitControls makeDefault />
-          <GizmoHelper renderPriority={2} alignment="bottom-right" margin={[80, 80]}>
+          <GizmoHelper renderPriority={1} alignment="bottom-right" margin={[80, 80]}>
             <GizmoViewport />
           </GizmoHelper>
         </Canvas>
