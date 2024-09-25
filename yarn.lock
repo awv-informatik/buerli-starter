@@ -11707,7 +11707,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "with-history-cache-as1ac214-jsx@workspace:packages/with-history-cache-as1ac214-jsx"
   dependencies:
-    "@buerli.io/react": "npm:0.12.0"
+    "@buerli.io/react": "npm:0.13.1-beta.2"
     "@react-three/drei": "npm:^9.105.6"
     "@react-three/fiber": "npm:^8.16.3"
     "@types/react": "npm:^18.2.6"
@@ -11732,7 +11732,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "with-history-cache-elfsquad@workspace:packages/with-history-cache-elfsquad"
   dependencies:
-    "@buerli.io/react": "npm:0.12.0"
+    "@buerli.io/react": "npm:0.13.1-beta.2"
     "@react-three/drei": "npm:^9.105.6"
     "@react-three/fiber": "npm:^8.16.3"
     "@types/react": "npm:^18.2.4"
@@ -11758,7 +11758,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "with-history-cache-robot@workspace:packages/with-history-cache-robot"
   dependencies:
-    "@buerli.io/react": "npm:0.12.0"
+    "@buerli.io/react": "npm:0.13.1-beta.2"
     "@react-three/drei": "npm:^9.105.6"
     "@react-three/fiber": "npm:^8.16.3"
     "@types/react": "npm:^18.2.6"
@@ -11810,7 +11810,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "with-history-pipes@workspace:packages/with-history-pipes"
   dependencies:
-    "@buerli.io/react": "npm:0.12.0"
+    "@buerli.io/react": "npm:0.13.1-beta.2"
     "@react-three/drei": "npm:^9.105.6"
     "@react-three/fiber": "npm:^8.16.3"
     "@types/react": "npm:^18.2.78"
@@ -11861,7 +11861,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "with-solid-cache-reuse@workspace:packages/with-solid-cache-reuse"
   dependencies:
-    "@buerli.io/react": "npm:0.12.0"
+    "@buerli.io/react": "npm:0.13.1-beta.2"
     "@react-three/drei": "npm:^9.105.6"
     "@react-three/fiber": "npm:^8.16.3"
     "@react-three/rapier": "npm:^0.15.1"
@@ -11936,7 +11936,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "with-solid-stepviewer@workspace:packages/with-solid-stepviewer"
   dependencies:
-    "@buerli.io/react": "npm:0.12.0"
+    "@buerli.io/react": "npm:0.13.1-beta.2"
     "@buerli.io/react-cad": "npm:0.12.0"
     "@react-three/drei": "npm:^9.105.6"
     "@react-three/fiber": "npm:^8.16.3"
