@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { useRef, useCallback, useState, Suspense, useLayoutEffect } from 'react'
-import { History } from '@buerli.io/headless'
-import { BuerliGeometry, useHeadless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
 import {
   Environment,
   AccumulativeShadows,
@@ -17,6 +16,8 @@ import { Canvas } from '@react-three/fiber'
 import { Tabs } from 'antd'
 import PipesTable from './components/Table'
 import { PipeType, Pipes } from './model/Pipes'
+
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 const defaultData = [
   { key: '0', name: 'Default', type: PipeType.StraightPipe, length: 100, angle: undefined, radius: undefined, rotation: undefined },
@@ -46,14 +47,12 @@ export default function App() {
 }
 
 function Tab({ id }) {
-  const buerli = useHeadless(History, `ws://localhost:9091?session=${id}`)
-  const [data, setData] = useState(defaultData)
-  const drawingId = buerli.useDrawingId()
-  const pipes = buerli.cache(api => new Pipes().init(api, defaultData), ['init', id])
-  const onEditPipe = useCallback(item => buerli.run(api => pipes.edit(item)), [buerli])
-  const onAddPipe = useCallback(item => buerli.run(api => pipes.add(item)), [buerli])
-  const onDeletePipe = useCallback(() => buerli.run(api => pipes.delete()), [buerli])
-  buerli.api.then(api => (window.b = api.getDrawing()))
+  const { run, cache } = useHistory(id)
+  const [data, setData] = useState(defaultData)  
+  const pipes = cache(api => new Pipes().init(api, defaultData), ['init', id])
+  const onEditPipe = useCallback(item => run(api => pipes.edit(item)), [])
+  const onAddPipe = useCallback(item => run(api => pipes.add(item)), [])
+  const onDeletePipe = useCallback(() => run(api => pipes.delete()), [])
   return (
     <div style={{ display: 'flex', flexDirection: 'rows', height: '100%', gap: 20 }}>
       <PipesTable data={data} onSetData={setData} onEditPipe={onEditPipe} onAddPipe={onAddPipe} onDeletePipe={onDeletePipe} />
@@ -64,7 +63,7 @@ function Tab({ id }) {
             <Bounds fit observe>
               <Resize>
                 <Center top>
-                  <View drawingId={drawingId} />
+                  <View id={id} />
                 </Center>
               </Resize>
             </Bounds>
@@ -85,7 +84,8 @@ function Tab({ id }) {
 
 const steel = new THREE.MeshStandardMaterial({ color: '#ddd', roughness: 0.15, metalness: 0.75 })
 
-function View({ drawingId }) {
+function View({ id }) {
+  const { Geometry } = useHistory(id)
   const ref = useRef()
   useLayoutEffect(() => {
     ref.current.traverse(child => {
@@ -97,7 +97,7 @@ function View({ drawingId }) {
   })
   return (
     <group ref={ref}>
-      <BuerliGeometry drawingId={drawingId} suspend selection />
+      <Geometry selection />
     </group>
   )
 }
