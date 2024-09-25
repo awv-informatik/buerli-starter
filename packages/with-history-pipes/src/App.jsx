@@ -47,7 +47,7 @@ export default function App() {
 }
 
 function Tab({ id }) {
-  const { run, cache } = useHistory(id)
+  const { run, cache } = useHistory(`with-history-pipes-${id}`)
   const [data, setData] = useState(defaultData)  
   const pipes = cache(api => new Pipes().init(api, defaultData), ['init', id])
   const onEditPipe = useCallback(item => run(api => pipes.edit(item)), [])
@@ -85,7 +85,7 @@ function Tab({ id }) {
 const steel = new THREE.MeshStandardMaterial({ color: '#ddd', roughness: 0.15, metalness: 0.75 })
 
 function View({ id }) {
-  const { Geometry } = useHistory(id)
+  const { Geometry } = useHistory(`with-history-pipes-${id}`)
   const ref = useRef()
   useLayoutEffect(() => {
     ref.current.traverse(child => {

@@ -10,7 +10,7 @@ import { Status, Out } from './Pending'
 init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 export default function App() {
-  const { drawingId } = useHistory('main')
+  const { drawingId } = useHistory('with-history-run')
   return (
     <>
       <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
@@ -34,7 +34,7 @@ export default function App() {
 }
 
 function Scene({ drawingId, width = 50, ...props }) {
-  const { run, Geometry } = useHistory('main')
+  const { run, Geometry } = useHistory('with-history-run')
   const geometry = useRef()
   useEffect(() => {
     run(async api => {

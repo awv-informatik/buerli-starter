@@ -35,7 +35,7 @@ export default function App() {
 }
 
 function Assembly(props) {
-  const { cache } = useHistory('main')
+  const { cache } = useHistory('with-history-cache-as1ac214-jsx')
   const { nodes } = cache(async api => api.createScene(await api.load(as1ac214, 'stp')), ['as1_ac_214-jsx'])
   const [gBolt, mBolt] = [nodes['870'].geometry, nodes['870'].material]
   const [gNut, mNut] = [nodes['79A'].geometry, nodes['79A'].material]

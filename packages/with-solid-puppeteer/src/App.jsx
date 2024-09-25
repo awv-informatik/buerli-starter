@@ -1,13 +1,12 @@
 import * as THREE from 'three'
 import { useLayoutEffect, useRef } from 'react'
-import { Solid } from '@buerli.io/headless'
-import { headless, BuerliGeometry } from '@buerli.io/react'
+import { init, useSolid } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center, Resize, AccumulativeShadows, RandomizedLight } from '@react-three/drei'
 import tunnel from 'tunnel-rat'
 
 const t = tunnel()
-const { cache, useDrawingId } = headless(Solid, 'ws://localhost:9091')
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 const queryString = window.location.search
 const urlParams = new URLSearchParams(queryString)
@@ -53,8 +52,8 @@ export default function App() {
 }
 
 function Model(props) {
+  const { cache, Geometry } = useSolid('with-solid-puppeteer')
   const ref = useRef()
-  const drawingId = useDrawingId()
 
   useLayoutEffect(() => {
     ref.current.traverse(child => {
@@ -71,7 +70,7 @@ function Model(props) {
   )
   return (
     <group ref={ref} {...props}>
-      <BuerliGeometry suspend drawingId={drawingId} />
+      <Geometry />
       <t.In>
         <div className="complete" />
       </t.In>

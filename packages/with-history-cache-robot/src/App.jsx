@@ -1,27 +1,25 @@
 import { Suspense, useState, useRef, useTransition } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { history } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
 import debounce from 'lodash/debounce'
 import { easing } from 'maath'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 import robotArm from './resources/Robot6Axis.ofb?raw'
 
-const { cache, store } = headless(history, 'ws://localhost:9091', {
-  store: {
-    asm: null,
-    constraints: [
-      { name: 'Base-J1', value: 0, step: 5, min: 0, max: 360, node: null },
-      { name: 'J1-J2', value: 0, step: 1, min: -60, max: 160, node: null },
-      { name: 'J2-J3', value: 0, step: 1, min: -230, max: 45, node: null },
-      { name: 'J3-J4', value: 0, step: 1, min: -180, max: 180, node: null },
-      { name: 'J4-J5', value: 0, step: 1, min: -90, max: 90, node: null },
-      { name: 'J5-J6', value: 0, step: 1, min: -180, max: 180, node: null },
-    ],
-  },
-})
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+const store = {
+  asm: null,
+  constraints: [
+    { name: 'Base-J1', value: 0, step: 5, min: 0, max: 360, node: null },
+    { name: 'J1-J2', value: 0, step: 1, min: -60, max: 160, node: null },
+    { name: 'J2-J3', value: 0, step: 1, min: -230, max: 45, node: null },
+    { name: 'J3-J4', value: 0, step: 1, min: -180, max: 180, node: null },
+    { name: 'J4-J5', value: 0, step: 1, min: -90, max: 90, node: null },
+    { name: 'J5-J6', value: 0, step: 1, min: -180, max: 180, node: null },
+  ],
+}
 
 export default function App() {
   return (
@@ -46,6 +44,7 @@ export default function App() {
 }
 
 function Robot(props) {
+  const { cache } = useHistory('with-history-cache-robot')
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = cache(
     async api => {

@@ -1,13 +1,12 @@
 import { Suspense, useState } from 'react'
-import { solid } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useSolid } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, SoftShadows, Outlines } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
-const { cache } = headless(solid, 'ws://localhost:9091')
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 export default function App() {
   return (
@@ -45,6 +44,7 @@ export default function App() {
 }
 
 function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
+  const { cache } = useSolid('with-solid-cache-reuse')
   const [hovered, hover] = useState(false)
   const geo = cache(
     async api => {
@@ -74,7 +74,7 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
   return (
     <group {...props}>
       <mesh castShadow receiveShadow geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
-        <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />        
+        <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
         <Outlines thickness={0.5} />
       </mesh>
     </group>

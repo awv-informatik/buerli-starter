@@ -44,7 +44,7 @@ function usePendingState(key, start, initialState, config = {}) {
 }
 
 export function Flange(props) {
-  const { cache } = useHistory('main')
+  const { cache } = useHistory('with-history-cache')
 
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
