@@ -2,14 +2,14 @@ import { Suspense, useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { history, BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
+import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-const buerli = headless(history, 'ws://localhost:9091')
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 export default function App() {
   return (
@@ -44,6 +44,8 @@ function usePendingState(key, start, initialState, config = {}) {
 }
 
 export function Flange(props) {
+  const { cache } = useHistory('main')
+
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
@@ -69,7 +71,7 @@ export function Flange(props) {
   ]
 
   // This block creates a flange and results in a part, it will only run once.
-  const part = buerli.cache(
+  const part = cache(
     async api => {
       const part = api.createPart('flange')
       api.createExpressions(part, ...expressions)
@@ -95,7 +97,7 @@ export function Flange(props) {
   )
 
   // In this block we use the part that was generated previously and change its expressions.
-  const [geo] = buerli.cache(
+  const [geo] = cache(
     async api => {
       // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
       if (!isFirstMount) api.setExpressions({ partId: part, members: expressions })

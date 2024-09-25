@@ -1,16 +1,16 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
-import { history, EdgeTypes, ChamferType, WorkCoordSystemType } from '@buerli.io/headless'
-import { headless, BuerliGeometry } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
+import { EdgeTypes, ChamferType, WorkCoordSystemType } from '@buerli.io/headless'
 import { Canvas } from '@react-three/fiber'
 import { Resize, Center, Bounds, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
-const buerli = headless(history, 'ws://localhost:9091')
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 export default function App() {
-  const drawingId = buerli.useDrawingId()
+  const { drawingId } = useHistory('main')
   return (
     <>
       <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
@@ -34,9 +34,10 @@ export default function App() {
 }
 
 function Scene({ drawingId, width = 50, ...props }) {
+  const { run, Geometry } = useHistory('main')
   const geometry = useRef()
   useEffect(() => {
-    buerli.run(async api => {
+    run(async api => {
       const part = await api.createPart('Part')
       const wcsx = await api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, -width / 5, -width / 8], [0, 0, 0])
       await api.cylinder(part, [wcsx], 10, width)
@@ -57,7 +58,7 @@ function Scene({ drawingId, width = 50, ...props }) {
       <Bounds fit observe margin={1.75}>
         <Resize scale={2}>
           <Center top ref={geometry} rotation={[0, -Math.PI / 4, 0]}>
-            <BuerliGeometry drawingId={drawingId} suspend selection />
+            <Geometry drawingId={drawingId} suspend selection />
           </Center>
         </Resize>
       </Bounds>

@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useState, useTransition } from 'react'
-import { solid } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useSolid } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
@@ -9,7 +8,7 @@ import debounce from 'lodash/debounce'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-const { cache } = headless(solid, 'ws://localhost:9091')
+init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
 
 export default function App() {
   return (
@@ -38,6 +37,7 @@ export default function App() {
 }
 
 function Model(props) {
+  const { cache } = useSolid()
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, trans] = useTransition()
