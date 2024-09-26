@@ -368,13 +368,13 @@
     "@buerli.io/classcad" "0.13.1-beta.2"
     flat-promise "^1.0.3"
 
-"@buerli.io/react-cad@0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@buerli.io/react-cad/-/react-cad-0.12.0.tgz#626414733482686513928c88ee92b555e774d676"
-  integrity sha512-JcBEYCRhDH3bgHU5VS1mfLt2pCVntdU5Sm2lmajYqLu5c0a/6wts95HGOxRabahrZSCmdIQCYLoNxRsTeIEVDg==
+"@buerli.io/react-cad@0.13.1-beta.2":
+  version "0.13.1-beta.2"
+  resolved "https://registry.yarnpkg.com/@buerli.io/react-cad/-/react-cad-0.13.1-beta.2.tgz#4d85b431cc71122c9bcce58e29da565815ba72ec"
+  integrity sha512-Dw4i+iRhNim7aCDGIAj3CaaqTyouqf86iD/3mXsxZwJ3k54ns16Ml3xyByDpHtxzYpAJtpodDufmBVPYzMkiwg==
   dependencies:
-    "@buerli.io/classcad" "0.12.0"
-    "@buerli.io/react" "0.12.0"
+    "@buerli.io/classcad" "0.13.1-beta.2"
+    "@buerli.io/react" "0.13.1-beta.2"
     "@dnd-kit/core" "^6.0.8"
     "@dnd-kit/modifiers" "^6.0.1"
     "@dnd-kit/sortable" "^7.0.2"
@@ -386,23 +386,6 @@
     react-uid "^2.3.1"
     styled-components "^5.3.1"
     three-rounded-box "^0.1.1"
-    uuid "^9.0.0"
-    zustand "^4.1.4"
-
-"@buerli.io/react@0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@buerli.io/react/-/react-0.12.0.tgz#c6177a5fa592ba0c488cd9471f59c89e67c330bc"
-  integrity sha512-FQSM1I6LP6rCtjPiNDJSBw46qsgLVyJvoINiz7BIQTcSBPseGlFYwdZxbxZp+GCJcABzaDX2gVSvLXea/NUKLQ==
-  dependencies:
-    "@ant-design/icons" "^4.7.0"
-    "@buerli.io/core" "0.12.0"
-    "@buerli.io/headless" "0.12.0"
-    antd "^4.23.4"
-    deepmerge "^4.2.2"
-    lodash-es "^4.17.15"
-    react-spring "^8.0.27"
-    styled-components "^5.3.1"
-    suspend-react "^0.0.10"
     uuid "^9.0.0"
     zustand "^4.1.4"
 
