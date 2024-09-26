@@ -29,7 +29,7 @@ export default function App() {
         <Suspense fallback={<Status>Loading</Status>}>{buffer && <Model buffer={buffer} />}</Suspense>
         <BuerliPluginsGeometry drawingId={drawingId} />
       </Canvas>
-      {/*<GlobalPlugins drawingId={drawingId} />*/}
+      <GlobalPlugins drawingId={drawingId} />
       <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
   )
