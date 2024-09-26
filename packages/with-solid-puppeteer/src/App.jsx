@@ -6,7 +6,7 @@ import { OrbitControls, Environment, Center, Resize, AccumulativeShadows, Random
 import tunnel from 'tunnel-rat'
 
 const t = tunnel()
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1')
 
 const queryString = window.location.search
 const urlParams = new URLSearchParams(queryString)

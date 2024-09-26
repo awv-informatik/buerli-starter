@@ -6,7 +6,7 @@ import { Leva } from 'leva'
 import as1ac214 from './resources/as1_ac_214.stp?raw'
 import { Status, Out } from './Pending'
 
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1')
 
 export default function App() {
   return (

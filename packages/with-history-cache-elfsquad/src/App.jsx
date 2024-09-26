@@ -8,7 +8,7 @@ import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1')
 
 export default function App() {
   return (

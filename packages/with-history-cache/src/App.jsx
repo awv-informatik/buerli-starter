@@ -2,14 +2,20 @@ import { Suspense, useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { init, useHistory } from '@buerli.io/react'
+import { init, CCClasses, WASMClient, ccAPI } from '@buerli.io/classcad'
+import { useHistory } from '@buerli.io/react'
 import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init(
+  id => {
+    const socket = new WASMClient('https://awvstatic.com/classcad/dev/wasm/20240925.1', id)    
+    return socket
+  }
+)
 
 export default function App() {
   return (

@@ -17,7 +17,7 @@ import { Tabs } from 'antd'
 import PipesTable from './components/Table'
 import { PipeType, Pipes } from './model/Pipes'
 
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1')
 
 const defaultData = [
   { key: '0', name: 'Default', type: PipeType.StraightPipe, length: 100, angle: undefined, radius: undefined, rotation: undefined },

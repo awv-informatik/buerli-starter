@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
-import { init, useSolid } from '@buerli.io/react'
-import { useDrawing, BuerliPluginsGeometry, BuerliGeometry } from '@buerli.io/react'
+import { init, useSolid, useDrawing, BuerliPluginsGeometry } from '@buerli.io/react'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment } from '@react-three/drei'
@@ -10,13 +9,13 @@ import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
 import { elements } from './components/elements'
 
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2', {
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1', {
   elements,
   globalPlugins: [Measure],
 })
 
 export default function App() {
-  const { drawingId } = useSolid("with-solid-stepviewer")
+  const { drawingId } = useSolid('with-solid-stepviewer')
   const [buffer, set] = useState(null)
   useControls({ step: folder({ upload: plugin(set) }) })
   return (
@@ -30,14 +29,14 @@ export default function App() {
         <Suspense fallback={<Status>Loading</Status>}>{buffer && <Model buffer={buffer} />}</Suspense>
         <BuerliPluginsGeometry drawingId={drawingId} />
       </Canvas>
-      <GlobalPlugins drawingId={drawingId} />
+      {/*<GlobalPlugins drawingId={drawingId} />*/}
       <Leva neverHide titleBar={{ title: <Out /> }} />
     </>
   )
 }
 
 function Model({ buffer }) {
-  const { drawingId, Geometry } = useSolid("with-solid-stepviewer")
+  const { cache, drawingId, Geometry } = useSolid('with-solid-stepviewer')
   const ref = useRef()
   const measurePlugin = useDrawing(drawingId, state => state.plugin.global[0])
   const pluginApi = useDrawing(drawingId, state => state.api.plugin)

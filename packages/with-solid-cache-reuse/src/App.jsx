@@ -6,7 +6,7 @@ import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1')
 
 export default function App() {
   return (

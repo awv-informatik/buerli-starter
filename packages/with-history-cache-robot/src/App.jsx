@@ -8,7 +8,7 @@ import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 import robotArm from './resources/Robot6Axis.ofb?raw'
 
-init('https://awvstatic.com/classcad/dev/wasm/20240924.2')
+init('https://awvstatic.com/classcad/dev/wasm/20240925.1')
 const store = {
   asm: null,
   constraints: [
