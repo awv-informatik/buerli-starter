@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
-import { solid } from '@buerli.io/headless'
-import { useDrawing, headless, BuerliPluginsGeometry, BuerliGeometry } from '@buerli.io/react'
+import { useDrawing, init, useSolid, BuerliPluginsGeometry, BuerliGeometry } from '@buerli.io/react'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment } from '@react-three/drei'
@@ -10,13 +9,12 @@ import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
 import { elements } from './components/elements'
 
-const { cache, useDrawingId } = headless(solid, 'ws://localhost:9091', {
+init('ws://localhost:9091', {
   elements,
   globalPlugins: [Measure],
 })
 
 export default function App() {
-  const drawingId = useDrawingId()
   const [buffer, set] = useState(null)
   useControls({ step: folder({ upload: plugin(set) }) })
   return (
@@ -38,7 +36,7 @@ export default function App() {
 
 function Model({ buffer }) {
   const ref = useRef()
-  const drawingId = useDrawingId()
+  const { cache, drawingId } = useSolid()
   const measurePlugin = useDrawing(drawingId, state => state.plugin.global[0])
   const pluginApi = useDrawing(drawingId, state => state.api.plugin)
 

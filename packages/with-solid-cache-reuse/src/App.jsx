@@ -1,13 +1,13 @@
 import { Suspense, useState } from 'react'
 import { solid } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, SoftShadows, Outlines } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
-const { cache } = headless(solid, 'ws://localhost:9091')
+init(solid, 'ws://localhost:9091')
 
 export default function App() {
   return (
@@ -45,6 +45,7 @@ export default function App() {
 }
 
 function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
+  const { cache } = useHistory()
   const [hovered, hover] = useState(false)
   const geo = cache(
     async api => {

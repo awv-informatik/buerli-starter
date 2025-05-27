@@ -1,13 +1,12 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Html, MeshTransmissionMaterial, Center, AccumulativeShadows, RandomizedLight, CameraControls, Environment } from '@react-three/drei'
-import { history } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
 import { Leva } from 'leva'
 import as1ac214 from './resources/as1_ac_214.stp?raw'
 import { Status, Out } from './Pending'
 
-const buerli = headless(history, 'ws://localhost:9091')
+init('ws://localhost:9091')
 
 export default function App() {
   return (
@@ -36,6 +35,7 @@ export default function App() {
 }
 
 function Assembly(props) {
+  const buerli = useHistory()
   const { nodes } = buerli.cache(async api => api.createScene(await api.load(as1ac214, 'stp')), ['as1_ac_214-jsx'])
   const [gBolt, mBolt] = [nodes['870'].geometry, nodes['870'].material]
   const [gNut, mNut] = [nodes['79A'].geometry, nodes['79A'].material]

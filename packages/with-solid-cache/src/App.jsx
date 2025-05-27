@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useState, useTransition } from 'react'
 import { solid } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
@@ -9,7 +9,7 @@ import debounce from 'lodash/debounce'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-const { cache } = headless(solid, 'ws://localhost:9091')
+init(solid, 'ws://localhost:9091')
 
 export default function App() {
   return (
@@ -38,6 +38,7 @@ export default function App() {
 }
 
 function Model(props) {
+  const { cache } = useHistory()
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, trans] = useTransition()
@@ -88,7 +89,7 @@ function Model(props) {
     <group {...props}>
       {/** The resulting geometry can be directly attached to a mesh, which is under your full control */}
       <mesh geometry={geo} castShadow receiveShadow>
-        <meshStandardMaterial metalness={0} color="#222" roughness={0.5} />        
+        <meshStandardMaterial metalness={0} color="#222" roughness={0.5} />
       </mesh>
       {pending && <Status>Pending</Status>}
     </group>

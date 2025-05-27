@@ -2,14 +2,14 @@ import { Suspense, useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { history, BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
+import { init, useHistory } from '@buerli.io/react'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-const buerli = headless(history, 'ws://localhost:9091')
+init('ws://localhost:9091')
 
 export default function App() {
   return (
@@ -44,6 +44,7 @@ function usePendingState(key, start, initialState, config = {}) {
 }
 
 export function Flange(props) {
+  const buerli = useHistory()
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
@@ -79,7 +80,13 @@ export function Flange(props) {
       const flangeSolid1 = api.boolean(part, BooleanOperationType.UNION, [baseCyl, upperCyl])
       const subCylFlange = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylHoleDiam', 'ExpressionSet.flangeHeight')
       const solid = api.boolean(part, BooleanOperationType.SUBTRACTION, [flangeSolid1, subCylFlange])
-      const wcsHole1Bottom = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, upperCylDiam / 2 + thickness, 0], [0, 0, 0])
+      const wcsHole1Bottom = api.createWorkCoordSystem(
+        part,
+        WorkCoordSystemType.WCS_CUSTOM,
+        [],
+        [0, upperCylDiam / 2 + thickness, 0],
+        [0, 0, 0],
+      )
       const subCylHole1 = api.cylinder(part, [wcsHole1Bottom], 30, 50)
       const waCenter = api.createWorkAxis(part, WorkAxisType.WA_FIXED, [], [0, 0, 0], [0, 0, 1])
       const pattern = api.circularPattern(part, [subCylHole1], [waCenter], {

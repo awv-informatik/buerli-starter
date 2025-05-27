@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { useRef, useCallback, useState, Suspense, useLayoutEffect } from 'react'
 import { History } from '@buerli.io/headless'
-import { BuerliGeometry, useHeadless } from '@buerli.io/react'
+import { BuerliGeometry, useHistory } from '@buerli.io/react'
 import {
   Environment,
   AccumulativeShadows,
@@ -17,6 +17,8 @@ import { Canvas } from '@react-three/fiber'
 import { Tabs } from 'antd'
 import PipesTable from './components/Table'
 import { PipeType, Pipes } from './model/Pipes'
+
+init('ws://localhost:9091')
 
 const defaultData = [
   { key: '0', name: 'Default', type: PipeType.StraightPipe, length: 100, angle: undefined, radius: undefined, rotation: undefined },
@@ -46,9 +48,9 @@ export default function App() {
 }
 
 function Tab({ id }) {
-  const buerli = useHeadless(History, `ws://localhost:9091?session=${id}`)
+  const buerli = useHistory()
   const [data, setData] = useState(defaultData)
-  const drawingId = buerli.useDrawingId()
+  const drawingId = buerli.drawingId
   const pipes = buerli.cache(api => new Pipes().init(api, defaultData), ['init', id])
   const onEditPipe = useCallback(item => buerli.run(api => pipes.edit(item)), [buerli])
   const onAddPipe = useCallback(item => buerli.run(api => pipes.add(item)), [buerli])

@@ -1,16 +1,16 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
-import { history, EdgeTypes, ChamferType, WorkCoordSystemType } from '@buerli.io/headless'
-import { headless, BuerliGeometry } from '@buerli.io/react'
+import { EdgeTypes, ChamferType, WorkCoordSystemType } from '@buerli.io/headless'
+import { init, useHistory, BuerliGeometry } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { Resize, Center, Bounds, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
-const buerli = headless(history, 'ws://localhost:9091')
+init('ws://localhost:9091')
 
 export default function App() {
-  const drawingId = buerli.useDrawingId()
+  const { drawingId } = useHistory('with-history-run')
   return (
     <>
       <Canvas shadows gl={{ antialias: false }} orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
@@ -34,6 +34,7 @@ export default function App() {
 }
 
 function Scene({ drawingId, width = 50, ...props }) {
+  const buerli = useHistory('with-history-run')
   const geometry = useRef()
   useEffect(() => {
     buerli.run(async api => {

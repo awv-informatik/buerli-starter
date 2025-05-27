@@ -2,13 +2,13 @@ import { Suspense, useState, useTransition, useEffect } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { history, WorkCoordSystemType } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { WorkCoordSystemType } from '@buerli.io/headless'
+import { init, useHistory } from '@buerli.io/react'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
 
 // Create a headless history socket
-const buerli = headless(history, 'ws://localhost:9091')
+init('ws://localhost:9091')
 
 export default function App() {
   return (
@@ -35,6 +35,7 @@ export default function App() {
 }
 
 export function Flange(props) {
+  const buerli = useHistory()
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   const [pending, start] = useTransition()

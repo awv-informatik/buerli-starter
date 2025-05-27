@@ -1,13 +1,12 @@
 import * as THREE from 'three'
 import { useLayoutEffect, useRef } from 'react'
-import { Solid } from '@buerli.io/headless'
-import { headless, BuerliGeometry } from '@buerli.io/react'
+import { init, useSolid, BuerliGeometry } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center, Resize, AccumulativeShadows, RandomizedLight } from '@react-three/drei'
 import tunnel from 'tunnel-rat'
 
 const t = tunnel()
-const { cache, useDrawingId } = headless(Solid, 'ws://localhost:9091')
+init('ws://localhost:9091')
 
 const queryString = window.location.search
 const urlParams = new URLSearchParams(queryString)
@@ -54,7 +53,7 @@ export default function App() {
 
 function Model(props) {
   const ref = useRef()
-  const drawingId = useDrawingId()
+  const { cache, drawingId } = useSolid()
 
   useLayoutEffect(() => {
     ref.current.traverse(child => {

@@ -1,15 +1,14 @@
 import { Suspense, useState, useRef, useTransition } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { history } from '@buerli.io/headless'
-import { headless } from '@buerli.io/react'
+import { init, useHistory } from '@buerli.io/react'
 import debounce from 'lodash/debounce'
 import { easing } from 'maath'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 import robotArm from './resources/Robot6Axis.ofb?raw'
 
-const { cache, store } = headless(history, 'ws://localhost:9091', {
+init('ws://localhost:9091', {
   store: {
     asm: null,
     constraints: [
@@ -46,6 +45,7 @@ export default function App() {
 }
 
 function Robot(props) {
+  const { cache, store } = useHistory()
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = cache(
     async api => {
