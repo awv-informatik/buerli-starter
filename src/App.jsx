@@ -18,7 +18,7 @@ const sandboxes = {
 
 export default function App() {
   const { type } = useControls({
-    headless: folder({ type: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } }),
+    headless: folder({ type: { value: Object.keys(sandboxes)[1], options: Object.keys(sandboxes) } }),
   })
   const [sandbox] = useControls(
     () => ({ headless: folder({ [type]: { value: Object.keys(sandboxes[type])[0], options: Object.keys(sandboxes[type]) } }) }),

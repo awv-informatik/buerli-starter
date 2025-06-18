@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@buerli.io/react": "0.13.0",
+    "@buerli.io/classcad": "0.13.0",
     "@react-three/drei": "^9.105.6",
     "@react-three/fiber": "^8.16.3",
     "@types/three": "^0.152.0",
