@@ -40,10 +40,7 @@ export default function App() {
 }
 
 function Model(props) {
-  const {
-    api: { v1: api },
-    drawing,
-  } = useClassCAD('with-solid-cache')
+  const { api: { v1: api }, drawing } = useClassCAD('with-solid-cache') // prettier-ignore
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, trans] = useTransition()
@@ -102,8 +99,7 @@ function Model(props) {
 
     await api.solid.subtraction({ id: ei, target: solid, tools: [cyl1, cyl2] })
     await api.solid.offset({ id: ei, target: solid, distance: offset })
-    const [geo] = await drawing.createBufferGeometry(part)
-    return geo
+    return (await drawing.createBufferGeometry(part))[0]
   }, ['bracket', width, cut1, cut2, offset])
 
   return (

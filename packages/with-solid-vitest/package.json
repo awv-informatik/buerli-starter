@@ -9,6 +9,7 @@
   "dependencies": {
     "@buerli.io/classcad": "0.13.0",
     "@buerli.io/headless": "0.13.0",
+    "buffer": "^6.0.3",
     "three": "^0.164.1"
   },
   "devDependencies": {

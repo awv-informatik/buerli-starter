@@ -2,14 +2,18 @@ import { Suspense, useState, useTransition } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
-import { init, useHistory } from '@buerli.io/react'
+//import { BooleanOperationType, WorkAxisType, WorkCoordSystemType } from '@buerli.io/headless'
+
+import { useClassCAD } from '@buerli.io/react'
+import { init, WASMClient, ScgGraphicType } from '@buerli.io/classcad'
+import { suspend } from 'suspend-react'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
 
-// Create a headless history socket
-init('ws://localhost:9091')
+const appKey =
+  'MS4xLlZZUG51VkNpOGdjQm50RXB0VkE1RnQ1ekVVazNOR1dYMk9weHlxRGJjazRSdGYwTFRPTFl5NVdjYmY4VnFOOXlWTDQ0OUNzSExTbmhQRHZpNEVidXRsancyK29wTEN0VkJZUm1rRjlRbEZuWTV4T0dCMEFYRTNXdXV1RjE5SVlzY20vTU9md2gvNDJEUEFUSmM1YzVQVTZoTFc3QTJOUDZMbFh4bVNsZjRvdjdEcFNHdzhqVDI2bDZzYTVzVWVBaThacGUvS2dsTzRWSXpPSk92Uk5VcG5aSjhyd0RLOGZnRHNYcngrQms1RnFGcGZxOWtGY1VjNHVFajJQQmg1b0dteGZ6N0lZUWw3MzhIUm9LdTk4ZXJJU1JSUnVVRmxESkFpVEJhdEh5NXgzdTMwaVJ2eFQ3NGgzaXhxYWpuQUFNNE1WNEljdTl1OUV3UlFaVlFWKzhkN3FoVlIyZkl4Wk5TNEdwR2pQamNuN1lUUEErZWFHR3ZtYVlTU2RJNURkKzlKWTVSQ2RYTFJOQjFqenRWaEV6bjB4Y0pCQXFVQjc5bzMxWFYvK3dHcWYzUGFnUHVCVEx3TGhrNnFDNnhqamI5SHEvUk9zMnI5b2RIbHI5TlNCcE14TmZtQ2gwUEdBQ3ZKUENtSDJDT3FUSmJiS1NhSXJxTFR0S1pnQS9vbHc0T1V3VEVUcDhhWnpMdTNqay92SUhuZmhqa1I0MEo1S2VLQlNqSjJoTExpUnBiSFFML3B2WDB3VmY2b25Idm95VDZmdlIrc0tld3NYUXpQVWhNWWVSL3dNVE1vb0dObEc3bkQ1WFpkMXFzMDlES2VUOTdxTmtFVEdTS3VBQXBMWVJmUFd0TGNNb3VDUnAvMWlkNDZvZjBFbk9sT3VLV2JTUVM2MTBFL0lySVN3Z3liL0tmaFBlVk4zcmVZV3VQcDdwanFDck9GUTZCYnFKRWErQkpqKzQ4bGJsUGhQSnM5cWxVQmFpakJTa0s2c2sxMExQK1I1ZWc5clFZN3ZqMjVNSGZSUHhUNEMwZ0R4empnalNQYmJrL3NGcjVOT25qb3dLWWtsSWU5VzVQU1Evb2FUUEkyOXJFcFRJOFBtR2pGUW5ac29rTzM1NEVoQlFtUldtRTZYUlFJZjMrRHo1QmdMelpGTDBlS3ZjOVoyNU8va3EvSWRjVVJ2OVpMcG4rVEtxa2oxbXVpTkFlUkdnYS8yU09Oa1dMZU5WZGZUWDR3VUIwZng0ZXpnRnVPL0FFMlJtNDhSK1Izd251cDFzeTE1U2ROSWhJdVQxMG52dTdsamVKekFYa3FwalE2ZUNNVzBHN2NLQU1COXZoenBIMnVqZDhiN2tTZWFtWThUS21yV1JabkJiTXhHaEUvNnVPUFdpRVNiVUtnSlhFbHN1b1Y4MXduNGpqbDBKVjhQKzdONzNMK2lCSk9YZzNnOVo0bXdySGp5NlF1RXFyU2x3TTZ5N2xDeHcwV1JPbGF5SU1TKzg1cFhXNmN2cGh0UFI2ZldVWnczY285QVhWOG5qOTNTSEhzdzNVa3VMRDJMVXJqbERkaU0rT0JWZ2ZDaVQ0dzFyYlFPWWpDejBvYm9TSHBoTm9nWCtRZzVOY1lKa0lodWxhNWp0dWFkdzBydWJsVC8vQ0xmQTFBNHgyNTliNWRaUG93eUMzU2NWOTl3NWhjSjVjUTl3ay9DWkVCVk1ZWDYyVGVnM3VuNTdMZHZzWUN3YXVGSUozTjBnZWc4aFlId1VoWFAzL1BqeDV4Q3FVa2dTNXFhbm42bW9XdENVQzBCQWtuN2s1R25kSDhNYUZBdW5IanZRWEZJVld1ZVhGYnBSa1ZXbU0xaXJGM1V5ZDJxaUUxaDFrTjhVTzlmbEJpd1RNa0Fab1N4aDd0elhGdlI2NlJiSU4vWXQybXluT1piR2RlTDU2YzgyRE5pTm1obG5rNERjMnVtMXNlcVpPMWswVThlNUVNM3ZIOWlveEFacEFkUnp4K090VjhLTHVPNlMxbGNvazBYMUlRRE1oZFkvOW9UK0dFbmRrZjRWWHlCNWRaNlpKOXYyc0M0RDFvRm1heG00ZTN1MTE3Zm9vdkc2TDFQMEo3b2xNNW89'
+init(did => new WASMClient(did, { appKey }))
 
 export default function App() {
   return (
@@ -44,7 +48,7 @@ function usePendingState(key, start, initialState, config = {}) {
 }
 
 export function Flange(props) {
-  const buerli = useHistory()
+  const { api: { v1: api } } = useClassCAD() // prettier-ignore
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
@@ -69,11 +73,68 @@ export function Flange(props) {
     { name: 'holeAngle', value: holeAngle },
   ]
 
+  const part1 = suspend(async () => {
+    api.common.clear()
+    const { result: part } = await api.part.create({ name: 'Part' })
+    const { result: ei } = await api.part.entityInjection({ id: part })
+    const { result: ccShape } = await api.curve.shape({ id: ei })
+
+    await api.part.expression({ id: part, toCreate: expressions })
+    const { result: wcsCenter } = await api.part.workCSys({ id: part })
+    const { result: baseCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: 'ExpressionSet.baseCylDiam', height })
+    const { result: upperCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: 'ExpressionSet.upperCylDiam', height: 'ExpressionSet.flangeHeight' })
+    const { result: flangeSolid1 } = await api.part.boolean({ id: part, operation: 'UNION', target: baseCyl, tools: [upperCyl] })
+    const { result: subCylFlange } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: 'ExpressionSet.upperCylHoleDiam', height: 'ExpressionSet.flangeHeight' })
+    const { result: solid } = await api.part.boolean({
+      id: part,
+      operation: 'SUBTRACTION',
+      solids: [flangeSolid1, subCylFlange],
+    })
+    const { result: wcsHole1Bottom } = await api.part.workCSys({
+      id: part,
+      type: 'WCS_CUSTOM',
+      references: [],
+      position: [0, upperCylDiam / 2 + thickness, 0],
+      rotation: [0, 0, 0],
+    })
+    const { result: subCylHole1 } = await api.part.cylinder({
+      id: part,
+      references: [wcsHole1Bottom],
+      diameter: 30,
+      height: 50,
+    })
+    const { result: waCenter } = await api.part.workAxis({
+      id: part,
+      type: 'WA_FIXED',
+      references: [],
+      position: [0, 0, 0],
+      direction: [0, 0, 1],
+    })
+    const { result: pattern } = await api.part.circularPattern({
+      id: part,
+      solids: [subCylHole1],
+      workAxes: [waCenter],
+      options: {
+        inverted: 0,
+        angle: 'ExpressionSet.holeAngle',
+        count: 'ExpressionSet.holes',
+        merged: 1,
+      },
+    })
+    await api.part.boolean({
+      id: part,
+      operation: 'SUBTRACTION',
+      solids: [solid, pattern],
+    })
+    return part
+  })
+
   // This block creates a flange and results in a part, it will only run once.
   const part = buerli.cache(
     async api => {
       const part = api.createPart('flange')
       api.createExpressions(part, ...expressions)
+
       const wcsCenter = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, 0, 0], [0, 0, 0])
       const baseCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.baseCylDiam', 'ExpressionSet.thickness')
       const upperCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylDiam', 'ExpressionSet.flangeHeight')

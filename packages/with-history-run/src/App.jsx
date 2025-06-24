@@ -35,7 +35,7 @@ export default function App() {
 }
 
 function Scene({ width = 50, ...props }) {
-  const { api: { v1: api }, drawing, Geometry } = useClassCAD('with-history-run')
+  const { api: { v1: api }, drawing, Geometry } = useClassCAD('with-history-run') // prettier-ignore
   const geometry = useRef()
 
   useEffect(() => {
