@@ -48,7 +48,7 @@ function usePendingState(key, start, initialState, config = {}) {
 }
 
 export function Flange(props) {
-  const { api: { v1: api } } = useClassCAD() // prettier-ignore
+  const { api: { v1: api }, drawing } = useClassCAD("with-history-cache") // prettier-ignore
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
@@ -73,104 +73,38 @@ export function Flange(props) {
     { name: 'holeAngle', value: holeAngle },
   ]
 
-  const part1 = suspend(async () => {
-    api.common.clear()
-    const { result: part } = await api.part.create({ name: 'Part' })
-    const { result: ei } = await api.part.entityInjection({ id: part })
-    const { result: ccShape } = await api.curve.shape({ id: ei })
-
-    await api.part.expression({ id: part, toCreate: expressions })
-    const { result: wcsCenter } = await api.part.workCSys({ id: part })
-    const { result: baseCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: 'ExpressionSet.baseCylDiam', height })
-    const { result: upperCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: 'ExpressionSet.upperCylDiam', height: 'ExpressionSet.flangeHeight' })
-    const { result: flangeSolid1 } = await api.part.boolean({ id: part, operation: 'UNION', target: baseCyl, tools: [upperCyl] })
-    const { result: subCylFlange } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: 'ExpressionSet.upperCylHoleDiam', height: 'ExpressionSet.flangeHeight' })
-    const { result: solid } = await api.part.boolean({
-      id: part,
-      operation: 'SUBTRACTION',
-      solids: [flangeSolid1, subCylFlange],
-    })
-    const { result: wcsHole1Bottom } = await api.part.workCSys({
-      id: part,
-      type: 'WCS_CUSTOM',
-      references: [],
-      position: [0, upperCylDiam / 2 + thickness, 0],
-      rotation: [0, 0, 0],
-    })
-    const { result: subCylHole1 } = await api.part.cylinder({
-      id: part,
-      references: [wcsHole1Bottom],
-      diameter: 30,
-      height: 50,
-    })
-    const { result: waCenter } = await api.part.workAxis({
-      id: part,
-      type: 'WA_FIXED',
-      references: [],
-      position: [0, 0, 0],
-      direction: [0, 0, 1],
-    })
-    const { result: pattern } = await api.part.circularPattern({
-      id: part,
-      solids: [subCylHole1],
-      workAxes: [waCenter],
-      options: {
-        inverted: 0,
-        angle: 'ExpressionSet.holeAngle',
-        count: 'ExpressionSet.holes',
-        merged: 1,
-      },
-    })
-    await api.part.boolean({
-      id: part,
-      operation: 'SUBTRACTION',
-      solids: [solid, pattern],
-    })
-    return part
-  })
-
   // This block creates a flange and results in a part, it will only run once.
-  const part = buerli.cache(
-    async api => {
-      const part = api.createPart('flange')
-      api.createExpressions(part, ...expressions)
-
-      const wcsCenter = api.createWorkCoordSystem(part, WorkCoordSystemType.WCS_CUSTOM, [], [0, 0, 0], [0, 0, 0])
-      const baseCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.baseCylDiam', 'ExpressionSet.thickness')
-      const upperCyl = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylDiam', 'ExpressionSet.flangeHeight')
-      const flangeSolid1 = api.boolean(part, BooleanOperationType.UNION, [baseCyl, upperCyl])
-      const subCylFlange = api.cylinder(part, [wcsCenter], 'ExpressionSet.upperCylHoleDiam', 'ExpressionSet.flangeHeight')
-      const solid = api.boolean(part, BooleanOperationType.SUBTRACTION, [flangeSolid1, subCylFlange])
-      const wcsHole1Bottom = api.createWorkCoordSystem(
-        part,
-        WorkCoordSystemType.WCS_CUSTOM,
-        [],
-        [0, upperCylDiam / 2 + thickness, 0],
-        [0, 0, 0],
-      )
-      const subCylHole1 = api.cylinder(part, [wcsHole1Bottom], 30, 50)
-      const waCenter = api.createWorkAxis(part, WorkAxisType.WA_FIXED, [], [0, 0, 0], [0, 0, 1])
-      const pattern = api.circularPattern(part, [subCylHole1], [waCenter], {
-        inverted: 0,
-        angle: 'ExpressionSet.holeAngle',
-        count: 'ExpressionSet.holes',
-        merged: 1,
-      })
-      await api.boolean(part, BooleanOperationType.SUBTRACTION, [solid, pattern])
-      return part
-    },
-    ['flange'],
-  )
+  const part = suspend(async () => {
+    api.common.clear()
+    // Initial create
+    const rotation = { x: 0, y: 0, z: 0 }
+    const offset = { x: 0, y: 0, z: 0 }
+    const origin = { x: 0, y: 0, z: 0 }
+    const zDir = { x: 0, y: 0, z: 1 }
+    // Create Part
+    const { result: part } = await api.part.create({ name: 'Flange' })
+    await api.part.expression({ id: part, toCreate: expressions })
+    // Create geometry
+    const { result: wcsCenter } = await api.part.workCSys({ id: part, offset, rotation, name: 'WCSCenter' })
+    const { result: baseCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.baseCylDiam', height: '@expr.thickness' })
+    const { result: upperCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.upperCylDiam', height: '@expr.flangeHeight' })
+    const { result: flangeSolid1 } = await api.part.boolean({ id: part, type: 'UNION', target: { id: baseCyl }, tools: [{ id: upperCyl }] })
+    const { result: subCylFlange } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.upperCylHoleDiam', height: '@expr.flangeHeight' }) // prettier-ignore
+    const { result: solid } = await api.part.boolean({ id: part, type: 'SUBTRACTION', target: { id: flangeSolid1 }, tools: [{ id: subCylFlange }] }) // prettier-ignore
+    const { result: wcsHole1Bottom } = await api.part.workCSys({ id: part, offset: '[0, @expr.upperCylDiam / 2 + @expr.thickness, 0]', rotation, name: 'WCSBoltHoleBottom', }) // prettier-ignore
+    const { result: subCylHole1 } = await api.part.cylinder({ id: part, references: [wcsHole1Bottom], diameter: 30, height: 50, }) // prettier-ignore
+    const { result: waCenter } = await api.part.workAxis({ id: part, position: origin, direction: zDir, name: 'WACenter' })
+    const { result: pattern } = await api.part.circularPattern({ id: part, targets: [{ id: subCylHole1 }], references: [waCenter], angle: '@expr.holeAngle', count: '@expr.holes', merged: true }) // prettier-ignore
+    await api.part.boolean({ id: part, type: 'SUBTRACTION', target: { id: solid }, tools: [{ id: pattern }] })
+    return part
+  }, ['flange'])
 
   // In this block we use the part that was generated previously and change its expressions.
-  const [geo] = buerli.cache(
-    async api => {
-      // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
-      if (!isFirstMount) api.setExpressions({ partId: part, members: expressions })
-      return await api.createBufferGeometry(part)
-    },
-    ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle],
-  )
+  const [geo] = suspend(async () => {
+    // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
+    if (!isFirstMount) api.part.updateExpression({ id: part, toUpdate: expressions })
+    return await drawing.createBufferGeometry(part)
+  }, ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle])
 
   // The geometry can be now be attached to a mesh, which is under our full control.
   return (
