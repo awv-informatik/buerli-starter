@@ -8,6 +8,7 @@ const sandboxes = {
     Cache: lazy(() => import('../packages/with-history-cache/src/App')),
     CacheAs1ac214Jsx: lazy(() => import('../packages/with-history-cache-as1ac214-jsx/src/App')),
     CacheRobot: lazy(() => import('../packages/with-history-cache-robot/src/App')),
+    CachePipes: lazy(() => import('../packages/with-history-pipes/src/App')),
   },
   Solid: {
     Cache: lazy(() => import('../packages/with-solid-cache/src/App')),
@@ -21,7 +22,7 @@ export default function App() {
     headless: folder({ type: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } }),
   })
   const [sandbox] = useControls(
-    () => ({ headless: folder({ [type]: { value: Object.keys(sandboxes[type])[3], options: Object.keys(sandboxes[type]) } }) }),
+    () => ({ headless: folder({ [type]: { value: Object.keys(sandboxes[type])[0], options: Object.keys(sandboxes[type]) } }) }),
     [type],
   )
   const El = sandboxes[type][sandbox[type]]

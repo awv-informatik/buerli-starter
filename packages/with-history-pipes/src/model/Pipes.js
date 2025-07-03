@@ -1,4 +1,4 @@
-import { FlipType, ReorientedType, CCClasses } from '@buerli.io/classcad'
+import { FlipType, ReorientedType, CCClasses, compression } from '@buerli.io/classcad'
 import straightPipe from '../resources/StraightPipe.ofb?raw'
 import curvedPipe from '../resources/CurvedPipe.ofb?raw'
 
@@ -15,23 +15,22 @@ export class Pipes {
   /** Create root assembly and add initial pipes */
   init = async (api, data) => {
     this.api = api
-    this.rootAsm = await this.api.createRootAssembly('PipeAsm')
+    this.rootAsm = (await this.api.assembly.create({ name: 'PipesAssembly' })).result
     // Load and configure pipe template and add it as an instance to the assembly
     for (let i = 0; i < data.length; i++) {
       const pipePart = await this.loadAndConfigure(data[i])
       await this.addInstance(pipePart, data[i].name)
     }
     // Connect the pipe instances by constraints
-    if (this.pipeInstances.length > 0)
-      for (let i = 0; i < this.pipeInstances.length; i++) await this.constrainInstance(data[i], this.pipeInstances[i])
+    if (this.pipeInstances.length > 0) for (let i = 0; i < this.pipeInstances.length; i++) await this.constrainInstance(data[i], this.pipeInstances[i])
     return this
   }
 
   /** Edit parameters of existing pipe */
   edit = async item => {
-    await this.api.setExpressions({
-      partId: item.name,
-      members:
+    await this.api.part.updateExpression({
+      id: item.name,
+      toUpdate:
         item.type === PipeType.StraightPipe
           ? [{ name: 'length', value: item.length }]
           : [
@@ -40,9 +39,8 @@ export class Pipes {
             ],
     })
     if (item.type === PipeType.CurvedPipe) {
-      const constr = await this.api.getFastenedConstraint(this.rootAsm, item.name + 'FC')
-      console.log(constr)
-      await this.api.updateFastenedConstraints({ ...constr, zRotation: (item.rotation / 180) * Math.PI })
+      const { result: constr } = await this.api.assembly.getFastened({ id: this.rootAsm, name: item.name + 'FC' })
+      await this.api.assembly.updateFastened({ ...constr, zRotation: (item.rotation / 180) * Math.PI })
     }
   }
 
@@ -55,66 +53,62 @@ export class Pipes {
 
   /** Remove last pipe element */
   delete = async () => {
-    await this.api.removeInstances({ id: this.pipeInstances[this.pipeInstances.length - 1] })
+    await this.api.assembly.deleteInstance({ ids: [this.pipeInstances[this.pipeInstances.length - 1]] })
     this.pipeInstances.pop()
   }
 
   /**************** Helper functions ****************/
   loadAndConfigure = async item => {
     const isStraight = item.type === PipeType.StraightPipe
-    const product = await this.api.loadProduct(isStraight ? straightPipe : curvedPipe, 'ofb', { ident: item.name })
-    const pipePart = product[0]
-    await this.api.setExpressions({
-      partId: pipePart,
-      members: isStraight
+    const data = compression.encodeToBase64(isStraight ? straightPipe : curvedPipe)
+    const { result: { id: product } } = await this.api.assembly.loadProduct({ data, format: 'ofb', encoding: 'base64', ident: item.name }) // prettier-ignore
+    await this.api.part.updateExpression({
+      id: product,
+      toUpdate: isStraight
         ? [{ name: 'length', value: item.length }]
         : [
             { name: 'angle', value: (item.angle / 180) * Math.PI },
             { name: 'radius', value: item.radius },
           ],
     })
-    return pipePart
+    return product
   }
 
   addInstance = async (pipePart, instanceName) => {
-    const [pipeInstance] = await this.api.addInstances({
-      productId: pipePart,
+    const { result: pipeInstance } = await this.api.assembly.instance({
       ownerId: this.rootAsm,
+      productId: pipePart,
       transformation: [
-        { x: 0, y: 0, z: 0 }, // Origin
-        { x: 1, y: 0, z: 0 }, // X-Dir
-        { x: 0, y: 1, z: 0 }, // Y-Dir
+        [0, 0, 0], // Origin
+        [1, 0, 0], // X-Dir
+        [0, 1, 0], // Y-Dir
       ],
       name: instanceName,
     })
+    console.log('  Added pipe instance', pipeInstance)
     this.pipeInstances.push(pipeInstance)
     return pipeInstance
   }
 
   constrainInstance = async (item, pipeInstance) => {
     if (item.key === '0') {
-      const [wcs0] = await this.api.getWorkGeometry(pipeInstance, CCClasses.CCWorkCSys, 'WCS0')
-      await this.api.createFastenedOriginConstraint(
-        this.rootAsm,
-        { matePath: [pipeInstance], wcsId: wcs0, flip: FlipType.FLIP_Z, reoriented: ReorientedType.REORIENTED_0 },
-        0,
-        0,
-        0,
-        item.name + 'FOC',
-      )
+      const { result: wc0 } = await this.api.part.getWorkGeometry({ id: pipeInstance, name: 'WCS0' })
+      await this.api.assembly.fastenedOrigin({
+        id: this.rootAsm,
+        name: item.name + 'FOC',
+        mate1: { path: [pipeInstance], csys: wc0, flip: 'Z', reorient: '0' },
+      })
     } else {
       const pipeInstBefore = this.pipeInstances[Number(item.key) - 1]
-      const [wcs0] = await this.api.getWorkGeometry(pipeInstance, CCClasses.CCWorkCSys, 'WCS0')
-      const [wcs1] = await this.api.getWorkGeometry(pipeInstBefore, CCClasses.CCWorkCSys, 'WCS1')
-      await this.api.createFastenedConstraint(
-        this.rootAsm,
-        { matePath: [pipeInstBefore], wcsId: wcs1, flip: FlipType.FLIP_Z, reoriented: ReorientedType.REORIENTED_0 },
-        { matePath: [pipeInstance], wcsId: wcs0, flip: FlipType.FLIP_Z, reoriented: ReorientedType.REORIENTED_0 },
-        0,
-        0,
-        item.rotation ? (item.rotation / 180) * Math.PI : 0,
-        item.name + 'FC',
-      )
+      const { result: wc0 } = await this.api.part.getWorkGeometry({ id: pipeInstance, name: 'WCS0' })
+      const { result: wc1 } = await this.api.part.getWorkGeometry({ id: pipeInstBefore, name: 'WCS1' })
+      await this.api.assembly.fastened({
+        id: this.rootAsm,
+        name: item.name + 'FC',
+        mate1: { path: [pipeInstBefore], csys: wc1, flip: 'Z', reorient: '0' },
+        mate2: { path: [pipeInstance], csys: wc0, flip: 'Z', reorient: '0' },
+        zRotation: item.rotation ? (item.rotation / 180) * Math.PI : 0,
+      })
     }
   }
 }
