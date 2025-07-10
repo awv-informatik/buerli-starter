@@ -19,7 +19,7 @@ test('radii', async () => {
   const api = drawing.api.v1
   // Clear all solids
   api.common.clear()
-  const { result: part } = await api.part.create({ name: 'Part' })
+  const part = await api.part.create({ name: 'Part' })
 
   // Run through /testfiles/*.stp
   const files = await getFiles('./models/blends', file => file.endsWith('.stp'))

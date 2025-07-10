@@ -1,14 +1,6 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import {
-  Html,
-  MeshTransmissionMaterial,
-  Center,
-  AccumulativeShadows,
-  RandomizedLight,
-  CameraControls,
-  Environment,
-} from '@react-three/drei'
+import { Html, MeshTransmissionMaterial, Center, AccumulativeShadows, RandomizedLight, CameraControls, Environment } from '@react-three/drei'
 import { useClassCAD } from '@buerli.io/react'
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Leva } from 'leva'
@@ -50,22 +42,17 @@ function Assembly(props) {
   const { api: { v1: api }, drawing } = useClassCAD('with-history-cache-as1ac214-jsx') // prettier-ignore
   const { nodes } = suspend(async () => {
     await api.common.clear()
-    const { result: part } = await api.part.create({ name: 'Part' })
+    const part = await api.part.create({ name: 'Part' })
     const data = compression.encodeToBase64(as1ac214)
-    const { result: model } = await api.part.importFeature({ id: part, data, format: 'stp', encoding: 'base64', name: 'Part' })
-    console.log('imported', part, model)
+    const model = await api.part.importFeature({ id: part, data, format: 'stp', encoding: 'base64', name: 'Part' })    
     return await drawing.createScene(part)
-
-
-
-    api.createScene(await api.load(as1ac214, 'stp'))
   }, ['as1_ac_214-jsx'])
 
   console.log('nodes', nodes)
 
   return (
     <group {...props} dispose={null}>
-      <primitive object={nodes["Part"]} />
+      <primitive object={nodes['Part']} />
     </group>
   )
 
@@ -78,115 +65,31 @@ function Assembly(props) {
     <group {...props} dispose={null}>
       <group position={[64.64, 125, 282.53]} rotation={[Math.PI / 2, 0, -Math.PI / 2]}>
         <group position={[183.67, -162.16, 68.94]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gBolt}
-            material={mBolt}
-            position={[252.53, 67.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gNut}
-            material={mNut}
-            position={[252.53, 100.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
+          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
         </group>
         <group position={[183.67, -184.66, 81.93]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gBolt}
-            material={mBolt}
-            position={[252.53, 67.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gNut}
-            material={mNut}
-            position={[252.53, 100.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
+          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
         </group>
         <group position={[183.67, -184.66, 55.95]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gBolt}
-            material={mBolt}
-            position={[252.53, 67.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gNut}
-            material={mNut}
-            position={[252.53, 100.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
+          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
         </group>
         <mesh castShadow receiveShadow geometry={gBracket} material={mBracket} position={[232.53, 85.36, 50]} />
       </group>
       <group position={[115.36, 25, 282.53]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
         <group position={[183.67, -162.16, 68.94]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gBolt}
-            material={mBolt}
-            position={[252.53, 67.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gNut}
-            material={mNut}
-            position={[252.53, 100.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
+          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
         </group>
         <group position={[183.67, -184.66, 81.93]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gBolt}
-            material={mBolt}
-            position={[252.53, 67.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gNut}
-            material={mNut}
-            position={[252.53, 100.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
+          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
         </group>
         <group position={[183.67, -184.66, 55.95]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gBolt}
-            material={mBolt}
-            position={[252.53, 67.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={gNut}
-            material={mNut}
-            position={[252.53, 100.35, 18.94]}
-            rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
+          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
         </group>
         <mesh castShadow receiveShadow geometry={gBracket} material={mBracket} position={[232.53, 85.36, 50]}>
           <MeshTransmissionMaterial thickness={10} anisotropy={1} chromaticAberration={1} roughness={0.75} samples={20} clearcoat={1} />
@@ -194,22 +97,8 @@ function Assembly(props) {
       </group>
       <group position={[190, -101.75, -70.53]} rotation={[0, -Math.PI / 2, 0]}>
         <mesh castShadow receiveShadow geometry={gBar} material={mBar} position={[130.53, 176.75, 100]} rotation={[0, 0, Math.PI / 2]} />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={gNut}
-          material={mNut}
-          position={[130.53, 176.75, 186.5]}
-          rotation={[-Math.PI / 2, 0, Math.PI / 2]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={gNut}
-          material={mNut}
-          position={[130.53, 176.75, 13.5]}
-          rotation={[-Math.PI / 2, 0, Math.PI / 2]}
-        />
+        <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[130.53, 176.75, 186.5]} rotation={[-Math.PI / 2, 0, Math.PI / 2]} />
+        <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[130.53, 176.75, 13.5]} rotation={[-Math.PI / 2, 0, Math.PI / 2]} />
       </group>
       <mesh castShadow receiveShadow geometry={gPlate} material={mPlate} position={[90, 75, 10]}>
         <Html

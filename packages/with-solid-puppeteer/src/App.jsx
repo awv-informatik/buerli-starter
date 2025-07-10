@@ -26,16 +26,7 @@ export default function App() {
       <Canvas gl={{ preserveDrawingBuffer: true }} shadows={shadows} orthographic camera={{ position: direction, zoom: 450 }}>
         <color attach="background" args={[bg]} />
         <ambientLight intensity={ambience * Math.PI} />
-        <spotLight
-          decay={0}
-          intensity={diffuse}
-          position={[10, 15, -15]}
-          angle={0.4}
-          penumbra={1}
-          castShadow
-          shadow-mapSize={2048}
-          shadow-bias={-0.0001}
-        />
+        <spotLight decay={0} intensity={diffuse} position={[10, 15, -15]} angle={0.4} penumbra={1} castShadow shadow-mapSize={2048} shadow-bias={-0.0001} />
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
         <Environment preset="city" />
         <group position={[0, -0.5, 0]}>
@@ -66,7 +57,7 @@ function Model(props) {
 
   suspend(async () => {
     await api.common.clear()
-    const { result: part } = await api.part.create({ name: 'Part' })
+    const part = await api.part.create({ name: 'Part' })
     const buffer = await fetch(file).then(res => res.arrayBuffer())
     const data = compression.encodeToBase64(buffer)
     await api.part.importFeature({ id: part, data, format: 'stp', encoding: 'base64', name: 'Import' })

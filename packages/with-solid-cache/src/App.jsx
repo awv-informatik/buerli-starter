@@ -63,16 +63,16 @@ function Model(props) {
   // an already cached entry.
   const geo = suspend(async () => {
     api.common.clear()
-    const { result: part } = await api.part.create({ name: 'Part' })
-    const { result: ei } = await api.part.entityInjection({ id: part })
-    const { result: ccShape } = await api.curve.shape({ id: ei })
+    const part = await api.part.create({ name: 'Part' })
+    const ei = await api.part.entityInjection({ id: part })
+    const ccShape = await api.curve.shape({ id: ei })
 
     // Create a shape from points
     const points  = [[0, 0], [100, 0], [100, 20], [20, 20], [20, 50], [10, 50], [10, 100], [0, 100], [0, 0]] // prettier-ignore
     const shape = new THREE.Shape(points.map(xy => new THREE.Vector2(...xy)))
     await drawing.createThreeShape(ccShape, shape)
     // Extrusion
-    const { result: solid } = await api.solid.extrusion({ id: ei, curves: [ccShape], direction: [0, 0, width] })
+    const solid = await api.solid.extrusion({ id: ei, curves: [ccShape], direction: [0, 0, width] })
     const {
       result: { lines: edges1 },
     } = await api.part.getGeometryIds({
@@ -89,11 +89,11 @@ function Model(props) {
     await api.solid.fillet({ geomIds: edges1, radius: 5 })
     await api.solid.fillet({ geomIds: edges2, radius: 5 })
 
-    const { result: cyl1 } = await api.solid.cylinder({ id: ei, height: 300, diameter: cut1 })
+    const cyl1 = await api.solid.cylinder({ id: ei, height: 300, diameter: cut1 })
     await api.solid.translation({ id: ei, target: cyl1, translation: [-50, 50, 50] })
     await api.solid.rotation({ id: ei, target: cyl1, rotation: [0, Math.PI / 2, 0] })
 
-    const { result: cyl2 } = await api.solid.cylinder({ id: ei, height: 300, diameter: cut2 })
+    const cyl2 = await api.solid.cylinder({ id: ei, height: 300, diameter: cut2 })
     await api.solid.translation({ id: ei, target: cyl2, translation: [55, 50, 50] })
     await api.solid.rotation({ id: ei, target: cyl2, rotation: [Math.PI / 2, 0, 0] })
 

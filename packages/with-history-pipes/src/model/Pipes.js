@@ -15,7 +15,7 @@ export class Pipes {
   /** Create root assembly and add initial pipes */
   init = async (api, data) => {
     this.api = api
-    this.rootAsm = (await this.api.assembly.create({ name: 'PipesAssembly' })).result
+    this.rootAsm = await this.api.assembly.create({ name: 'PipesAssembly' })
     // Load and configure pipe template and add it as an instance to the assembly
     for (let i = 0; i < data.length; i++) {
       const pipePart = await this.loadAndConfigure(data[i])
@@ -39,7 +39,7 @@ export class Pipes {
             ],
     })
     if (item.type === PipeType.CurvedPipe) {
-      const { result: constr } = await this.api.assembly.getFastened({ id: this.rootAsm, name: item.name + 'FC' })
+      const constr = await this.api.assembly.getFastened({ id: this.rootAsm, name: item.name + 'FC' })
       await this.api.assembly.updateFastened({ ...constr, zRotation: (item.rotation / 180) * Math.PI })
     }
   }
@@ -61,7 +61,7 @@ export class Pipes {
   loadAndConfigure = async item => {
     const isStraight = item.type === PipeType.StraightPipe
     const data = compression.encodeToBase64(isStraight ? straightPipe : curvedPipe)
-    const { result: { id: product } } = await this.api.assembly.loadProduct({ data, format: 'ofb', encoding: 'base64', ident: item.name }) // prettier-ignore
+    const { id: product } = await this.api.assembly.loadProduct({ data, format: 'ofb', encoding: 'base64', ident: item.name }) // prettier-ignore
     await this.api.part.updateExpression({
       id: product,
       toUpdate: isStraight
@@ -75,7 +75,7 @@ export class Pipes {
   }
 
   addInstance = async (pipePart, instanceName) => {
-    const { result: pipeInstance } = await this.api.assembly.instance({
+    const pipeInstance = await this.api.assembly.instance({
       ownerId: this.rootAsm,
       productId: pipePart,
       transformation: [
@@ -92,7 +92,7 @@ export class Pipes {
 
   constrainInstance = async (item, pipeInstance) => {
     if (item.key === '0') {
-      const { result: wc0 } = await this.api.part.getWorkGeometry({ id: pipeInstance, name: 'WCS0' })
+      const wc0 = await this.api.part.getWorkGeometry({ id: pipeInstance, name: 'WCS0' })
       await this.api.assembly.fastenedOrigin({
         id: this.rootAsm,
         name: item.name + 'FOC',
@@ -100,8 +100,8 @@ export class Pipes {
       })
     } else {
       const pipeInstBefore = this.pipeInstances[Number(item.key) - 1]
-      const { result: wc0 } = await this.api.part.getWorkGeometry({ id: pipeInstance, name: 'WCS0' })
-      const { result: wc1 } = await this.api.part.getWorkGeometry({ id: pipeInstBefore, name: 'WCS1' })
+      const wc0 = await this.api.part.getWorkGeometry({ id: pipeInstance, name: 'WCS0' })
+      const wc1 = await this.api.part.getWorkGeometry({ id: pipeInstBefore, name: 'WCS1' })
       await this.api.assembly.fastened({
         id: this.rootAsm,
         name: item.name + 'FC',

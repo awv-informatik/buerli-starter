@@ -81,21 +81,21 @@ export function Flange(props) {
     const origin = { x: 0, y: 0, z: 0 }
     const zDir = { x: 0, y: 0, z: 1 }
     // Create Part
-    const { result: part } = await api.part.create({ name: 'Flange' })
+    const part = await api.part.create({ name: 'Flange' })
     await api.part.expression({ id: part, toCreate: expressions })
     // Create geometry
-    const { result: wcsCenter } = await api.part.workCSys({ id: part, offset, rotation })
-    const { result: baseCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.baseCylDiam', height: '@expr.thickness' })
-    const { result: upperCyl } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.upperCylDiam', height: '@expr.flangeHeight' })
-    const { result: flangeSolid1 } = await api.part.boolean({ id: part, type: 'UNION', target: baseCyl, tools: [upperCyl] })
+    const wcsCenter = await api.part.workCSys({ id: part, offset, rotation })
+    const baseCyl = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.baseCylDiam', height: '@expr.thickness' })
+    const upperCyl = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.upperCylDiam', height: '@expr.flangeHeight' })
+    const flangeSolid1 = await api.part.boolean({ id: part, type: 'UNION', target: baseCyl, tools: [upperCyl] })
 
-    const { result: subCylFlange } = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.upperCylHoleDiam', height: '@expr.flangeHeight' }) // prettier-ignore
-    const { result: solid } = await api.part.boolean({ id: part, type: 'SUBTRACTION', target: flangeSolid1, tools: [subCylFlange] }) // prettier-ignore
-    
-    const { result: wcsHole1Bottom } = await api.part.workCSys({ id: part, offset: '[0, @expr.upperCylDiam / 2 + @expr.thickness, 0]', rotation, name: 'WCSBoltHoleBottom', }) // prettier-ignore
-    const { result: subCylHole1 } = await api.part.cylinder({ id: part, references: [wcsHole1Bottom], diameter: 30, height: 50, }) // prettier-ignore
-    const { result: waCenter } = await api.part.workAxis({ id: part, position: origin, direction: zDir })
-    const { result: pattern } = await api.part.circularPattern({ id: part, targets: [subCylHole1], references: [waCenter], angle: '@expr.holeAngle', count: '@expr.holes', merged: true }) // prettier-ignore
+    const subCylFlange = await api.part.cylinder({ id: part, references: [wcsCenter], diameter: '@expr.upperCylHoleDiam', height: '@expr.flangeHeight' }) // prettier-ignore
+    const solid = await api.part.boolean({ id: part, type: 'SUBTRACTION', target: flangeSolid1, tools: [subCylFlange] }) // prettier-ignore
+
+    const wcsHole1Bottom = await api.part.workCSys({ id: part, offset: '[0, @expr.upperCylDiam / 2 + @expr.thickness, 0]', rotation, name: 'WCSBoltHoleBottom', }) // prettier-ignore
+    const subCylHole1 = await api.part.cylinder({ id: part, references: [wcsHole1Bottom], diameter: 30, height: 50, }) // prettier-ignore
+    const waCenter = await api.part.workAxis({ id: part, position: origin, direction: zDir })
+    const pattern = await api.part.circularPattern({ id: part, targets: [subCylHole1], references: [waCenter], angle: '@expr.holeAngle', count: '@expr.holes', merged: true }) // prettier-ignore
     await api.part.boolean({ id: part, type: 'SUBTRACTION', target: solid, tools: [pattern] })
     return part
   }, ['flange'])

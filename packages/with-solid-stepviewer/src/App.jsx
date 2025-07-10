@@ -49,7 +49,7 @@ function Model({ buffer }) {
 
   suspend(async () => {
     await api.common.clear()
-    const { result: part } = await api.part.create({ name: 'Part' })
+    const part = await api.part.create({ name: 'Part' })
     const data = compression.encodeToBase64(buffer)
     await api.part.importFeature({ id: part, data, format: 'stp', encoding: 'base64', name: 'Import' })
   }, ['step', buffer])
@@ -57,8 +57,7 @@ function Model({ buffer }) {
   useLayoutEffect(() => {
     ref.current?.traverse(obj => {
       obj.receiveShadow = obj.castShadow = true
-      if (obj.type === 'Mesh')
-        obj.material = new THREE.MeshStandardMaterial({ color: 'orange', roughness: 0.5, transparent: true, opacity: 0.5 })
+      if (obj.type === 'Mesh') obj.material = new THREE.MeshStandardMaterial({ color: 'orange', roughness: 0.5, transparent: true, opacity: 0.5 })
     })
     pluginApi.setActiveGlobal(measurePlugin, true)
     pluginApi.setVisiblePlugin(measurePlugin, true)
