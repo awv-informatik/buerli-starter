@@ -54,7 +54,7 @@ function Robot(props) {
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = suspend(async () => {
     const data = compression.encodeToBase64(robotArm)
-    const { id: rootAsm } = await api.common.load({ data, format: 'ofb', ident: 'root', encoding: 'base64' }) // prettier-ignore
+    const { id: rootAsm } = await api.common.load({ data, format: 'OFB', ident: 'root', encoding: 'base64' }) // prettier-ignore
     store.asm = rootAsm
     for (let i = 0; i < store.constraints.length; i++) {
       const node = await api.assembly.getRevolute({ id: store.asm, name: store.constraints[i].name })
