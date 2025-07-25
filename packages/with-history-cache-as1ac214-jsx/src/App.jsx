@@ -44,7 +44,7 @@ function Assembly(props) {
     await api.common.clear()
     const part = await api.part.create({ name: 'Part' })
     const data = compression.encodeToBase64(as1ac214)
-    const model = await api.part.importFeature({ id: part, data, format: 'stp', encoding: 'base64', name: 'Part' })    
+    const model = await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Part' })    
     return await drawing.createScene(part)
   }, ['as1_ac_214-jsx'])
 

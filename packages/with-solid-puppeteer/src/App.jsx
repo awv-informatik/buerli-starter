@@ -60,7 +60,7 @@ function Model(props) {
     const part = await api.part.create({ name: 'Part' })
     const buffer = await fetch(file).then(res => res.arrayBuffer())
     const data = compression.encodeToBase64(buffer)
-    await api.part.importFeature({ id: part, data, format: 'stp', encoding: 'base64', name: 'Import' })
+    await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Import' })
   }, ['step', file])
   return (
     <group ref={ref} {...props}>

@@ -61,7 +61,7 @@ export class Pipes {
   loadAndConfigure = async item => {
     const isStraight = item.type === PipeType.StraightPipe
     const data = compression.encodeToBase64(isStraight ? straightPipe : curvedPipe)
-    const { id: product } = await this.api.assembly.loadProduct({ data, format: 'ofb', encoding: 'base64', ident: item.name }) // prettier-ignore
+    const { id: product } = await this.api.assembly.loadProduct({ data, format: 'OFB', encoding: 'base64', ident: item.name }) // prettier-ignore
     await this.api.part.updateExpression({
       id: product,
       toUpdate: isStraight
