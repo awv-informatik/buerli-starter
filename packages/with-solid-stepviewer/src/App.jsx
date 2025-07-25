@@ -49,9 +49,8 @@ function Model({ buffer }) {
 
   suspend(async () => {
     await api.common.clear()
-    const part = await api.part.create({ name: 'Part' })
     const data = compression.encodeToBase64(buffer)
-    await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Import' })
+    await api.common.load({ data, format: 'STP', encoding: 'base64', name: 'Import' })
   }, ['step', buffer])
 
   useLayoutEffect(() => {
