@@ -4,7 +4,7 @@ import { useDrawing, useClassCAD, BuerliPluginsGeometry } from '@buerli.io/react
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment } from '@react-three/drei'
+import { OrbitControls, Environment, Center } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
@@ -24,7 +24,7 @@ export default function App() {
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight intensity={Math.PI} />
         <spotLight decay={0} position={[10, 5, -15]} angle={0.2} castShadow />
-        <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
+        <OrbitControls makeDefault />
         <Environment preset="city" />
         <Suspense fallback={<Status>Loading</Status>}>{buffer && <Model buffer={buffer} />}</Suspense>
         <Plugins />
@@ -64,7 +64,9 @@ function Model({ buffer }) {
 
   return (
     <group ref={ref}>
-      <Geometry selection />
+      <Center>
+        <Geometry selection />
+      </Center>
     </group>
   )
 }

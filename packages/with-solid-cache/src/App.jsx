@@ -73,15 +73,11 @@ function Model(props) {
     await drawing.createThreeShape(ccShape, shape)
     // Extrusion
     const solid = await api.solid.extrusion({ id: ei, curves: [ccShape], direction: [0, 0, width] })
-    const {
-      result: { lines: edges1 },
-    } = await api.part.getGeometryIds({
+    const { lines: edges1 } = await api.part.getGeometryIds({
       id: part,
       lines: [{ pos: [100, 10, 0] }, { pos: [100, 10, 100] }, { pos: [5, 100, 100] }, { pos: [5, 100, 0] }],
     })
-    const {
-      result: { lines: edges2 },
-    } = await api.part.getGeometryIds({
+    const { lines: edges2 } = await api.part.getGeometryIds({
       id: part,
       lines: [{ pos: [10, 50, 50] }, { pos: [0, 0, 50] }, { pos: [20, 20, 50] }],
     })
