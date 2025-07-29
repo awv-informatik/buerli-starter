@@ -82,8 +82,8 @@ function Model(props) {
       lines: [{ pos: [10, 50, 50] }, { pos: [0, 0, 50] }, { pos: [20, 20, 50] }],
     })
 
-    await api.solid.fillet({ geomIds: edges1, radius: 5 })
-    await api.solid.fillet({ geomIds: edges2, radius: 5 })
+    await api.solid.fillet({ id: ei, geomIds: edges1, radius: 5 })
+    await api.solid.fillet({ id: ei, geomIds: edges2, radius: 5 })
 
     const cyl1 = await api.solid.cylinder({ id: ei, height: 300, diameter: cut1 })
     await api.solid.translation({ id: ei, target: cyl1, translation: [-50, 50, 50] })
