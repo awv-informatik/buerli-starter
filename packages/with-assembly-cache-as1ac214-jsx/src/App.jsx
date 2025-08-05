@@ -40,72 +40,41 @@ export default function App() {
 
 function Assembly(props) {
   const { api: { v1: api }, drawing } = useClassCAD('with-history-cache-as1ac214-jsx') // prettier-ignore
-  const { nodes } = suspend(async () => {
+  const { nodes, materials } = suspend(async () => {
     await api.common.clear()
     const part = await api.part.create({ name: 'Part' })
     const data = compression.encodeToBase64(as1ac214)
-    const model = await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Part' })    
+    const model = await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Part' })
     return await drawing.createScene(part)
   }, ['as1_ac_214-jsx'])
 
-  console.log('nodes', nodes)
-
   return (
     <group {...props} dispose={null}>
-      <primitive object={nodes['Part']} />
-    </group>
-  )
-
-  const [gBolt, mBolt] = [nodes['870'].geometry, nodes['870'].material]
-  const [gNut, mNut] = [nodes['79A'].geometry, nodes['79A'].material]
-  const [gBracket, mBracket] = [nodes['52D'].geometry, nodes['52D'].material]
-  const [gPlate, mPlate] = [nodes['100'].geometry, nodes['100'].material]
-  const [gBar, mBar] = [nodes['A52'].geometry, nodes['A52'].material]
-  return (
-    <group {...props} dispose={null}>
-      <group position={[64.64, 125, 282.53]} rotation={[Math.PI / 2, 0, -Math.PI / 2]}>
-        <group position={[183.67, -162.16, 68.94]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-        </group>
-        <group position={[183.67, -184.66, 81.93]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-        </group>
-        <group position={[183.67, -184.66, 55.95]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-        </group>
-        <mesh castShadow receiveShadow geometry={gBracket} material={mBracket} position={[232.53, 85.36, 50]} />
-      </group>
-      <group position={[115.36, 25, 282.53]} rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
-        <group position={[183.67, -162.16, 68.94]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-        </group>
-        <group position={[183.67, -184.66, 81.93]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-        </group>
-        <group position={[183.67, -184.66, 55.95]} rotation={[-Math.PI, 0, -Math.PI / 2]}>
-          <mesh castShadow receiveShadow geometry={gBolt} material={mBolt} position={[252.53, 67.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-          <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[252.53, 100.35, 18.94]} rotation={[-Math.PI / 2, -Math.PI / 2, 0]} />
-        </group>
-        <mesh castShadow receiveShadow geometry={gBracket} material={mBracket} position={[232.53, 85.36, 50]}>
-          <MeshTransmissionMaterial thickness={10} anisotropy={1} chromaticAberration={1} roughness={0.75} samples={20} clearcoat={1} />
-        </mesh>
-      </group>
-      <group position={[190, -101.75, -70.53]} rotation={[0, -Math.PI / 2, 0]}>
-        <mesh castShadow receiveShadow geometry={gBar} material={mBar} position={[130.53, 176.75, 100]} rotation={[0, 0, Math.PI / 2]} />
-        <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[130.53, 176.75, 186.5]} rotation={[-Math.PI / 2, 0, Math.PI / 2]} />
-        <mesh castShadow receiveShadow geometry={gNut} material={mNut} position={[130.53, 176.75, 13.5]} rotation={[-Math.PI / 2, 0, Math.PI / 2]} />
-      </group>
-      <mesh castShadow receiveShadow geometry={gPlate} material={mPlate} position={[90, 75, 10]}>
+      <mesh castShadow receiveShadow geometry={nodes.Part_0.geometry} material={materials.Part_0_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_1.geometry} material={materials.Part_1_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_2.geometry} material={materials.Part_2_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_3.geometry} material={materials.Part_3_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_4.geometry} material={materials.Part_4_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_5.geometry} material={materials.Part_5_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_6.geometry} material={materials.Part_6_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_7.geometry} material={materials.Part_7_material} />
+      <mesh geometry={nodes.Part_8.geometry}>
+        <MeshTransmissionMaterial thickness={5} anisotropy={1} chromaticAberration={1} roughness={1} samples={10} clearcoat={1} />
+      </mesh>
+      <mesh castShadow receiveShadow geometry={nodes.Part_9.geometry} material={materials.Part_9_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_10.geometry} material={materials.Part_10_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_11.geometry} material={materials.Part_11_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_12.geometry} material={materials.Part_12_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_13.geometry} material={materials.Part_13_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_14.geometry} material={materials.Part_14_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_15.geometry} material={materials.Part_15_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_16.geometry} material={materials.Part_16_material} />
+      <mesh castShadow receiveShadow geometry={nodes.Part_17.geometry} material={materials.Part_17_material}>
         <Html
           occlude
           transform
           distanceFactor={200}
-          position={[-80, 80, 20]}
+          position={[0, 150, 30]}
           rotation={[0, 0, 0]}
           style={{ padding: '10px 20px', borderRadius: 7, background: 'black', color: 'white' }}>
           &lt;Hello/&gt; 👋

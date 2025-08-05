@@ -3,14 +3,14 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { Leva, useControls, folder } from 'leva'
 
 const sandboxes = {
-  Run: lazy(() => import('../packages/with-history-run/src/App')),
-  HistoryCache: lazy(() => import('../packages/with-history-cache/src/App')),
-  CacheAs1ac214Jsx: lazy(() => import('../packages/with-history-cache-as1ac214-jsx/src/App')),
-  CacheRobot: lazy(() => import('../packages/with-history-cache-robot/src/App')),
-  CachePipes: lazy(() => import('../packages/with-history-pipes/src/App')),
+  PartRun: lazy(() => import('../packages/with-part-run/src/App')),
+  PartCache: lazy(() => import('../packages/with-part-cache/src/App')),
+  AssemblyCacheAs1ac214Jsx: lazy(() => import('../packages/with-assembly-cache-as1ac214-jsx/src/App')),
+  AssemblyCacheRobot: lazy(() => import('../packages/with-assembly-cache-robot/src/App')),
+  AssemblyPipes: lazy(() => import('../packages/with-assembly-pipes/src/App')),
   SolidCache: lazy(() => import('../packages/with-solid-cache/src/App')),
-  Reuse: lazy(() => import('../packages/with-solid-cache-reuse/src/App')),
-  Stepviewer: lazy(() => import('../packages/with-solid-stepviewer/src/App')),
+  SolidCacheReuse: lazy(() => import('../packages/with-solid-cache-reuse/src/App')),
+  Stepviewer: lazy(() => import('../packages/with-stepviewer/src/App')),
 }
 
 export default function App() {  

@@ -1,5 +1,5 @@
 {
-  "name": "with-history-cache",
+  "name": "with-assembly-pipes",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,22 +14,22 @@
     "@react-three/drei": "9.92.3",
     "@react-three/fiber": "8.15.14",
     "@types/three": "^0.153.0",
-    "leva": "^0.9.34",
+    "antd": "4.24.4",
+    "leva": "^0.9.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-spinners": "^0.13.8",
-    "react-use": "^17.4.0",
     "three": "^0.153.0",
     "tunnel-rat": "^0.1.2"
   },
   "devDependencies": {
-    "@types/react": "^18.2.4",
-    "@types/react-dom": "^18.2.3",
-    "@vitejs/plugin-react": "^4.0.0",
+    "@types/react": "^18.2.78",
+    "@types/react-dom": "^18.2.25",
+    "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.39.0",
-    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.1",
-    "vite": "^4.3.4"
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "vite": "^5.2.8"
   }
 }
