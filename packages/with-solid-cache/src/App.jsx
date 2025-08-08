@@ -43,15 +43,13 @@ function Model(props) {
   const { api: { v1: api }, drawing } = useBuerliCadFacade('with-solid-cache') // prettier-ignore
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
-  const [pending, trans] = useTransition()
-  const [width, setWidth] = useState(100)
+  const [pending, trans] = useTransition()  
   const [cut1, setCut1] = useState(40)
   const [cut2, setCut2] = useState(40)
   const [offset, setOffset] = useState(1)
 
   useControls({
-    bracket: folder({
-      width: { value: width, min: 10, max: 100, step: 10, onChange: debounce(v => trans(() => setWidth(v)), 40) },
+    bracket: folder({      
       cut1: { value: cut1, min: 10, max: 40, step: 10, onChange: debounce(v => trans(() => setCut1(v)), 40) },
       cut2: { value: cut2, min: 20, max: 60, step: 10, onChange: debounce(v => trans(() => setCut2(v)), 40) },
       offset: { value: offset, min: 1, max: 4, step: 1, onChange: debounce(v => trans(() => setOffset(v)), 40) },
@@ -72,7 +70,7 @@ function Model(props) {
     const shape = new THREE.Shape(points.map(xy => new THREE.Vector2(...xy)))
     await drawing.createThreeShape(ccShape, shape)
     // Extrusion
-    const solid = await api.solid.extrusion({ id: ei, curves: [ccShape], direction: [0, 0, width] })
+    const solid = await api.solid.extrusion({ id: ei, curves: [ccShape], direction: [0, 0, 100] })
     const { lines: edges1 } = await api.part.getGeometryIds({
       id: part,
       lines: [{ pos: [100, 10, 0] }, { pos: [100, 10, 100] }, { pos: [5, 100, 100] }, { pos: [5, 100, 0] }],
@@ -96,7 +94,7 @@ function Model(props) {
     await api.solid.subtraction({ id: ei, target: solid, tools: [cyl1, cyl2] })
     await api.solid.offset({ id: ei, target: solid, distance: offset })
     return (await drawing.createBufferGeometry(part))[0]
-  }, ['bracket', width, cut1, cut2, offset])
+  }, ['bracket', cut1, cut2, offset])
 
   return (
     <group {...props}>
