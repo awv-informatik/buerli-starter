@@ -40,7 +40,7 @@ export default function App() {
 }
 
 function Model(props) {
-  const { api: { v1: api }, drawing } = useBuerliCadFacade('with-solid-cache') // prettier-ignore
+  const { api: { v1: api }, facade } = useBuerliCadFacade('with-solid-cache') // prettier-ignore
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, trans] = useTransition()  
@@ -68,7 +68,7 @@ function Model(props) {
     // Create a shape from points
     const points  = [[0, 0], [100, 0], [100, 20], [20, 20], [20, 50], [10, 50], [10, 100], [0, 100], [0, 0]] // prettier-ignore
     const shape = new THREE.Shape(points.map(xy => new THREE.Vector2(...xy)))
-    await drawing.createThreeShape(ccShape, shape)
+    await facade.createThreeShape(ccShape, shape)
     // Extrusion
     const solid = await api.solid.extrusion({ id: ei, curves: [ccShape], direction: [0, 0, 100] })
     const { lines: edges1 } = await api.part.getGeometryIds({
@@ -93,7 +93,7 @@ function Model(props) {
 
     await api.solid.subtraction({ id: ei, target: solid, tools: [cyl1, cyl2] })
     await api.solid.offset({ id: ei, target: solid, distance: offset })
-    return (await drawing.createBufferGeometry(part))[0]
+    return (await facade.createBufferGeometry(part))[0]
   }, ['bracket', cut1, cut2, offset])
 
   return (

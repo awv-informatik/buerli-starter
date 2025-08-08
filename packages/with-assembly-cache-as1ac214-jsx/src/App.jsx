@@ -39,13 +39,13 @@ export default function App() {
 }
 
 function Assembly(props) {
-  const { api: { v1: api }, drawing } = useBuerliCadFacade('with-history-cache-as1ac214-jsx') // prettier-ignore
+  const { api: { v1: api }, facade } = useBuerliCadFacade('with-history-cache-as1ac214-jsx') // prettier-ignore
   const { nodes, materials } = suspend(async () => {
     await api.common.clear()
     const part = await api.part.create({ name: 'Part' })
     const data = compression.encodeToBase64(as1ac214)
     const model = await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Part' })
-    return await drawing.createScene(part)
+    return await facade.createScene(part)
   }, ['as1_ac_214-jsx'])
 
   return (

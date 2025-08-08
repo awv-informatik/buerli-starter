@@ -35,7 +35,7 @@ export default function App() {
 }
 
 function Scene({ width = 50, ...props }) {
-  const { api: { v1: api }, drawing, Geometry } = useBuerliCadFacade('with-history-run') // prettier-ignore
+  const { api: { v1: api }, facade, Geometry } = useBuerliCadFacade('with-history-run') // prettier-ignore
   const geometry = useRef()
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function Scene({ width = 50, ...props }) {
       const part = await api.part.create({ name: 'Part' })
       const wcsx = await api.part.workCSys({ id: part, rotation: [0, -width / 5, -width / 8] })
       await api.part.cylinder({ id: part, references: [wcsx], diameter: 10, height: width })
-      const sel = (await drawing.selectGeometry([ScgGraphicType.CIRCLE], 2)).map(sel => sel.graphicId)
+      const sel = (await facade.selectGeometry([ScgGraphicType.CIRCLE], 2)).map(sel => sel.graphicId)
       api.part.chamfer({ id: part, type: 'EQUAL_DISTANCE', references: sel, distance1: 2, distance2: 2, angle: 45 })
     }
     run()

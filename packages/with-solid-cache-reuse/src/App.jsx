@@ -48,7 +48,7 @@ export default function App() {
 }
 
 function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
-  const { api: { v1: api }, drawing } = useBuerliCadFacade() // prettier-ignore
+  const { api: { v1: api }, facade } = useBuerliCadFacade() // prettier-ignore
   const [hovered, hover] = useState(false)
   const geo = suspend(async () => {
     await api.common.clear()
@@ -76,7 +76,7 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
     await api.solid.slice({ id: ei, target: { id: b0 }, originPos: [45, -45, 15.556], normal: [0.5, -0.5, 0.707] })
     await api.solid.slice({ id: ei, target: { id: b0 }, originPos: [45, 45, 15.556], normal: [0.5, 0.5, 0.707] })
     await api.solid.slice({ id: ei, target: { id: b0 }, originPos: [-45, 45, 15.556], normal: [-0.5, 0.5, 0.707] })
-    return (await drawing.createBufferGeometry(b0))[0]
+    return (await facade.createBufferGeometry(b0))[0]
   }, ['whiffle', lOuterBox, lInnerBox, dHole])
   return (
     <group {...props}>
