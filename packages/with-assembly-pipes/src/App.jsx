@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { useRef, useCallback, useState, Suspense, useLayoutEffect } from 'react'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient } from '@buerli.io/classcad'
 import { Environment, AccumulativeShadows, RandomizedLight, Bounds, Center, OrbitControls, Resize, GizmoHelper, GizmoViewport } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
@@ -39,7 +39,7 @@ export default function App() {
 }
 
 function Tab({ id }) {
-  const { api: { v1: api }} = useClassCAD(`with-history-pipes-${id}`) // prettier-ignore
+  const { api: { v1: api }} = useBuerliCadFacade(`with-history-pipes-${id}`) // prettier-ignore
   const [data, setData] = useState(defaultData)
   
   const pipes = suspend(() => new Pipes().init(api, defaultData), ['init', id])
@@ -78,7 +78,7 @@ function Tab({ id }) {
 const steel = new THREE.MeshStandardMaterial({ color: '#ddd', roughness: 0.15, metalness: 0.75 })
 
 function View({ id }) {
-  const { Geometry } = useClassCAD(`with-history-pipes-${id}`)
+  const { Geometry } = useBuerliCadFacade(`with-history-pipes-${id}`)
   const ref = useRef()
   useLayoutEffect(() => {
     ref.current.traverse(child => {

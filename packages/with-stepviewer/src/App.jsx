@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
-import { useDrawing, useClassCAD, BuerliPluginsGeometry } from '@buerli.io/react'
+import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.io/react'
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
@@ -36,14 +36,14 @@ export default function App() {
 }
 
 function Plugins({ dom = false }) {
-  const { drawingId } = useClassCAD('with-solid-stepviewer')
+  const { drawingId } = useBuerliCadFacade('with-solid-stepviewer')
   if (dom) return <GlobalPlugins drawingId={drawingId} />
   else return <BuerliPluginsGeometry drawingId={drawingId} />
 }
 
 function Model({ buffer }) {
   const ref = useRef()
-  const { api: { v1: api }, drawingId, Geometry } = useClassCAD("with-solid-stepviewer") // prettier-ignore
+  const { api: { v1: api }, drawingId, Geometry } = useBuerliCadFacade("with-solid-stepviewer") // prettier-ignore
   const measurePlugin = useDrawing(drawingId, state => state.plugin.global[0])
   const pluginApi = useDrawing(drawingId, state => state.api.plugin)
 

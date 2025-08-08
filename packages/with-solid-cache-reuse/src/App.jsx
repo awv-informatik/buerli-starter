@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, SoftShadows, Outlines } from '@react-three/drei'
@@ -48,7 +48,7 @@ export default function App() {
 }
 
 function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
-  const { api: { v1: api }, drawing } = useClassCAD() // prettier-ignore
+  const { api: { v1: api }, facade } = useBuerliCadFacade() // prettier-ignore
   const [hovered, hover] = useState(false)
   const geo = suspend(async () => {
     await api.common.clear()
@@ -76,7 +76,7 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
     await api.solid.slice({ id: ei, target: { id: b0 }, originPos: [45, -45, 15.556], normal: [0.5, -0.5, 0.707] })
     await api.solid.slice({ id: ei, target: { id: b0 }, originPos: [45, 45, 15.556], normal: [0.5, 0.5, 0.707] })
     await api.solid.slice({ id: ei, target: { id: b0 }, originPos: [-45, 45, 15.556], normal: [-0.5, 0.5, 0.707] })
-    return (await drawing.createBufferGeometry(b0))[0]
+    return (await facade.createBufferGeometry(b0))[0]
   }, ['whiffle', lOuterBox, lInnerBox, dHole])
   return (
     <group {...props}>

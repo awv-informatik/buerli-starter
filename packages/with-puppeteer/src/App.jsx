@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center, Resize, AccumulativeShadows, RandomizedLight } from '@react-three/drei'
@@ -47,7 +47,7 @@ export default function App() {
 
 function Model(props) {
   const ref = useRef()
-  const { api: { v1: api }, drawingId, Geometry } = useClassCAD("with-solid-puppeteer") // prettier-ignore
+  const { api: { v1: api }, drawingId, Geometry } = useBuerliCadFacade("with-solid-puppeteer") // prettier-ignore
 
   useLayoutEffect(() => {
     ref.current.traverse(child => {

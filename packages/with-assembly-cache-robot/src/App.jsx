@@ -1,7 +1,7 @@
 import { Suspense, useState, useRef, useTransition } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import debounce from 'lodash/debounce'
 import { easing } from 'maath'
@@ -50,7 +50,7 @@ export default function App() {
 
 function Robot(props) {
   const ref = useRef()
-  const { api: { v1: api }, drawing } = useClassCAD() // prettier-ignore
+  const { api: { v1: api }, facade } = useBuerliCadFacade() // prettier-ignore
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = suspend(async () => {
     const data = compression.encodeToBase64(robotArm)
@@ -61,7 +61,7 @@ function Robot(props) {
       store.constraints[i].node = node
     }
     console.log(store)
-    return await drawing.createScene()
+    return await facade.createScene()
   }, ['robot'])
 
   // 2. Hold axis values in state, update them on change, useTransition creates pending state
@@ -86,7 +86,7 @@ function Robot(props) {
   const { nodes: structure } = suspend(async () => {
     const constraints = store.constraints.map(({ node }, index) => ({ id: node.id, name: 'Z_ROTATION', value: (values[index] / 180) * Math.PI }))
     await api.assembly.update3DConstraintValue(constraints)
-    return await drawing.createScene(undefined, { structureOnly: true })
+    return await facade.createScene(undefined, { structureOnly: true })
   }, ['robot-struct', ...values])
 
   // 4. useFrame to update the position and rotations of the nodes

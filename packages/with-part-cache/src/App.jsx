@@ -3,7 +3,7 @@ import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
 
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient } from '@buerli.io/classcad'
 import { suspend } from 'suspend-react'
 import debounce from 'lodash/debounce'
@@ -47,7 +47,7 @@ function usePendingState(key, start, initialState, config = {}) {
 }
 
 export function Flange(props) {
-  const { api: { v1: api }, drawing } = useClassCAD("with-history-cache") // prettier-ignore
+  const { api: { v1: api }, facade } = useBuerliCadFacade("with-history-cache") // prettier-ignore
   const isFirstMount = useFirstMountState()
   const [hovered, hover] = useState(false)
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
@@ -104,7 +104,7 @@ export function Flange(props) {
   const [geo] = suspend(async () => {
     // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
     if (!isFirstMount) await api.part.updateExpression({ id: part, toUpdate: expressions })
-    return await drawing.createBufferGeometry(part)
+    return await facade.createBufferGeometry(part)
   }, ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle])
 
   // The geometry can be now be attached to a mesh, which is under our full control.
