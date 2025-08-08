@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, ScgGraphicType } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
 import { Resize, Center, Bounds, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
@@ -35,7 +35,7 @@ export default function App() {
 }
 
 function Scene({ width = 50, ...props }) {
-  const { api: { v1: api }, drawing, Geometry } = useClassCAD('with-history-run') // prettier-ignore
+  const { api: { v1: api }, drawing, Geometry } = useBuerliCadFacade('with-history-run') // prettier-ignore
   const geometry = useRef()
 
   useEffect(() => {

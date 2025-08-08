@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, SoftShadows, Outlines } from '@react-three/drei'
@@ -48,7 +48,7 @@ export default function App() {
 }
 
 function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
-  const { api: { v1: api }, drawing } = useClassCAD() // prettier-ignore
+  const { api: { v1: api }, drawing } = useBuerliCadFacade() // prettier-ignore
   const [hovered, hover] = useState(false)
   const geo = suspend(async () => {
     await api.common.clear()

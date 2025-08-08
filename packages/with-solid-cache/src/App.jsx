@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useState, useTransition } from 'react'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, ScgGraphicType } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
 import { AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
@@ -40,7 +40,7 @@ export default function App() {
 }
 
 function Model(props) {
-  const { api: { v1: api }, drawing } = useClassCAD('with-solid-cache') // prettier-ignore
+  const { api: { v1: api }, drawing } = useBuerliCadFacade('with-solid-cache') // prettier-ignore
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, trans] = useTransition()

@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Html, MeshTransmissionMaterial, Center, AccumulativeShadows, RandomizedLight, CameraControls, Environment } from '@react-three/drei'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Leva } from 'leva'
 import as1ac214 from './resources/as1_ac_214.stp?raw'
@@ -39,7 +39,7 @@ export default function App() {
 }
 
 function Assembly(props) {
-  const { api: { v1: api }, drawing } = useClassCAD('with-history-cache-as1ac214-jsx') // prettier-ignore
+  const { api: { v1: api }, drawing } = useBuerliCadFacade('with-history-cache-as1ac214-jsx') // prettier-ignore
   const { nodes, materials } = suspend(async () => {
     await api.common.clear()
     const part = await api.part.create({ name: 'Part' })

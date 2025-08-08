@@ -1,7 +1,7 @@
 import { Suspense, useState, useRef, useTransition } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { useClassCAD } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import debounce from 'lodash/debounce'
 import { easing } from 'maath'
@@ -50,7 +50,7 @@ export default function App() {
 
 function Robot(props) {
   const ref = useRef()
-  const { api: { v1: api }, drawing } = useClassCAD() // prettier-ignore
+  const { api: { v1: api }, drawing } = useBuerliCadFacade() // prettier-ignore
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = suspend(async () => {
     const data = compression.encodeToBase64(robotArm)
