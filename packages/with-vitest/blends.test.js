@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { init, WASMClient, ClassCAD, compression } from '@buerli.io/classcad'
+import { init, WASMClient, BuerliCadFacade, compression } from '@buerli.io/classcad'
 import { api as baseApi } from '@buerli.io/core'
 
 const appKey =
@@ -14,7 +14,7 @@ async function getFiles(directoryPath, filter) {
 }
 
 test('radii', async () => {
-  const drawing = new ClassCAD()
+  const drawing = new BuerliCadFacade()
   await drawing.connect('with-solid-vitest')
   const api = drawing.api.v1
   // Clear all solids
