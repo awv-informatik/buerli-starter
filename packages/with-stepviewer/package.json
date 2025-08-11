@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@buerli.io/react": "0.13.0",
-    "@buerli.io/react-cad": "0.13.0",
+    "@buerli.io/react": "0.13.1-beta.8.apiversion",
+    "@buerli.io/react-cad": "0.13.1-beta.8.apiversion",
     "@react-three/drei": "9.92.3",
     "@react-three/fiber": "8.15.14",
     "@types/three": "^0.153.0",

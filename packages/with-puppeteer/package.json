@@ -8,8 +8,8 @@
     "start": "node cli"
   },
   "dependencies": {
-    "@buerli.io/classcad": "0.13.0",
-    "@buerli.io/headless": "0.13.0",
+    "@buerli.io/classcad": "0.13.1-beta.8.apiversion",
+    "@buerli.io/headless": "0.13.1-beta.8.apiversion",
     "@react-three/drei": "9.92.3",
     "@react-three/fiber": "8.15.14",
     "meow": "^13.2.0",
