@@ -4,7 +4,7 @@ import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.i
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, Center } from '@react-three/drei'
+import { OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
@@ -64,9 +64,7 @@ function Model({ buffer }) {
 
   return (
     <group ref={ref}>
-      <Center>
-        <Geometry selection />
-      </Center>
+      <Geometry selection />
     </group>
   )
 }
