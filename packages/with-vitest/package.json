@@ -1,0 +1,17 @@
+{
+  "name": "with-vitest",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@buerli.io/classcad": "0.13.1-beta.8.apiversion",
+    "@buerli.io/headless": "0.13.1-beta.8.apiversion",
+    "three": "^0.153.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.4"
+  }
+}

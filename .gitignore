@@ -11,6 +11,7 @@ temp/
 /node_modules/
 **/.vscode/chrome*
 **/*.log
+**/classcadKey.ts
 
 /disc/
 /dist/

@@ -1,5 +1,5 @@
 {
-  "name": "with-solid-cache-reuse",
+  "name": "with-part-run",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,11 +9,11 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "dependencies": {    
+  "dependencies": {
     "@buerli.io/react": "0.13.1-beta.8.apiversion",
+    "@buerli.io/classcad": "0.13.1-beta.8.apiversion",
     "@react-three/drei": "9.92.3",
     "@react-three/fiber": "8.15.14",
-    "@react-three/rapier": "^0.15.1",
     "@types/three": "^0.153.0",
     "leva": "^0.9.34",
     "react": "^18.2.0",
@@ -23,7 +23,7 @@
     "tunnel-rat": "^0.1.2"
   },
   "devDependencies": {
-    "@types/react": "^18.2.4",
+    "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.3",
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.39.0",
