@@ -97,7 +97,7 @@ function Model(props) {
     await api.solid.subtraction({ id: ei, target: solid, tools: [cyl1, cyl2] })
     await api.solid.offset({ id: ei, target: solid, distance: offset })
     return (await facade.createBufferGeometry(part))[0]
-  }, ['bracket', cut1, cut2, offset])
+  }, ['bracket', width, cut1, cut2, offset])
 
   return (
     <group {...props}>

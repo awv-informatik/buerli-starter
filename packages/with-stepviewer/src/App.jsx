@@ -4,7 +4,7 @@ import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.i
 import { init, WASMClient, compression } from '@buerli.io/classcad'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment } from '@react-three/drei'
+import { OrbitControls, Environment, Center } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
@@ -26,8 +26,12 @@ export default function App() {
         <spotLight decay={0} position={[10, 5, -15]} angle={0.2} castShadow />
         <OrbitControls makeDefault />
         <Environment preset="city" />
-        <Suspense fallback={<Status>Loading</Status>}>{buffer && <Model buffer={buffer} />}</Suspense>
-        <Plugins />
+        <Suspense fallback={<Status>Loading</Status>}>
+          <Center>
+            {buffer && <Model buffer={buffer} />}
+            <Plugins />
+          </Center>
+        </Suspense>
       </Canvas>
       <Plugins dom />
       <Leva neverHide titleBar={{ title: <Out /> }} />
