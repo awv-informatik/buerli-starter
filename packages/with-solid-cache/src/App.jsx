@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Suspense, useState, useTransition, useDeferredValue } from 'react'
+import { Suspense, memo, useState, useTransition, useDeferredValue } from 'react'
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, ScgGraphicType } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
@@ -23,12 +23,7 @@ export default function App() {
         {/** The suspense fallback will fire on first load and show a moving sphere */}
         <Suspense fallback={<Status>Loading</Status>}>
           <group position={[0, -1, 0]}>
-            <Center top>
-              <Model scale={0.035} />
-            </Center>
-            <AccumulativeShadows temporal alphaTest={0.85} opacity={0.75} frames={100} scale={20}>
-              <RandomizedLight radius={6} position={[-15, 10, -10]} bias={0.0001} />
-            </AccumulativeShadows>
+            <Model scale={0.035} />
           </group>
         </Suspense>
         <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} />
@@ -53,9 +48,9 @@ function Model(props) {
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
   const [pending, start] = useTransition()
-  const width = usePendingState('width', start, 100, { min: 20, max: 100, step: 10 })
-  const cut1 = usePendingState('cut1', start, 40, { min: 10, max: 40, step: 10 })
-  const cut2 = usePendingState('cut2', start, 40, { min: 20, max: 60, step: 10 })
+  const width = usePendingState('width', start, 100, { min: 40, max: 100, step: 10 })
+  const cut1 = usePendingState('cut1', start, 40, { min: 20, max: 30, step: 5 })
+  const cut2 = usePendingState('cut2', start, 40, { min: 20, max: 50, step: 10 })
   const offset = usePendingState('offset', start, 1, { min: 0.5, max: 4, step: 0.5 })
 
   // headless/cache will suspend if the dependencies change. The returned value will then be available
@@ -81,7 +76,7 @@ function Model(props) {
       id: part,
       lines: [{ pos: [10, 50, width / 2] }, { pos: [0, 0, width / 2] }, { pos: [20, 20, width / 2] }],
     })
-    
+
     await api.solid.fillet({ id: ei, geomIds: edges1, radius: 5 })
     await api.solid.fillet({ id: ei, geomIds: edges2, radius: 5 })
 
@@ -99,12 +94,26 @@ function Model(props) {
   }, ['bracket', width, cut1, cut2, offset])
 
   return (
-    <group {...props}>
-      {/** The resulting geometry can be directly attached to a mesh, which is under your full control */}
-      <mesh geometry={geo} castShadow receiveShadow>
-        <meshStandardMaterial metalness={0} color="#222" roughness={0.5} />
-      </mesh>
-      {pending && <Status>Pending</Status>}
-    </group>
+    <>
+      <Center top>
+        <group {...props}>
+          {/** The resulting geometry can be directly attached to a mesh, which is under your full control */}
+          <mesh geometry={geo} castShadow receiveShadow>
+            <meshStandardMaterial metalness={0} color="#222" roughness={0.5} />
+          </mesh>
+          {pending && <Status>Pending</Status>}
+        </group>
+      </Center>
+      <Shadows width={width} cut1={cut1} cut2={cut2} offset={offset} />
+    </>
   )
 }
+
+// Memoize shadows, so that they will only re-calculate when props change
+const Shadows = memo(() => {
+  return (
+    <AccumulativeShadows alphaTest={0.85} opacity={0.85} frames={40} scale={20}>
+      <RandomizedLight radius={6} position={[-15, 10, -10]} bias={0.0001} />
+    </AccumulativeShadows>
+  )
+})

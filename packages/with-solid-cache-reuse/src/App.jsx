@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react'
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, SoftShadows, Outlines } from '@react-three/drei'
+import { OrbitControls, SoftShadows, Outlines, Edges } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'
 import { Leva } from 'leva'
 import { Status, Out } from './Pending'
@@ -82,7 +82,8 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
     <group {...props}>
       <mesh castShadow receiveShadow geometry={geo} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
         <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-        <Outlines thickness={0.5} />
+        <Outlines thickness={0.1} />
+        <Edges />
       </mesh>
     </group>
   )
