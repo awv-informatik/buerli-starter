@@ -1,4 +1,4 @@
-import { Suspense, useState, useRef, useTransition } from 'react'
+import { Suspense, useState, useRef, useTransition, useDeferredValue } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { useBuerliCadFacade } from '@buerli.io/react'
@@ -79,9 +79,12 @@ function Robot(props) {
         {},
       ),
     ),
-  })
+  })  
 
-  // 3. Create a structure-only scene whenever values change
+  // 3. Defer values
+  const deferredValues = useDeferredValue(values)
+
+  // 4. Create a structure-only scene whenever values change
   const { nodes: structure } = suspend(async () => {
     //const constraints = store.constraints.map(({ node }, index) => ({ id: node.id, name: 'Z_ROTATION', value: (values[index] / 180) * Math.PI }))
     //await api.assembly.updateFastened(constraints)
@@ -93,7 +96,7 @@ function Robot(props) {
     }
 
     return await facade.createScene(undefined, { structureOnly: true })
-  }, ['robot-struct', ...values])
+  }, ['robot-struct', ...deferredValues])
 
   // 4. useFrame to update the position and rotations of the nodes
   useFrame((state, delta) => {

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Suspense, useState, useTransition } from 'react'
+import { Suspense, useState, useTransition, useDeferredValue } from 'react'
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient, ScgGraphicType } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
@@ -39,24 +39,24 @@ export default function App() {
   )
 }
 
+// A useState that will debounce and set values via React pending transitions w/o blocking the UI
+function usePendingState(key, start, initialState, config = {}) {
+  const [value, setValue] = useState(initialState)
+  const deferredValue = useDeferredValue(value)
+  // useControls is a hook from the leva library, it creates GUI panels for key:value pairs
+  useControls({ bracket: folder({ [key]: { value: initialState, ...config, onChange: debounce(v => start(() => setValue(v)), 40) } }) })
+  return deferredValue
+}
+
 function Model(props) {
   const { api: { v1: api }, facade } = useBuerliCadFacade('with-solid-cache') // prettier-ignore
   // Reacts setTransition can set any regular setState into pending-state which allows you to suspend w/o
   // blocking the UI. https://react.dev/reference/react/startTransition
-  const [pending, trans] = useTransition()
-  const [width, setWidth] = useState(100)
-  const [cut1, setCut1] = useState(40)
-  const [cut2, setCut2] = useState(40)
-  const [offset, setOffset] = useState(1)
-
-  useControls({
-    bracket: folder({
-      width: { value: width, min: 20, max: 100, step: 10, onChange: debounce(v => trans(() => setWidth(v)), 40) },
-      cut1: { value: cut1, min: 10, max: 40, step: 10, onChange: debounce(v => trans(() => setCut1(v)), 40) },
-      cut2: { value: cut2, min: 20, max: 60, step: 10, onChange: debounce(v => trans(() => setCut2(v)), 40) },
-      offset: { value: offset, min: 0.5, max: 4, step: 0.5, onChange: debounce(v => trans(() => setOffset(v)), 40) },
-    }),
-  })
+  const [pending, start] = useTransition()
+  const width = usePendingState('width', start, 100, { min: 20, max: 100, step: 10 })
+  const cut1 = usePendingState('cut1', start, 40, { min: 10, max: 40, step: 10 })
+  const cut2 = usePendingState('cut2', start, 40, { min: 20, max: 60, step: 10 })
+  const offset = usePendingState('offset', start, 1, { min: 0.5, max: 4, step: 0.5 })
 
   // headless/cache will suspend if the dependencies change. The returned value will then be available
   // and can be used to render the scene. Cache is memoized, the same cache keys will immediately return
@@ -81,8 +81,7 @@ function Model(props) {
       id: part,
       lines: [{ pos: [10, 50, width / 2] }, { pos: [0, 0, width / 2] }, { pos: [20, 20, width / 2] }],
     })
-
-    console.log('edges', edges1, edges2)
+    
     await api.solid.fillet({ id: ei, geomIds: edges1, radius: 5 })
     await api.solid.fillet({ id: ei, geomIds: edges2, radius: 5 })
 

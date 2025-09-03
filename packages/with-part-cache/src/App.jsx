@@ -1,4 +1,4 @@
-import { Suspense, useState, useTransition } from 'react'
+import { Suspense, useState, useTransition, useDeferredValue } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
@@ -41,9 +41,10 @@ export default function App() {
 // A useState that will debounce and set values via React pending transitions w/o blocking the UI
 function usePendingState(key, start, initialState, config = {}) {
   const [value, setValue] = useState(initialState)
+  const deferredValue = useDeferredValue(value)
   // useControls is a hook from the leva library, it creates GUI panels for key:value pairs
-  useControls({ flange: folder({ [key]: { value, ...config, onChange: debounce(v => start(() => setValue(v)), 100) } }) })
-  return value
+  useControls({ flange: folder({ [key]: { value: initialState, ...config, onChange: debounce(v => start(() => setValue(v)), 100) } }) })
+  return deferredValue
 }
 
 export function Flange(props) {
@@ -73,7 +74,7 @@ export function Flange(props) {
   ]
 
   // This block creates a flange and results in a part, it will only run once.
-  const part = suspend(async () => {
+  const part = suspend(async () => {    
     api.common.clear()
     // Initial create
     const rotation = { x: 0, y: 0, z: 0 }
@@ -98,10 +99,10 @@ export function Flange(props) {
     const pattern = await api.part.circularPattern({ id: part, targets: [subCylHole1], references: [waCenter], angle: '@expr.holeAngle', count: '@expr.holes', merged: true }) // prettier-ignore
     await api.part.boolean({ id: part, type: 'SUBTRACTION', target: solid, tools: [pattern] })
     return part
-  }, ['flange'])
+  }, ['flange'])  
 
   // In this block we use the part that was generated previously and change its expressions.
-  const [geo] = suspend(async () => {
+  const [geo] = suspend(async () => {    
     // We only want to set the expressions after the first mount, otherwise we would incur extra overhead
     if (!isFirstMount) await api.part.updateExpression({ id: part, toUpdate: expressions })
     return await facade.createBufferGeometry(part)
