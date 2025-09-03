@@ -7,7 +7,7 @@ import debounce from 'lodash/debounce'
 import { easing } from 'maath'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
-import robotArm from './resources/Robot6Axis.ofb?raw'
+import robotArm from './resources/Robot6Axis_FC.ofb?raw'
 import { suspend } from 'suspend-react'
 
 const appKey =
@@ -56,9 +56,8 @@ function Robot(props) {
     const data = compression.encodeToBase64(robotArm)
     const { id: rootAsm } = await api.common.load({ data, format: 'OFB', ident: 'root', encoding: 'base64' }) // prettier-ignore
     store.asm = rootAsm
-    for (let i = 0; i < store.constraints.length; i++) {
-      const node = await api.assembly.getRevolute({ id: store.asm, name: store.constraints[i].name })
-      store.constraints[i].node = node
+    for (let i = 0; i < store.constraints.length; i++) {      
+      store.constraints[i].node = await api.assembly.getFastened({ id: rootAsm, name: store.constraints[i].name })
     }
     console.log(store)
     return await facade.createScene()
@@ -84,16 +83,23 @@ function Robot(props) {
 
   // 3. Create a structure-only scene whenever values change
   const { nodes: structure } = suspend(async () => {
-    const constraints = store.constraints.map(({ node }, index) => ({ id: node.id, name: 'Z_ROTATION', value: (values[index] / 180) * Math.PI }))
-    await api.assembly.update3DConstraintValue(constraints)
+    //const constraints = store.constraints.map(({ node }, index) => ({ id: node.id, name: 'Z_ROTATION', value: (values[index] / 180) * Math.PI }))
+    //await api.assembly.updateFastened(constraints)
+
+    for (let i = 0; i < store.constraints.length; i++) {
+      await api.assembly.updateFastened({ ...store.constraints[i].node, zRotation: (values[i] / 180) * Math.PI })
+      //const node = await api.assembly.getFastened({ id: store.asm, name: store.constraints[i].name })
+      //store.constraints[i].node = node
+    }
+
     return await facade.createScene(undefined, { structureOnly: true })
   }, ['robot-struct', ...values])
 
   // 4. useFrame to update the position and rotations of the nodes
   useFrame((state, delta) => {
     ref.current.children.forEach((child, index) => {
-      easing.damp3(child.position, structure[`NAUO${index + 1}`].position, 0.1, delta)
-      easing.dampQ(child.quaternion, structure[`NAUO${index + 1}`].quaternion, 0.1, delta)
+      easing.damp3(child.position, structure[`NAUO${index + 1}`].position, 0.025, delta)
+      easing.dampQ(child.quaternion, structure[`NAUO${index + 1}`].quaternion, 0.025, delta)
     })
   })
 
