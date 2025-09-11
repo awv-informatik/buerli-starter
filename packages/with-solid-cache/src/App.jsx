@@ -80,13 +80,23 @@ function Model(props) {
     await api.solid.fillet({ id: ei, geomIds: edges1, radius: 5 })
     await api.solid.fillet({ id: ei, geomIds: edges2, radius: 5 })
 
-    const cyl1 = await api.solid.cylinder({ id: ei, height: 300, diameter: cut1 + 0.5 })
-    await api.solid.translation({ id: ei, target: cyl1, translation: [-50, 50, 50] })
-    await api.solid.rotation({ id: ei, target: cyl1, rotation: [0, Math.PI / 2, 0] })
+    const cyl1 = await api.solid.cylinder({
+      id: ei,
+      height: 300,
+      diameter: cut1 + 0.5,
+      translation: [-50, 50, 50],
+      rotation: [0, Math.PI / 2, 0],
+      rotateFirst: false,
+    })
 
-    const cyl2 = await api.solid.cylinder({ id: ei, height: 300, diameter: cut2 + 0.5 })
-    await api.solid.translation({ id: ei, target: cyl2, translation: [55, 50, 50] })
-    await api.solid.rotation({ id: ei, target: cyl2, rotation: [Math.PI / 2, 0, 0] })
+    const cyl2 = await api.solid.cylinder({
+      id: ei,
+      height: 300,
+      diameter: cut2 + 0.5,
+      translation: [55, 50, 50],
+      rotation: [Math.PI / 2, 0, 0],
+      rotateFirst: false,
+    })
 
     await api.solid.subtraction({ id: ei, target: solid, tools: [cyl1, cyl2] })
     await api.solid.offset({ id: ei, target: solid, distance: offset })

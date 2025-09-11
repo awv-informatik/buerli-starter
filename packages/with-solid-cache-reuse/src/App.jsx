@@ -60,11 +60,9 @@ function Model({ lOuterBox = 90, lInnerBox = 80, dHole = 55, ...props }) {
     await api.solid.subtraction({ id: ei, target: b0, tools: [b3] })
     const cyl1 = await api.solid.cylinder({ id: ei, height: 2 * lOuterBox, diameter: dHole })
     await api.solid.subtraction({ id: ei, target: b0, tools: [cyl1] })
-    const cyl2 = await api.solid.cylinder({ id: ei, height: 2 * lOuterBox, diameter: dHole })
-    await api.solid.rotation({ id: ei, target: cyl2, rotation: [0, Math.PI / 2, 0] })
+    const cyl2 = await api.solid.cylinder({ id: ei, height: 2 * lOuterBox, diameter: dHole, rotation: [0, Math.PI / 2, 0] })
     await api.solid.subtraction({ id: ei, target: b0, tools: [cyl2] })
-    const cyl3 = await api.solid.cylinder({ id: ei, height: 2 * lOuterBox, diameter: dHole })
-    await api.solid.rotation({ id: ei, target: cyl3, rotation: [Math.PI / 2, 0, 0] })
+    const cyl3 = await api.solid.cylinder({ id: ei, height: 2 * lOuterBox, diameter: dHole, rotation: [Math.PI / 2, 0, 0] })
     await api.solid.subtraction({ id: ei, target: b0, tools: [cyl3] })
     // Slice lower corners
     await api.solid.slice({ id: ei, target: b0, originPos: [-45, -45, -15.556], normal: [-0.5, -0.5, -0.707] })
