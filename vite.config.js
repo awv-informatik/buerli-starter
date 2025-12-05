@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     //origin: 'https://test.test.test',
+    port: 3000,
     cors: {
       origin: '*',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
