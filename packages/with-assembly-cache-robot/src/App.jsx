@@ -2,7 +2,7 @@ import { Suspense, useState, useRef, useTransition, useDeferredValue } from 'rea
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { useBuerliCadFacade } from '@buerli.io/react'
-import { init, WASMClient, compression } from '@buerli.io/classcad'
+import { init, WASMClient } from '@buerli.io/classcad'
 import debounce from 'lodash/debounce'
 import { easing } from 'maath'
 import { Leva, useControls, folder } from 'leva'
@@ -53,8 +53,7 @@ function Robot(props) {
   const { api: { v1: api }, facade } = useBuerliCadFacade() // prettier-ignore
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = suspend(async () => {
-    const data = compression.encodeToBase64(robotArm)
-    const { id: rootAsm } = await api.common.load({ data, format: 'OFB', ident: 'root', encoding: 'base64' }) // prettier-ignore
+    const { id: rootAsm } = await api.common.load({ data: robotArm, format: 'OFB', ident: 'root' }) // prettier-ignore
     store.asm = rootAsm
     for (let i = 0; i < store.constraints.length; i++) {      
       store.constraints[i].node = await api.assembly.getFastened({ id: rootAsm, name: store.constraints[i].name })

@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Html, MeshTransmissionMaterial, Center, AccumulativeShadows, RandomizedLight, CameraControls, Environment } from '@react-three/drei'
 import { useBuerliCadFacade } from '@buerli.io/react'
-import { init, WASMClient, compression } from '@buerli.io/classcad'
+import { init, WASMClient } from '@buerli.io/classcad'
 import { Leva } from 'leva'
 import as1ac214 from './resources/as1_ac_214.stp?raw'
 import { Status, Out } from './Pending'
@@ -42,8 +42,7 @@ function Assembly(props) {
   const { nodes, materials } = suspend(async () => {
     await api.common.clear()
     const part = await api.part.create({ name: 'Part' })
-    const data = compression.encodeToBase64(as1ac214)
-    const model = await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Part' })
+    await api.part.importFeature({ id: part, data: as1ac214, format: 'STP', name: 'Part' })
     return await facade.createScene(part)
   }, ['as1_ac_214-jsx'])
 
