@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { init, WASMClient, BuerliCadFacade, compression } from '@buerli.io/classcad'
+import { init, WASMClient, BuerliCadFacade } from '@buerli.io/classcad'
 import { api as baseApi } from '@buerli.io/core'
 
 const appKey =
@@ -26,8 +26,7 @@ test('radii', async () => {
   for (const file of files) {
     // Read & import file
     const stream = await readFile(file, null)
-    const data = compression.encodeToBase64(stream.buffer)
-    await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Import' })
+    await api.part.importFeature({ id: part, data: stream.buffer, format: 'STP', name: 'Import' })
     // Test cylinder radius
     const state = baseApi.getState()
     const containers = Object.values(state.drawing.refs[solid.drawingId].graphic.containers)

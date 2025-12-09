@@ -53,7 +53,7 @@ function Robot(props) {
   const { api: { v1: api }, facade } = useBuerliCadFacade() // prettier-ignore
   // 1. Create scene, fetch constraints, return scene nodes
   const { nodes } = suspend(async () => {
-    const { id: rootAsm } = await api.common.load({ data: btoa(robotArm), format: 'OFB', ident: 'root', encoding: 'base64' }) // prettier-ignore
+    const { id: rootAsm } = await api.common.load({ data: robotArm, format: 'OFB', ident: 'root' }) // prettier-ignore
     store.asm = rootAsm
     for (let i = 0; i < store.constraints.length; i++) {
       store.constraints[i].node = await api.assembly.getFastened({ id: rootAsm, name: store.constraints[i].name })

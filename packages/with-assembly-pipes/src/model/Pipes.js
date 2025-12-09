@@ -1,4 +1,3 @@
-import { FlipType, ReorientedType, CCClasses } from '@buerli.io/classcad'
 import straightPipe from '../resources/StraightPipe.ofb?raw'
 import curvedPipe from '../resources/CurvedPipe.ofb?raw'
 
@@ -60,8 +59,8 @@ export class Pipes {
   /**************** Helper functions ****************/
   loadAndConfigure = async item => {
     const isStraight = item.type === PipeType.StraightPipe
-    const data = btoa(isStraight ? straightPipe : curvedPipe)
-    const { id: product } = await this.api.assembly.loadProduct({ data, format: 'OFB', encoding: 'base64', ident: item.name }) // prettier-ignore
+    const data = isStraight ? straightPipe : curvedPipe
+    const { id: product } = await this.api.assembly.loadProduct({ data, format: 'OFB', ident: item.name }) // prettier-ignore
     await this.api.part.updateExpression({
       id: product,
       toUpdate: isStraight
