@@ -4,7 +4,7 @@ import { Html, MeshTransmissionMaterial, Center, AccumulativeShadows, Randomized
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { init, WASMClient } from '@buerli.io/classcad'
 import { Leva } from 'leva'
-import as1ac214 from './resources/as1_ac_214.stp'
+import as1ac214 from './resources/as1_ac_214.stp?raw'
 import { Status, Out } from './Pending'
 import { suspend } from 'suspend-react'
 
