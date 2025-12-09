@@ -16,7 +16,7 @@ Visit [https://buerli.io](https://buerli.io/docs/quickstart/wasm) for installati
 2 — Get your ClassCAD key from the same user page, pick a WASM key.
 3 — You will be asked to provide allowed origins, type: http://localhost:3000/
 
-### Open the entrypoint (main.tsx) and insert your ClassCAD key
+### Open the entrypoint (main.jsx) and insert your ClassCAD key
 
 ```jsx
 const classcadKey = '...'
@@ -29,7 +29,7 @@ init(did => new WASMClient(did, { classcadKey }), { elements, globalPlugins: [Me
 yarn dev
 ```
 
-All examples inside `/packages` are self contained and can be ran and forked individually! You will have to insert your ClassCAD key in each example's `main.tsx` file in that case.
+All examples inside `/packages` are self contained and can be ran and forked individually! You will have to insert your ClassCAD key in each example's `main.jsx` file in that case.
 
 ## Starters
 
