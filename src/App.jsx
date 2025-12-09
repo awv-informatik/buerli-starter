@@ -14,7 +14,7 @@ const sandboxes = {
 }
 
 export default function App() {
-  const { starter } = useControls({ starter: { value: Object.keys(sandboxes)[1], options: Object.keys(sandboxes) } })
+  const { starter } = useControls({ starter: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } })
   const El = sandboxes[starter]
   return (
     <>

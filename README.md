@@ -8,7 +8,26 @@ cd buerli-starter
 yarn
 ```
 
-Visit [https://buerli.io](https://buerli.io) for installation instructions and API documentation.
+Visit [https://buerli.io](https://buerli.io/docs/quickstart/wasm) for installation instructions and API documentation.
+
+### Create an account and get your ClassCAD key
+
+1 — Visit ClassCAD and create an account.
+2 — Get your ClassCAD key from the same user page, pick a WASM key.
+3 — You will be asked to provide allowed origins, type: http://localhost:3000/
+
+### Open the app entrypoint (App.tsx) of any example and insert your ClassCAD key
+
+```jsx
+const appKey = '...'
+init(did => new WASMClient(did, { appKey }), { elements, globalPlugins: [Measure] })
+```
+
+### Run the examples
+
+```shell
+yarn dev
+```
 
 All examples inside `/packages` are self contained and can be ran and forked individually!
 
