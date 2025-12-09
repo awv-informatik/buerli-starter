@@ -36,6 +36,7 @@ function Scene({ width = 50, ...props }) {
 
   useEffect(() => {
     async function run() {
+      api.common.clear()
       const part = await api.part.create({ name: 'Part' })
       const wcsx = await api.part.workCSys({ id: part, rotation: [0, -width / 5, -width / 8] })
       await api.part.cylinder({ id: part, references: [wcsx], diameter: 10, height: width })

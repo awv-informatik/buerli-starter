@@ -1,9 +1,9 @@
-import { Suspense, useState, useTransition, useDeferredValue } from 'react'
+import { Suspense, useEffect, useState, useTransition, useDeferredValue } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { useBuerliCadFacade } from '@buerli.io/react'
-import { suspend } from 'suspend-react'
+import { suspend, clear } from 'suspend-react'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
@@ -101,6 +101,8 @@ export function Flange(props) {
     if (!isFirstMount) await api.part.updateExpression({ id: part, toUpdate: expressions })
     return await facade.createBufferGeometry(part)
   }, ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle])
+
+  //useEffect(() => () => clear(), [])
 
   // The geometry can be now be attached to a mesh, which is under our full control.
   return (

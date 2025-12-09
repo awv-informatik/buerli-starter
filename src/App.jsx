@@ -1,6 +1,7 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, useLayoutEffect, lazy } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { Leva, useControls, folder } from 'leva'
+import { Leva, useControls } from 'leva'
+import { clear } from 'suspend-react'
 
 const sandboxes = {
   PartRun: lazy(() => import('../packages/with-part-run/src/App')),
@@ -16,6 +17,7 @@ const sandboxes = {
 export default function App() {
   const { starter } = useControls({ starter: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } })
   const El = sandboxes[starter]
+  useLayoutEffect(() => clear(), [starter])
   return (
     <>
       <ErrorBoundary fallbackRender={fallbackRender}>
