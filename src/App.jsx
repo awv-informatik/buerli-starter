@@ -13,8 +13,8 @@ const sandboxes = {
   Stepviewer: lazy(() => import('../packages/with-stepviewer/src/App')),
 }
 
-export default function App() {  
-  const { starter } = useControls({ starter: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } })  
+export default function App() {
+  const { starter } = useControls({ starter: { value: Object.keys(sandboxes)[2], options: Object.keys(sandboxes) } })
   const El = sandboxes[starter]
   return (
     <>
