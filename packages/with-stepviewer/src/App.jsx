@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.io/react'
-import { compression } from '@buerli.io/classcad'
 import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center } from '@react-three/drei'
@@ -49,8 +48,7 @@ function Model({ buffer }) {
 
   suspend(async () => {
     await api.common.clear()
-    const data = compression.encodeToBase64(buffer)
-    await api.common.load({ data, format: 'STP', encoding: 'base64', name: 'Import' })
+    await api.common.load({ data: buffer, format: 'STP', name: 'Import' })
   }, ['step', buffer])
 
   useLayoutEffect(() => {

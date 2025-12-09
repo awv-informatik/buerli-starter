@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
 import { useBuerliCadFacade } from '@buerli.io/react'
-import { compression } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center, Resize, AccumulativeShadows, RandomizedLight } from '@react-three/drei'
 import tunnel from 'tunnel-rat'
@@ -56,8 +55,7 @@ function Model(props) {
     await api.common.clear()
     const part = await api.part.create({ name: 'Part' })
     const buffer = await fetch(file).then(res => res.arrayBuffer())
-    const data = compression.encodeToBase64(buffer)
-    await api.part.importFeature({ id: part, data, format: 'STP', encoding: 'base64', name: 'Import' })
+    await api.part.importFeature({ id: part, data: buffer, format: 'STP', name: 'Import' })
   }, ['step', file])
   return (
     <group ref={ref} {...props}>

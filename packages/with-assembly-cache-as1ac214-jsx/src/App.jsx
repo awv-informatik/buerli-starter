@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import { Html, MeshTransmissionMaterial, Center, AccumulativeShadows, RandomizedLight, CameraControls, Environment } from '@react-three/drei'
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { Leva } from 'leva'
-import as1ac214 from './resources/as1_ac_214.stp'
+import as1ac214 from './resources/as1_ac_214.stp?raw'
 import { Status, Out } from './Pending'
 import { suspend } from 'suspend-react'
 

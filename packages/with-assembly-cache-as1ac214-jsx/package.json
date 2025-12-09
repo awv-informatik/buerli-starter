@@ -10,11 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@buerli.io/react": "0.13.1-beta.11",
+    "@buerli.io/react": "0.13.1-beta.12",
     "@react-three/drei": "9.92.3",
     "@react-three/fiber": "8.15.14",
     "@types/three": "^0.153.0",
-    "base64-arraybuffer": "^1.0.2",
     "leva": "^0.9.34",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
