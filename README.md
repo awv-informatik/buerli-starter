@@ -19,8 +19,8 @@ Visit [https://buerli.io](https://buerli.io/docs/quickstart/wasm) for installati
 ### Open the app entrypoint (App.tsx) of any example and insert your ClassCAD key
 
 ```jsx
-const appKey = '...'
-init(did => new WASMClient(did, { appKey }), { elements, globalPlugins: [Measure] })
+const classcadKey = '...'
+init(did => new WASMClient(did, { classcadKey }), { elements, globalPlugins: [Measure] })
 ```
 
 ### Run the examples
