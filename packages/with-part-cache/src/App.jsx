@@ -3,7 +3,7 @@ import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'
 import { useBuerliCadFacade } from '@buerli.io/react'
-import { suspend, clear } from 'suspend-react'
+import { suspend } from 'suspend-react'
 import debounce from 'lodash/debounce'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './Pending'
@@ -48,7 +48,7 @@ export function Flange(props) {
   // For more details on useTransition look into: https://react.dev/reference/react/startTransition
   const [pending, start] = useTransition()
 
-  const thickness = usePendingState('thickness', start, 30, { min: 30, max: 60, step: 10 })
+  const thickness = usePendingState('thickness', start, 30, { min: 30, max: 50, step: 10 })
   const upperCylDiam = usePendingState('upperCylDiam', start, 190, { min: 100, max: 200, step: 10 })
   const upperCylHoleDiam = usePendingState('upperCylHoleDiam', start, '@expr.upperCylDiam - @expr.thickness')
   const flangeHeight = usePendingState('flangeHeight', start, 110, { min: 100, max: 200, step: 10 })
@@ -101,8 +101,6 @@ export function Flange(props) {
     if (!isFirstMount) await api.part.updateExpression({ id: part, toUpdate: expressions })
     return await facade.createBufferGeometry(part)
   }, ['flange', part, thickness, upperCylDiam, upperCylHoleDiam, flangeHeight, baseCylDiam, holeOffset, holes, holeAngle])
-
-  //useEffect(() => () => clear(), [])
 
   // The geometry can be now be attached to a mesh, which is under our full control.
   return (
