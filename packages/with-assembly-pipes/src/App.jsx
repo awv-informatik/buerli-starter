@@ -12,7 +12,17 @@ const defaultData = [{ key: '0', name: 'Default', type: PipeType.StraightPipe, l
 
 export default function App() {
   const [activeKey, setActiveKey] = useState()
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState([
+    {
+      label: 'New session',
+      children: (
+        <Suspense fallback={null}>
+          <Tab id="newTabDefault" />
+        </Suspense>
+      ),
+      key: 'newTabDefault',
+    },
+  ])
   const newTabIndex = useRef(0)
   const onChange = newActiveKey => setActiveKey(newActiveKey)
   const onEdit = (targetKey, action) => (action === 'add' ? add() : remove(targetKey))
