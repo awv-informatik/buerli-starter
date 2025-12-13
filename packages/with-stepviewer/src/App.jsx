@@ -1,13 +1,12 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.io/react'
-import { Measure, GlobalPlugins } from '@buerli.io/react-cad'
+import { GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
-import { elements } from './components/elements'
 import { suspend } from 'suspend-react'
 
 export default function App() {
