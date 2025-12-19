@@ -12,7 +12,8 @@
     "start": "npm run dev",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean:nm": "npx rimraf --glob ./packages/**/node_modules && npx rimraf ./node_modules"
   },
   "dependencies": {
     "leva": "^0.9.35",
@@ -22,6 +23,7 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@types/node": "^25.0.3",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.18",
     "@vitejs/plugin-react": "^4.2.1",
