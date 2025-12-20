@@ -3,47 +3,47 @@
 
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
-cd buerli-starter/packages/with-history-run
+cd buerli-starter/packages/with-part-run
 npm install
 npm run dev
 ```
 
-Demonstrates the usage of `headless.run` to execute a script and display the results in a BuerliGeometry component. The suspend option would allow you to orchestrate inside useEffect and useLayoutEffect.
+Demonstrates the usage of [useBuerliCadFacade](https://buerli.io/docs/api/react) to execute a script and display the results in a BuerliGeometry component. The suspend option would allow you to orchestrate inside useEffect and useLayoutEffect.
 
 ```jsx
-import { BuerliGeometry, headless } from '@buerli.io/react'
-import { history } from '@buerli.io/headless'
+function Scene({ width = 50, ...props }) {
+  const { api: { v1: api }, facade, Geometry } = useBuerliCadFacade('with-history-run') // prettier-ignore
+  const geometry = useRef()
 
-const { run } = headless(history, 'ws://localhost:9091')
-
-function Scene({ width = 100 }) {
-  const ref = useRef()
   useEffect(() => {
-    run(async api => {
-      const part = await api.createPart('Part')
-      const wcsy = await api.createWorkCoordSystem(part, 8, [], [], [0, width / 3, 0], [Math.PI / 3, 0, 0])
-      const wcsx = await api.createWorkCoordSystem(part, 8, [], [], [0, -width / 5, -width / 8], [0, 0, 0])
-      const a = await api.cylinder(part, [wcsx], 10, width)
-      const b = await api.cylinder(part, [wcsy], 10, width)
-      await api.boolean(part, 0, [a, b])
-    })
+    async function run() {
+      api.common.clear()
+      const part = await api.part.create({ name: 'Part' })
+      const wcsx = await api.part.workCSys({ id: part, rotation: [0, -width / 5, -width / 8] })
+      await api.part.cylinder({ id: part, references: [wcsx], diameter: 10, height: width })
+      const sel = (await facade.selectGeometry([ScgGraphicType.CIRCLE], 2)).map(sel => sel.graphicId)
+      api.part.chamfer({ id: part, type: 'EQUAL_DISTANCE', references: sel, distance1: 2, distance2: 2, angle: 45 })
+    }
+    run()
   }, [])
 
   useLayoutEffect(() => {
-    // You can access the scene graph *before* it is rendered on screen here ...
-    // This works because buerli geometry suspends.
-    ref.current.traverse((child) => {
-      // Make all meshes orange
-      if (obj.type === 'Mesh') {
-        obj.material = new THREE.MeshStandardMaterial({ color: 'orange', roughness: 0.5 })
-      }
+    geometry.current?.traverse(obj => {
+      obj.receiveShadow = obj.castShadow = true
+      if (obj.type === 'Mesh') obj.material = new THREE.MeshStandardMaterial({ color: 'orange', roughness: 0.5 })
     })
   })
 
   return (
-    <group ref={ref}>
-      <BuerliGeometry suspend />
-    <group>
+    <group {...props}>
+      <Bounds fit observe margin={1.75}>
+        <Resize scale={2}>
+          <Center top ref={geometry} rotation={[0, -Math.PI / 4, 0]}>
+            <Geometry selection />
+          </Center>
+        </Resize>
+      </Bounds>
+    </group>
   )
 }
 ```
