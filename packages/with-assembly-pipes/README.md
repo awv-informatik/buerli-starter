@@ -1,3 +1,6 @@
+<img src="thumbnail.jpg" width="100%" />
+<br />
+
 ```shell
 git clone https://github.com/awv-informatik/buerli-starter
 cd buerli-starter/packages/with-assembly-pipes
@@ -11,7 +14,7 @@ Demonstrates the usage of [useBuerliCadFacade](https://buerli.io/docs/api/react)
 import { useBuerliCadFacade } from '@buerli.io/react'
 
 function Tab({ id }) {
-  const { api: { v1: api }} = useBuerliCadFacade(`with-history-pipes-${id}`)
+  const { api: { v1: api }} = useBuerliCadFacade(`with-assembly-pipes-${id}`)
   // ...
   return (
     <Canvas>
@@ -21,7 +24,7 @@ function Tab({ id }) {
 }
 
 function View({ id }) {
-  const { Geometry } = useBuerliCadFacade(`with-history-pipes-${id}`)
+  const { Geometry } = useBuerliCadFacade(`with-assembly-pipes-${id}`)
   // ...
   return (
     <group ref={ref}>
