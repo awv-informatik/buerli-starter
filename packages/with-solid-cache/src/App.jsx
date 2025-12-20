@@ -48,7 +48,7 @@ function Model(props) {
   const cut2 = usePendingState('cut2', start, 40, { min: 20, max: 50, step: 10 })
   const offset = usePendingState('offset', start, 1, { min: 0.5, max: 4, step: 0.5 })
 
-  // headless/cache will suspend if the dependencies change. The returned value will then be available
+  // cache will suspend if the dependencies change. The returned value will then be available
   // and can be used to render the scene. Cache is memoized, the same cache keys will immediately return
   // an already cached entry.
   const geo = suspend(async () => {
