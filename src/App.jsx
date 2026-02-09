@@ -15,8 +15,11 @@ const sandboxes = {
 }
 
 export default function App() {
-  const { starter } = useControls({ starter: { value: Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } })
-  const El = sandboxes[starter]
+  const params = new URLSearchParams(window.location.search)
+  const urlStarter = params.get('starter')
+  const locked = urlStarter && urlStarter in sandboxes
+  const { starter } = useControls({ starter: { value: locked ? urlStarter : Object.keys(sandboxes)[0], options: Object.keys(sandboxes) } })
+  const El = sandboxes[locked ? urlStarter : starter]
   // Clear out the old suspend-cache to allow sandboxes to re-mount with fresh state
   useLayoutEffect(() => clear(), [starter])
   return (
