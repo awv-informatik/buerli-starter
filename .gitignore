@@ -25,6 +25,9 @@ temp/
 
 **/*.ccapp
 
+# Firebase cache
+.firebase/
+
 # Logs
 logs
 *.log
