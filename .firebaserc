@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "buerli"
+  },
+  "targets": {
+    "buerli": {
+      "hosting": {
+        "production": [
+          "starter-buerli-io"
+        ]
+      }
+    }
+  }
+}

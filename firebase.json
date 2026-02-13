@@ -1,0 +1,32 @@
+{
+  "hosting": [
+    {
+      "target": "production",
+      "public": "build",
+      "ignore": [
+        "firebase.json",
+        "package.json",
+        "vite.config.js",
+        "yarn.lock",
+        "README.md",
+        "**/.*",
+        "**/buerli/**",
+        "**/buerli-backend/**",
+        "**/node_modules/**",
+        "**/.firebase/**",
+        "**/.docusaurus/**",
+        "**/.yarn/**",
+        "**/.vscode/**",
+        "**/public/**",
+        "**/src/**",
+        "**/vite-plugins/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

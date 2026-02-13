@@ -11,6 +11,9 @@ export default () => {
       'CLASSCAD_WASM_KEY': JSON.stringify(env.CLASSCAD_WASM_KEY ?? ''),
       'SOCKETIO_URL': JSON.stringify(env.SOCKETIO_URL ?? ''),
     },
+    build: {
+      outDir: './build',
+    },
     plugins: [react()],
     server: {
       cors: {
