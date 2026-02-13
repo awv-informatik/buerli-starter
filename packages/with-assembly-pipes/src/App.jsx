@@ -46,15 +46,41 @@ export default function App() {
 function Tab({ id }) {
   const { api: { v1: api }} = useBuerliCadFacade(`with-history-pipes-${id}`) // prettier-ignore
   const [data, setData] = useState(defaultData)
+  const [diameter, setDiameter] = useState(50)
+  const [thickness, setThickness] = useState(4)
 
-  const pipes = suspend(() => new Pipes().init(api, defaultData), ['init', id])
-  const onEditPipe = useCallback(item => pipes.edit(item), [id])
-  const onAddPipe = useCallback(item => pipes.add(item), [id])
-  const onDeletePipe = useCallback(() => pipes.delete(), [id])
+  const pipes = suspend(() => new Pipes().init(api, defaultData, diameter, thickness), ['init', id])
+  const onEditPipe = useCallback(item => pipes.edit(item), [pipes])
+  const onAddPipe = useCallback(item => pipes.add(item), [pipes])
+  const onDeletePipe = useCallback(() => pipes.delete(), [pipes])
+  const onSaveOfb = useCallback(() => pipes.saveOfb(), [pipes])
+  const onSaveStp = useCallback(() => pipes.saveStp(), [pipes])
+  
+  const onDiameterChange = useCallback((value) => {
+    setDiameter(value)
+    pipes.updateDiameterAndThickness(value, pipes.thickness)
+  }, [pipes])
+  
+  const onThicknessChange = useCallback((value) => {
+    setThickness(value)
+    pipes.updateDiameterAndThickness(pipes.diameter, value)
+  }, [pipes])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'rows', height: '100%', gap: 20 }}>
-      <PipesTable data={data} onSetData={setData} onEditPipe={onEditPipe} onAddPipe={onAddPipe} onDeletePipe={onDeletePipe} />
+    <div style={{ display: 'flex', flexDirection: 'row', height: '100%', gap: 20 }}>
+      <PipesTable 
+        data={data} 
+        onSetData={setData} 
+        onEditPipe={onEditPipe} 
+        onAddPipe={onAddPipe} 
+        onDeletePipe={onDeletePipe} 
+        onSaveOfb={onSaveOfb} 
+        onSaveStp={onSaveStp}
+        diameter={diameter}
+        thickness={thickness}
+        onDiameterChange={onDiameterChange}
+        onThicknessChange={onThicknessChange}
+      />
       <div style={{ overflow: 'hidden', flex: 'auto', height: 'calc(100vh - 56px)', width: '100%', borderRadius: 8, background: '#fafafa' }}>
         <Canvas shadows flat orthographic gl={{ antialias: false }} camera={{ position: [10, 10, 10], zoom: 100 }}>
           <Suspense fallback={null}>

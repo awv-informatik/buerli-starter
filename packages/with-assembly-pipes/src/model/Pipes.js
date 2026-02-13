@@ -10,15 +10,22 @@ export class Pipes {
   api = null
   rootAsm = null
   pipeInstances = []
+  parts = []
+  itemsData = []  // Store item data for updates
+  diameter = 50  // Default outer diameter
+  thickness = 4  // Default thickness
 
   /** Create root assembly and add initial pipes */
-  init = async (api, data) => {
+  init = async (api, data, diameter = 50, thickness = 4) => {
+    this.diameter = diameter
+    this.thickness = thickness
     this.api = api
     this.rootAsm = await this.api.assembly.create({ name: 'PipesAssembly' })
     // Load and configure pipe template and add it as an instance to the assembly
     for (let i = 0; i < data.length; i++) {
       const pipePart = await this.loadAndConfigure(data[i])
       await this.addInstance(pipePart, data[i].name)
+      this.itemsData.push(data[i])
     }
     // Connect the pipe instances by constraints
     if (this.pipeInstances.length > 0) for (let i = 0; i < this.pipeInstances.length; i++) await this.constrainInstance(data[i], this.pipeInstances[i])
@@ -31,10 +38,16 @@ export class Pipes {
       id: item.name,
       toUpdate:
         item.type === PipeType.StraightPipe
-          ? [{ name: 'length', value: item.length }]
+          ? [
+              { name: 'length', value: item.length },
+              { name: 'outerDiam', value: this.diameter },
+              { name: 'thickness', value: this.thickness },
+            ]
           : [
               { name: 'angle', value: (item.angle / 180) * Math.PI },
               { name: 'radius', value: item.radius },
+              { name: 'outerDiam', value: this.diameter },
+              { name: 'thickness', value: this.thickness },
             ],
     })
     if (item.type === PipeType.CurvedPipe) {
@@ -48,12 +61,65 @@ export class Pipes {
     const pipePart = await this.loadAndConfigure(item)
     const pipeInstance = await this.addInstance(pipePart, item.name)
     await this.constrainInstance(item, pipeInstance)
+    this.itemsData.push(item)
   }
 
   /** Remove last pipe element */
   delete = async () => {
-    await this.api.assembly.deleteInstance({ ids: [this.pipeInstances[this.pipeInstances.length - 1]] })
+    const partToDelete = this.parts[this.parts.length - 1]
+    const instanceToDelete = this.pipeInstances[this.pipeInstances.length - 1]
     this.pipeInstances.pop()
+    await this.api.assembly.deleteTemplate({ ids: [partToDelete] })
+    this.parts.pop()
+    this.itemsData.pop()
+  }
+
+  /** Save assembly as OFB file */
+  saveOfb = async () => {
+    const ofbData = await this.api.common.save({ format: 'OFB' })
+    if (ofbData) {
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(new Blob([ofbData.content], { type: 'application/octet-stream' }))
+      link.download = `PipesAssembly.ofb`
+      link.click()
+    }
+  }
+
+  /** Save assembly as STP file */
+  saveStp = async () => {
+    const stpData = await this.api.common.save({ format: 'STP' })
+    if (stpData) {
+      const link = document.createElement('a')
+      link.href = window.URL.createObjectURL(new Blob([stpData.content], { type: 'application/octet-stream' }))
+      link.download = `PipesAssembly.stp`
+      link.click()
+    }
+  }
+
+  /** Update diameter and thickness for all existing pipes */
+  updateDiameterAndThickness = async (diameter, thickness) => {
+    this.diameter = diameter
+    this.thickness = thickness
+    // Update all existing parts
+    for (let i = 0; i < this.itemsData.length; i++) {
+      const item = this.itemsData[i]
+      await this.api.part.updateExpression({
+        id: item.name,
+        toUpdate:
+          item.type === PipeType.StraightPipe
+            ? [
+                { name: 'length', value: item.length },
+                { name: 'outerDiam', value: diameter },
+                { name: 'thickness', value: thickness },
+              ]
+            : [
+                { name: 'angle', value: (item.angle / 180) * Math.PI },
+                { name: 'radius', value: item.radius },
+                { name: 'outerDiam', value: diameter },
+                { name: 'thickness', value: thickness },
+              ],
+      })
+    }
   }
 
   /**************** Helper functions ****************/
@@ -64,10 +130,16 @@ export class Pipes {
     await this.api.part.updateExpression({
       id: product,
       toUpdate: isStraight
-        ? [{ name: 'length', value: item.length }]
+        ? [
+            { name: 'length', value: item.length },
+            { name: 'outerDiam', value: this.diameter },
+            { name: 'thickness', value: this.thickness },
+          ]
         : [
             { name: 'angle', value: (item.angle / 180) * Math.PI },
             { name: 'radius', value: item.radius },
+            { name: 'outerDiam', value: this.diameter },
+            { name: 'thickness', value: this.thickness },
           ],
     })
     return product
@@ -86,6 +158,7 @@ export class Pipes {
     })
     console.log('  Added pipe instance', pipeInstance)
     this.pipeInstances.push(pipeInstance)
+    this.parts.push(pipePart)
     return pipeInstance
   }
 
