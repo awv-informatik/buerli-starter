@@ -76,37 +76,35 @@ function WhiffleBall(props: GroupProps) {
 
   const geo = suspend(async () => {
     api.common.clear()
-    const part = await api.part.create({ name: 'WhiffleBall' })
-    if (part == null) throw new Error('Failed to create part')
-    const ei = await api.part.entityInjection({ id: part })
-    if (ei == null) throw new Error('Failed to create entity injection')
-
+    const part = await api.part.create({ name: 'WhiffleBall' })!
+    const ei = await api.part.entityInjection({ id: part?.toString() })!
+    
     const innerSize = outerSize - 2 * wallThickness
     const half = outerSize / 2
     const cylHeight = 2 * outerSize
 
     // Step 1: Create outer box (90x90x90 by default, centered at origin)
-    const outer = await api.solid.box({ id: ei, length: outerSize, width: outerSize, height: outerSize })
+    const outer = await api.solid.box({ id: ei!.toString(), length: outerSize, width: outerSize, height: outerSize })
     if (outer == null) throw new Error('Failed to create outer box')
 
     // Step 2: Create inner box and subtract to hollow out (5mm wall thickness)
-    const inner = await api.solid.box({ id: ei, length: innerSize, width: innerSize, height: innerSize })
+    const inner = await api.solid.box({ id: ei!.toString(), length: innerSize, width: innerSize, height: innerSize })
     if (inner == null) throw new Error('Failed to create inner box')
-    await api.solid.subtraction({ id: ei, target: outer, tools: [inner] })
+    await api.solid.subtraction({ id: ei!.toString(), target: outer, tools: [inner] })
 
     // Step 3: Punch three perpendicular cylindrical holes (diameter 55mm by default)
     // Z-axis hole
-    const cyl1 = await api.solid.cylinder({ id: ei, height: cylHeight, diameter: holeDiameter })
+    const cyl1 = await api.solid.cylinder({ id: ei!.toString(), height: cylHeight, diameter: holeDiameter })
     if (cyl1 == null) throw new Error('Failed to create cylinder 1')
-    await api.solid.subtraction({ id: ei, target: outer, tools: [cyl1] })
+    await api.solid.subtraction({ id: ei!.toString(), target: outer, tools: [cyl1] })
     // X-axis hole
-    const cyl2 = await api.solid.cylinder({ id: ei, height: cylHeight, diameter: holeDiameter, rotation: [0, Math.PI / 2, 0] })
+    const cyl2 = await api.solid.cylinder({ id: ei!.toString(), height: cylHeight, diameter: holeDiameter, rotation: [0, Math.PI / 2, 0] })
     if (cyl2 == null) throw new Error('Failed to create cylinder 2')
-    await api.solid.subtraction({ id: ei, target: outer, tools: [cyl2] })
+    await api.solid.subtraction({ id: ei!.toString(), target: outer, tools: [cyl2] })
     // Y-axis hole
-    const cyl3 = await api.solid.cylinder({ id: ei, height: cylHeight, diameter: holeDiameter, rotation: [Math.PI / 2, 0, 0] })
+    const cyl3 = await api.solid.cylinder({ id: ei!.toString(), height: cylHeight, diameter: holeDiameter, rotation: [Math.PI / 2, 0, 0] })
     if (cyl3 == null) throw new Error('Failed to create cylinder 3')
-    await api.solid.subtraction({ id: ei, target: outer, tools: [cyl3] })
+    await api.solid.subtraction({ id: ei!.toString(), target: outer, tools: [cyl3] })
 
     // Step 4: Slice 8 corners off to give it a rounded, ball-like silhouette.
     // Normals are unit vectors pointing toward each corner: [-1/2, -1/2, -sqrt(2)/2] etc.
@@ -115,23 +113,23 @@ function WhiffleBall(props: GroupProps) {
     const cz = 15.556 * s // z-offset of slice origin, scaled proportionally
 
     // Lower 4 corners
-    await api.solid.slice({ id: ei, target: outer, originPos: [-half, -half, -cz], normal: [-0.5, -0.5, -0.707], keepBoth: false })
-    await api.solid.slice({ id: ei, target: outer, originPos: [half, -half, -cz], normal: [0.5, -0.5, -0.707], keepBoth: false })
-    await api.solid.slice({ id: ei, target: outer, originPos: [half, half, -cz], normal: [0.5, 0.5, -0.707], keepBoth: false })
-    await api.solid.slice({ id: ei, target: outer, originPos: [-half, half, -cz], normal: [-0.5, 0.5, -0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [-half, -half, -cz], normal: [-0.5, -0.5, -0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [half, -half, -cz], normal: [0.5, -0.5, -0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [half, half, -cz], normal: [0.5, 0.5, -0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [-half, half, -cz], normal: [-0.5, 0.5, -0.707], keepBoth: false })
 
     // Upper 4 corners
-    await api.solid.slice({ id: ei, target: outer, originPos: [-half, -half, cz], normal: [-0.5, -0.5, 0.707], keepBoth: false })
-    await api.solid.slice({ id: ei, target: outer, originPos: [half, -half, cz], normal: [0.5, -0.5, 0.707], keepBoth: false })
-    await api.solid.slice({ id: ei, target: outer, originPos: [half, half, cz], normal: [0.5, 0.5, 0.707], keepBoth: false })
-    await api.solid.slice({ id: ei, target: outer, originPos: [-half, half, cz], normal: [-0.5, 0.5, 0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [-half, -half, cz], normal: [-0.5, -0.5, 0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [half, -half, cz], normal: [0.5, -0.5, 0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [half, half, cz], normal: [0.5, 0.5, 0.707], keepBoth: false })
+    await api.solid.slice({ id: ei!.toString(), target: outer, originPos: [-half, half, cz], normal: [-0.5, 0.5, 0.707], keepBoth: false })
 
     // Step 5: Fillet the 6 outward-facing circular cutout edges (2 per axis).
     // Query each edge by a point that lies on it: at the face plane (±half) and offset
     // by the hole radius in a perpendicular direction to land on the circular edge.
     const hR = holeDiameter / 2
     const { circles: circleEdges } = await api.part.getGeometryIds({
-      id: part,
+      id: part!.toString(),
       circles: [
         { pos: [hR, 0, half] },   // Z-axis hole, top face (+Z)
         { pos: [hR, 0, -half] },  // Z-axis hole, bottom face (-Z)
@@ -142,10 +140,10 @@ function WhiffleBall(props: GroupProps) {
       ],
     })
     if (circleEdges?.length) {
-      await api.solid.fillet({ id: ei, geomIds: circleEdges, radius: filletRadius })
+      await api.solid.fillet({ id: ei!.toString(), geomIds: circleEdges, radius: filletRadius })
     }
 
-    const geometries = await facade.createBufferGeometry(part)
+    const geometries = await facade.createBufferGeometry(part!)
     if (!geometries?.[0]) throw new Error('Failed to create buffer geometry')
     return geometries[0] as BufferGeometry
   }, ['whiffle-ball', outerSize, wallThickness, holeDiameter, filletRadius])
