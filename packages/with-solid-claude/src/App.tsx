@@ -9,12 +9,15 @@ this is what you will build (using buerli and the solid API): https://wiki.freec
 keep in mind: when you make slices they create two cuts. make intelligent use of the keepBoth attribute.
 */
 
-import { Suspense, useState, useTransition, useDeferredValue } from 'react'
+import { Suspense, useState, useTransition, useDeferredValue, type TransitionStartFunction } from 'react'
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { Canvas } from '@react-three/fiber'
 import { AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
+// @ts-ignore - no types available for lodash subpath
 import debounce from 'lodash/debounce'
+import type { GroupProps } from '@react-three/fiber'
+import type { BufferGeometry } from 'three'
 import { Status, Out } from './Pending'
 import { suspend } from 'suspend-react'
 
@@ -41,14 +44,27 @@ export default function App() {
   )
 }
 
-function usePendingState(key, start, initialState, config = {}) {
-  const [value, setValue] = useState(initialState)
+function usePendingState<T extends number>(
+  key: string,
+  start: TransitionStartFunction,
+  initialState: T,
+  config: Record<string, unknown> = {},
+): T {
+  const [value, setValue] = useState<T>(initialState)
   const deferredValue = useDeferredValue(value)
-  useControls({ whiffleBall: folder({ [key]: { value: initialState, ...config, onChange: debounce(v => start(() => setValue(v)), 100) } }) })
+  useControls({
+    whiffleBall: folder({
+      [key]: {
+        value: initialState,
+        ...config,
+        onChange: debounce((v: T) => start(() => setValue(v)), 100),
+      },
+    } as any),
+  })
   return deferredValue
 }
 
-function WhiffleBall(props) {
+function WhiffleBall(props: GroupProps) {
   const { api: { v1: api }, facade } = useBuerliCadFacade('with-solid-claude') // prettier-ignore
   const [hovered, hover] = useState(false)
   const [pending, start] = useTransition()
@@ -61,7 +77,9 @@ function WhiffleBall(props) {
   const geo = suspend(async () => {
     api.common.clear()
     const part = await api.part.create({ name: 'WhiffleBall' })
+    if (part == null) throw new Error('Failed to create part')
     const ei = await api.part.entityInjection({ id: part })
+    if (ei == null) throw new Error('Failed to create entity injection')
 
     const innerSize = outerSize - 2 * wallThickness
     const half = outerSize / 2
@@ -69,20 +87,25 @@ function WhiffleBall(props) {
 
     // Step 1: Create outer box (90x90x90 by default, centered at origin)
     const outer = await api.solid.box({ id: ei, length: outerSize, width: outerSize, height: outerSize })
+    if (outer == null) throw new Error('Failed to create outer box')
 
     // Step 2: Create inner box and subtract to hollow out (5mm wall thickness)
     const inner = await api.solid.box({ id: ei, length: innerSize, width: innerSize, height: innerSize })
+    if (inner == null) throw new Error('Failed to create inner box')
     await api.solid.subtraction({ id: ei, target: outer, tools: [inner] })
 
     // Step 3: Punch three perpendicular cylindrical holes (diameter 55mm by default)
     // Z-axis hole
     const cyl1 = await api.solid.cylinder({ id: ei, height: cylHeight, diameter: holeDiameter })
+    if (cyl1 == null) throw new Error('Failed to create cylinder 1')
     await api.solid.subtraction({ id: ei, target: outer, tools: [cyl1] })
     // X-axis hole
     const cyl2 = await api.solid.cylinder({ id: ei, height: cylHeight, diameter: holeDiameter, rotation: [0, Math.PI / 2, 0] })
+    if (cyl2 == null) throw new Error('Failed to create cylinder 2')
     await api.solid.subtraction({ id: ei, target: outer, tools: [cyl2] })
     // Y-axis hole
     const cyl3 = await api.solid.cylinder({ id: ei, height: cylHeight, diameter: holeDiameter, rotation: [Math.PI / 2, 0, 0] })
+    if (cyl3 == null) throw new Error('Failed to create cylinder 3')
     await api.solid.subtraction({ id: ei, target: outer, tools: [cyl3] })
 
     // Step 4: Slice 8 corners off to give it a rounded, ball-like silhouette.
@@ -122,7 +145,9 @@ function WhiffleBall(props) {
       await api.solid.fillet({ id: ei, geomIds: circleEdges, radius: filletRadius })
     }
 
-    return (await facade.createBufferGeometry(part))[0]
+    const geometries = await facade.createBufferGeometry(part)
+    if (!geometries?.[0]) throw new Error('Failed to create buffer geometry')
+    return geometries[0] as BufferGeometry
   }, ['whiffle-ball', outerSize, wallThickness, holeDiameter, filletRadius])
 
   return (

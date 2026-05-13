@@ -22,6 +22,8 @@ temp/
 **/*.tgz
 /act/
 .DS_Store
+**/*.gz
+.env
 
 **/*.ccapp
 
