@@ -5,6 +5,8 @@ import App from './App'
 
 // Visit https://staging01.buerli.io/docs/quickstart/wasm to create your ClassCAD key
 const classcadKey = ''
-init(did => new WASMClient(did, { classcadKey }))
+init((did: string) => new WASMClient(did, { classcadKey }))
 
-createRoot(document.getElementById('root')).render(<App />)
+const container = document.getElementById('root')
+if (!container) throw new Error('Root element not found')
+createRoot(container).render(<App />)
