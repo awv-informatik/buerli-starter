@@ -23,7 +23,7 @@ import { suspend } from 'suspend-react'
 export default function App() {
   return (
     <>
-      <Canvas shadows orthographic camera={{ position: [10, 10, 0], zoom: 100 }}>
+      <Canvas shadows="percentage" orthographic camera={{ position: [10, 10, 0], zoom: 100 }}>
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight intensity={Math.PI / 4} />
         <spotLight decay={0} position={[10, 5, -15]} angle={0.2} castShadow />
@@ -112,12 +112,12 @@ function WhiffleBall(props) {
     const { circles: circleEdges } = await api.part.getGeometryIds({
       id: part,
       circles: [
-        { pos: [hR, 0, half] },   // Z-axis hole, top face (+Z)
-        { pos: [hR, 0, -half] },  // Z-axis hole, bottom face (-Z)
-        { pos: [half, hR, 0] },   // X-axis hole, right face (+X)
-        { pos: [-half, hR, 0] },  // X-axis hole, left face (-X)
-        { pos: [0, half, hR] },   // Y-axis hole, front face (+Y)
-        { pos: [0, -half, hR] },  // Y-axis hole, back face (-Y)
+        { pos: [hR, 0, half] }, // Z-axis hole, top face (+Z)
+        { pos: [hR, 0, -half] }, // Z-axis hole, bottom face (-Z)
+        { pos: [half, hR, 0] }, // X-axis hole, right face (+X)
+        { pos: [-half, hR, 0] }, // X-axis hole, left face (-X)
+        { pos: [0, half, hR] }, // Y-axis hole, front face (+Y)
+        { pos: [0, -half, hR] }, // Y-axis hole, back face (-Y)
       ],
     })
     if (circleEdges?.length) {

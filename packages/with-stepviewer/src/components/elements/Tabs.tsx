@@ -1,4 +1,5 @@
-import TabsImpl, { TabsProps, TabPaneProps } from 'antd/lib/tabs'
+import { Tabs as TabsImpl } from 'antd'
+import type { TabPaneProps, TabsProps } from 'antd'
 import React from 'react'
 
 export function Tabs({ ...props }: TabsProps) {

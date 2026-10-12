@@ -1,4 +1,5 @@
-import MentionsImpl, { MentionProps } from 'antd/lib/mentions'
+import { Mentions as MentionsImpl } from 'antd'
+import type { MentionProps } from 'antd'
 import React, { ForwardRefRenderFunction } from 'react'
 import styled from 'styled-components'
 import base from './base'

@@ -1,4 +1,5 @@
-import CollapseImpl, { CollapseProps } from 'antd/lib/collapse'
+import { Collapse as CollapseImpl } from 'antd'
+import type { CollapseProps } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import base from './base'

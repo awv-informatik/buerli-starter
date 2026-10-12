@@ -1,4 +1,5 @@
-import InputImpl, { InputProps, InputRef } from 'antd/lib/input'
+import { Input as InputImpl } from 'antd'
+import type { InputProps, InputRef } from 'antd'
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import base from './base'

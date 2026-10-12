@@ -11,9 +11,9 @@ export class Pipes {
   rootAsm = null
   pipeInstances = []
   parts = []
-  itemsData = []  // Store item data for updates
-  diameter = 50  // Default outer diameter
-  thickness = 4  // Default thickness
+  itemsData = [] // Store item data for updates
+  diameter = 50 // Default outer diameter
+  thickness = 4 // Default thickness
 
   /** Create root assembly and add initial pipes */
   init = async (api, data, diameter = 50, thickness = 4) => {
@@ -22,10 +22,10 @@ export class Pipes {
     this.api = api
     this.rootAsm = await this.api.assembly.create({ name: 'PipesAssembly' })
     // Load and configure pipe template and add it as an instance to the assembly
-    for (let i = 0; i < data.length; i++) {
-      const pipePart = await this.loadAndConfigure(data[i])
-      await this.addInstance(pipePart, data[i].name)
-      this.itemsData.push(data[i])
+    for (const item of data) {
+      const pipePart = await this.loadAndConfigure(item)
+      await this.addInstance(pipePart, item.name)
+      this.itemsData.push(item)
     }
     // Connect the pipe instances by constraints
     if (this.pipeInstances.length > 0) for (let i = 0; i < this.pipeInstances.length; i++) await this.constrainInstance(data[i], this.pipeInstances[i])
@@ -72,7 +72,6 @@ export class Pipes {
   /** Remove last pipe element */
   delete = async () => {
     const partToDelete = this.parts[this.parts.length - 1]
-    const instanceToDelete = this.pipeInstances[this.pipeInstances.length - 1]
     this.pipeInstances.pop()
     await this.api.assembly.deleteTemplate({ ids: [partToDelete] })
     this.parts.pop()
@@ -106,8 +105,7 @@ export class Pipes {
     this.diameter = diameter
     this.thickness = thickness
     // Update all existing parts
-    for (let i = 0; i < this.itemsData.length; i++) {
-      const item = this.itemsData[i]
+    for (const item of this.itemsData) {
       await this.api.part.updateExpression({
         id: item.name,
         toUpdate:
@@ -161,7 +159,7 @@ export class Pipes {
       ],
       name: instanceName,
     })
-    console.log('  Added pipe instance', pipeInstance)
+    console.info('  Added pipe instance', pipeInstance)
     this.pipeInstances.push(pipeInstance)
     this.parts.push(pipePart)
     return pipeInstance

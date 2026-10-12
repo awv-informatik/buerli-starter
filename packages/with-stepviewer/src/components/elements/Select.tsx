@@ -1,4 +1,5 @@
-import SelectImpl, { SelectProps, RefSelectProps } from 'antd/lib/select'
+import { Select as SelectImpl } from 'antd'
+import type { RefSelectProps, SelectProps } from 'antd'
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import base from './base'

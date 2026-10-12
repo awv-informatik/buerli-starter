@@ -16,4 +16,7 @@ body,
 body {
   font-family: inter;
   background: #f0f0f0;
+  /* the page's own text, as antd 4's stylesheet set it (antd 5+ styles its components only) */
+  font-size: 14px;
+  line-height: 1.5715;
 }

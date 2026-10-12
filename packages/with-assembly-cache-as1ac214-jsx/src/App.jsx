@@ -10,7 +10,7 @@ import { suspend } from 'suspend-react'
 export default function App() {
   return (
     <>
-      <Canvas shadows orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
+      <Canvas shadows="percentage" orthographic camera={{ position: [0, 2.5, 10], zoom: 100 }}>
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight intensity={0.5 * Math.PI} />
         <spotLight decay={0} position={[20, 10, 25]} angle={0.5} penumbra={1} castShadow />

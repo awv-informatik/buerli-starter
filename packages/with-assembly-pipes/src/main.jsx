@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { init, WASMClient } from '@buerli.io/classcad'
-import 'antd/dist/antd.css'
+import 'antd/dist/reset.css'
 import './styles.css'
 import App from './App'
 

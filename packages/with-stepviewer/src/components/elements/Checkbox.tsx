@@ -1,4 +1,5 @@
-import CheckboxImpl, { CheckboxProps } from 'antd/lib/checkbox'
+import { Checkbox as CheckboxImpl } from 'antd'
+import type { CheckboxProps } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 

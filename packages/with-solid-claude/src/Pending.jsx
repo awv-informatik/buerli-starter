@@ -1,4 +1,4 @@
-import BarLoader from 'react-spinners/BarLoader'
+import { BarLoader } from 'react-spinners'
 import create from 'tunnel-rat'
 
 // Create a tunnel that can be used to write into the DOM from within the canvas

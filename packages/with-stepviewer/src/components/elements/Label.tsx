@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 import base from './base'
 
-const Base = styled.div<{ highlighted?: boolean; bold?: boolean; ellipsis?: boolean }>`
+const Base = styled.div.withConfig({ shouldForwardProp: prop => prop !== 'highlighted' && prop !== 'bold' && prop !== 'ellipsis' })<{
+  highlighted?: boolean
+  bold?: boolean
+  ellipsis?: boolean
+}>`
   ${base}
   align-items: center;
   flex: 1;

@@ -14,7 +14,7 @@ export default function App() {
   useControls({ step: folder({ upload: plugin(set) }) })
   return (
     <>
-      <Canvas shadows orthographic camera={{ position: [1000, 1000, 0], zoom: 20, far: 10000 }}>
+      <Canvas shadows="percentage" orthographic camera={{ position: [1000, 1000, 0], zoom: 20, far: 10000 }}>
         <color attach="background" args={['#f0f0f0']} />
         <ambientLight intensity={Math.PI} />
         <spotLight decay={0} position={[10, 5, -15]} angle={0.2} castShadow />

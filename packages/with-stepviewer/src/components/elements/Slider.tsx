@@ -1,4 +1,5 @@
-import SliderImpl, { SliderBaseProps } from 'antd/lib/slider'
+import { Slider as SliderImpl } from 'antd'
+import type { SliderSingleProps as SliderBaseProps } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 import base from './base'

@@ -1,5 +1,5 @@
 /* eslint-env node */
-import 'antd/dist/antd.css'
+import 'antd/dist/reset.css'
 import './styles.css'
 
 import { createRoot } from 'react-dom/client'

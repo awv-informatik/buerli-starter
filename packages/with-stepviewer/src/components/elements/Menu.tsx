@@ -1,7 +1,8 @@
-import MenuImpl, { MenuProps } from 'antd/lib/menu'
-import MenuItemImpl, { MenuItemProps } from 'antd/lib/menu/MenuItem'
+import { Menu as MenuImpl } from 'antd'
+import type { MenuItemProps, MenuProps } from 'antd'
 import React from 'react'
 
+const MenuItemImpl = MenuImpl.Item
 export function Menu({ ...props }: MenuProps) {
   return <MenuImpl {...props} />
 }

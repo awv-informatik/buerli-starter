@@ -1,13 +1,12 @@
 import { CustomSelect, DrawingID, getDrawing, SelectedItem, SelectionFilter, SelectorID } from '@buerli.io/core'
-import Button from 'antd/lib/button'
-import Tag from 'antd/lib/tag'
+import { Button, Tag } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { v4 } from 'uuid'
 import { useDrawing } from '@buerli.io/react'
 import base from './base'
 
-const Base = styled.div<{ active?: boolean }>`
+const Base = styled.div.withConfig({ shouldForwardProp: prop => prop !== 'active' })<{ active?: boolean }>`
   ${base}
   cursor: pointer;
   height: auto !important;
@@ -148,10 +147,9 @@ export default function Selection({
     [selApi, customUnSelect, modes],
   )
 
-  const [id] = useState(v4)
+  const [id] = useState(() => v4())
   useEffect(() => {
-    const unsub =
-      selApi && selApi.createSelector(id, filter, defaultActive, initialItems, maxLen, customSelect_, customUnSelect_)
+    const unsub = selApi && selApi.createSelector(id, filter, defaultActive, initialItems, maxLen, customSelect_, customUnSelect_)
     onCreated && onCreated(id)
 
     return () => unsub && unsub()
@@ -185,9 +183,7 @@ export default function Selection({
   return (
     <Base active={active} onClick={() => selApi && selApi.activateSelector(id)} {...props}>
       <SelectionArea>
-        {!active && items.length === 0 && (
-          <Text style={{ lineHeight: '21px', color: '#666' }}>{caption || 'Click here to select'}</Text>
-        )}
+        {!active && items.length === 0 && <Text style={{ lineHeight: '21px', color: '#666' }}>{caption || 'Click here to select'}</Text>}
         {active && items.length === 0 && <Text style={{ lineHeight: '21px', color: 'white' }}>Select items ...</Text>}
         {items.map(item => (
           <Tag

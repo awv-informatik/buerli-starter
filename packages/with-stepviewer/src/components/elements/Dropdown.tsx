@@ -1,4 +1,5 @@
-import DropdownImpl, { DropDownProps } from 'antd/lib/dropdown'
+import { Dropdown as DropdownImpl } from 'antd'
+import type { DropDownProps } from 'antd'
 import React from 'react'
 
 export default function Dropdown({ ...props }: DropDownProps) {
