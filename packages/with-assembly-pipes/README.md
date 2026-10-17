@@ -8,6 +8,8 @@ npm install
 npm run dev
 ```
 
+Before `npm run dev`, put your public access token (`ccpk_…`, from [your ClassCAD account](https://classcad.ch/account#tokens)) into `token` in `src/main.jsx`, see [Quickstart with WebAssembly](https://buerli.io/docs/quickstart/wasm).
+
 Demonstrates the usage of [useBuerliCadFacade](https://buerli.io/docs/api/react) which ties a ClassCAD/buerli session to a mounted component. As long as that component is mounted the session persists.
 
 ```jsx

@@ -8,6 +8,8 @@ npm install
 npm run dev
 ```
 
+Before `npm run dev`, put your public access token (`ccpk_…`, from [your ClassCAD account](https://classcad.ch/account#tokens)) into `token` in `src/main.jsx`, see [Quickstart with WebAssembly](https://buerli.io/docs/quickstart/wasm).
+
 Demonstrates the usage of [useBuerliCadFacade](https://buerli.io/docs/api/react) to execute a script and display the results in a BuerliGeometry component. The suspend option would allow you to orchestrate inside useEffect and useLayoutEffect.
 
 ```jsx
