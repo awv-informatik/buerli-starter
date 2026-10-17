@@ -3,24 +3,26 @@ import 'antd/dist/reset.css'
 import './styles.css'
 
 import { createRoot } from 'react-dom/client'
-import { init, WASMClient, SocketIOClient } from '@buerli.io/classcad'
+import { init, WASMClient, WSClient, SocketIOClient } from '@buerli.io/classcad'
 import { elements } from '@buerli.io/react'
 import { Measure } from '@buerli.io/react-cad'
 
 import App from './App'
 
+// Set in .env, see the README
 // eslint-disable-next-line no-undef
-const classcadWasmKey = CLASSCAD_WASM_KEY
+const token = CLASSCAD_PUBLIC_TOKEN
+// eslint-disable-next-line no-undef
+const wsUrl = WS_URL
 // eslint-disable-next-line no-undef
 const socketIoUrl = SOCKETIO_URL
 
 init(
   id => {
-    if (classcadWasmKey) {
-      return new WASMClient(id, { classcadKey: classcadWasmKey })
-    } else {
-      return new SocketIOClient(socketIoUrl, id)
-    }
+    if (token) return new WASMClient(id, { token })
+    if (wsUrl) return new WSClient(wsUrl, id)
+    if (socketIoUrl) return new SocketIOClient(socketIoUrl, id)
+    throw new Error('No ClassCAD engine: set a public access token or a server address in .env (see the README)')
   },
   { globalPlugins: [Measure], elements },
 )

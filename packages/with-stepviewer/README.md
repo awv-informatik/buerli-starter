@@ -8,6 +8,8 @@ npm install
 npm run dev
 ```
 
+Before `npm run dev`, put your public access token (`ccpk_…`, from [your ClassCAD account](https://classcad.ch/account#tokens)) into `token` in `src/main.jsx`, see [Quickstart with WebAssembly](https://buerli.io/docs/quickstart/wasm).
+
 This example shows how to use [useBuerliCadFacade](https://buerli.io/docs/api/react)cache with direct, declarative access to resulting geometries.
 
 `cache` allows you to execute commands with React suspense integration, and then access the results. This makes it easy to maintain full control over view, your meshes, adding events, etc.

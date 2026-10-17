@@ -4,8 +4,9 @@ import 'antd/dist/reset.css'
 import './styles.css'
 import App from './App'
 
-// Visit https://staging01.buerli.io/docs/quickstart/wasm to create your ClassCAD key
-const classcadKey = ''
-init(did => new WASMClient(did, { classcadKey }))
+// A public access token (ccpk_…) from https://classcad.ch/account#tokens, see https://buerli.io/docs/quickstart/wasm
+// For a native engine, use WSClient or SocketIOClient instead: https://buerli.io/docs/quickstart/native
+const token = ''
+init(did => new WASMClient(did, { token }))
 
 createRoot(document.getElementById('root')).render(<App />)

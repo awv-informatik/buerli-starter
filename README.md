@@ -10,33 +10,35 @@ cd buerli-starter
 yarn
 ```
 
-### Create an account and get your ClassCAD key
+### Connect to ClassCAD
 
-In order for **buerli-starter** to work, you need to have a running ClassCAD. You can either run it in the browser using WASM or connect to a local or remote ClassCAD server using SocketIO.
+**buerli-starter** needs the ClassCAD engine. It runs in your browser as WebAssembly, or natively on your server. Say which in the `.env` file in the root of this project.
 
-### Running ClassCAD using WASM
+### Running ClassCAD in the browser (WebAssembly)
 
-Follow the instruction points 1-3 about **"Create an account and get your ClassCAD key"** on [Getting Started with WASM](https://buerli.io/docs/quickstart/wasm).
-
-Copy your created ClassCAD WASM key into the .env file at `CLASSCAD_WASM_KEY=` in the root of this project. The variable `SOCKETIO_URL` is not relevant in this case.
-
-> The first time ClassCAD starts using WASM, loading may take some time depending on your internet speed.
+1. Sign up on [classcad.ch/account](https://classcad.ch/account).
+2. Under **Access tokens** on [your account](https://classcad.ch/account#tokens), make a public access token. It starts with `ccpk_`.
+3. Put it into `.env`:
 
 ```shell
-CLASSCAD_WASM_KEY=MS4xLlZZUG51....
-SOCKETIO_URL=ws://localhost:9091
+CLASSCAD_PUBLIC_TOKEN=ccpk_…
 ```
 
-### Running ClassCAD using SocketIO
+The token is public: it belongs in a page's code, and works on `localhost` and on the domains you register under **Domains** on your account. See [Quickstart with WebAssembly](https://buerli.io/docs/quickstart/wasm).
 
-Follow the instruction points 1-3 about **"Create an account, get your ClassCAD key, download ClassCAD"** on [Getting Started with SocketIO](https://buerli.io/docs/quickstart/socketio)
+> The first time ClassCAD starts in the browser, loading may take some time depending on your internet speed.
 
-Start ClassCAD via SocketIO as described in the [Downloads](https://classcad.ch/downloads/) page
+### Running ClassCAD natively
 
-Open the .env file in the root of this project and comment out `CLASSCAD_WASM_KEY` to make sure ClassCAD is not running using WASM
+The native engine (Business plan) runs on your server. Download it, give it its secret access token (`ccsk_…`, it never goes into a page) and start one of its two servers, as described in [Quickstart with a native engine](https://buerli.io/docs/quickstart/native). Then leave `CLASSCAD_PUBLIC_TOKEN` empty in `.env` and set the address of the server you started:
 
 ```shell
-#CLASSCAD_WASM_KEY=MS4xLlZZUG51....
+# classcad-cli worker, through WSClient
+WS_URL=ws://localhost:9094
+```
+
+```shell
+# classcad-socketio, through SocketIOClient
 SOCKETIO_URL=ws://localhost:9091
 ```
 
@@ -46,7 +48,7 @@ SOCKETIO_URL=ws://localhost:9091
 yarn dev
 ```
 
-All examples inside `/packages` are self contained and can be ran and forked individually! You will have to insert your ClassCAD key in each example's `main.jsx` file in that case.
+All examples inside `/packages` are self contained and can be ran and forked individually! Put your public access token into `token` in each example's `src/main.jsx` in that case.
 
 ## Starters
 
