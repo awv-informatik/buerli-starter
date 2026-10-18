@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Suspense, useLayoutEffect, useRef, useState } from 'react'
+import { Suspense, useLayoutEffect, useRef, useSyncExternalStore } from 'react'
 import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.io/react'
 import { AppStyle, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
@@ -7,11 +7,23 @@ import { OrbitControls, Environment, Center } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
 import { Status, Out } from './components/Pending'
 import { plugin } from './components/Openfile'
-import { suspend } from 'suspend-react'
+
+// The dropped file. Leva keeps the upload's callback from the render that added it, which may not be the one that
+// mounted, so the file goes to a store rather than to App's state
+let file = null
+const listeners = new Set()
+const setFile = buffer => {
+  file = buffer
+  listeners.forEach(listener => listener())
+}
+const subscribe = listener => {
+  listeners.add(listener)
+  return () => listeners.delete(listener)
+}
 
 export default function App() {
-  const [buffer, set] = useState(null)
-  useControls({ step: folder({ upload: plugin(set) }) })
+  const buffer = useSyncExternalStore(subscribe, () => file)
+  useControls({ step: folder({ upload: plugin(setFile) }) })
   return (
     <>
       <Canvas shadows="percentage" orthographic camera={{ position: [1000, 1000, 0], zoom: 20, far: 10000 }}>
@@ -48,14 +60,17 @@ function Plugins({ dom = false }) {
 
 function Model({ buffer }) {
   const ref = useRef()
-  const { api: { v1: api }, drawingId, Geometry } = useBuerliCadFacade("with-solid-stepviewer") // prettier-ignore
+  // Loads the STEP file into the drawing, and again when another is dropped
+  const { drawingId, Geometry } = useBuerliCadFacade(
+    'with-solid-stepviewer',
+    async ({ v1: api }) => {
+      await api.common.clear()
+      await api.common.load({ data: buffer, format: 'STP', name: 'Import' })
+    },
+    [buffer],
+  )
   const measurePlugin = useDrawing(drawingId, state => state.plugin.global[0])
   const pluginApi = useDrawing(drawingId, state => state.api.plugin)
-
-  suspend(async () => {
-    await api.common.clear()
-    await api.common.load({ data: buffer, format: 'STP', name: 'Import' })
-  }, ['step', buffer])
 
   useLayoutEffect(() => {
     ref.current?.traverse(obj => {
