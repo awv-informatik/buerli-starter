@@ -222,12 +222,12 @@
     "@babel/helper-string-parser" "^7.29.7"
     "@babel/helper-validator-identifier" "^7.29.7"
 
-"@buerli.io/classcad@2.0.0-beta.20261017224040":
-  version "2.0.0-beta.20261017224040"
-  resolved "https://registry.yarnpkg.com/@buerli.io/classcad/-/classcad-2.0.0-beta.20261017224040.tgz#685688961e18e65a5c5cee79dfcda9d9eca5a987"
-  integrity sha512-fyfRwlPRRyBg+6TWbeEUTHaVBWmohWMA1jTv8S5/BQ90Xs8xFf4INq44sNcvvdo5UrDqZ5oKEDqH+lqAeNEKhA==
+"@buerli.io/classcad@2.0.0-beta.20261018104453":
+  version "2.0.0-beta.20261018104453"
+  resolved "https://registry.yarnpkg.com/@buerli.io/classcad/-/classcad-2.0.0-beta.20261018104453.tgz#4dcee356000ee88272af652832ba22c280beb7a6"
+  integrity sha512-wTLP6wSn2Oe4+ft4RkuyJMW56dT+wvaYH+gB97+p/nxBAvoscuaWiym6KWk01Fj3XFoB4r1TCJUqAHufYF+LUQ==
   dependencies:
-    "@buerli.io/core" "2.0.0-beta.20261017224040"
+    "@buerli.io/core" "2.0.0-beta.20261018104453"
     "@classcad/api-js" "https://awvstatic.com/classcad/download/release/21.2.0/js/classcad-api-js-21.2.0.tgz"
     "@types/events" "^3.0.3"
     base64-arraybuffer "^1.0.2"
@@ -240,32 +240,32 @@
     strict-event-emitter-types "^2.0.0"
     uuid "^11.1.1"
 
-"@buerli.io/core@2.0.0-beta.20261017224040":
-  version "2.0.0-beta.20261017224040"
-  resolved "https://registry.yarnpkg.com/@buerli.io/core/-/core-2.0.0-beta.20261017224040.tgz#de46c88158c6b4accd4dffded6e7c2e2ab7d6b1c"
-  integrity sha512-dmlG8ds/ekopfsaXCUmQ2iOXjsL2KK3XlDc8mVQFdbV9Wpz2lBf9AMwv6xYhQuc9lQOPjnvVhaCH0Vly1bNmcw==
+"@buerli.io/core@2.0.0-beta.20261018104453":
+  version "2.0.0-beta.20261018104453"
+  resolved "https://registry.yarnpkg.com/@buerli.io/core/-/core-2.0.0-beta.20261018104453.tgz#e2297a54c89351f205af683f2f6961d7dedbf7bc"
+  integrity sha512-5MWE2AtU2kUUciUoK6GE5JSoRSIGSdCoEvRtAdbuB6dUrEcrrMfQAEDPnGBHRDCUU7YO8UwVsdbjZdnWbLVX5A==
   dependencies:
     "@classcad/api-js" "https://awvstatic.com/classcad/download/release/21.2.0/js/classcad-api-js-21.2.0.tgz"
     uuid "^11.1.1"
     zustand "^5.0.15"
 
-"@buerli.io/headless@2.0.0-beta.20261017224040":
-  version "2.0.0-beta.20261017224040"
-  resolved "https://registry.yarnpkg.com/@buerli.io/headless/-/headless-2.0.0-beta.20261017224040.tgz#b6292b3bb79f3f7bce89ff660a97fc0ca3769462"
-  integrity sha512-GiGDEA5FzkGu0lN3cbAfE/LDytvknVeFqD56uypli8Ke22DGg+gpvKNFQ+pp8pc42gKHOZAKkz97QwGRG3WXBw==
+"@buerli.io/headless@2.0.0-beta.20261018104453":
+  version "2.0.0-beta.20261018104453"
+  resolved "https://registry.yarnpkg.com/@buerli.io/headless/-/headless-2.0.0-beta.20261018104453.tgz#0cbf46fc6799f46314c965232f0c964f41db1a39"
+  integrity sha512-z4k4v5KeU/+b+7ZGnVcKYWZG9IgkDr1XuufK6Z0tIGOMCXAzTdFEP9YgWfNCLYhneETC9lgKxaG0vriHldwe6g==
   dependencies:
-    "@buerli.io/classcad" "2.0.0-beta.20261017224040"
+    "@buerli.io/classcad" "2.0.0-beta.20261018104453"
     flat-promise "^1.0.3"
     uuid "^11.1.1"
 
-"@buerli.io/react-cad@2.0.0-beta.20261017224040":
-  version "2.0.0-beta.20261017224040"
-  resolved "https://registry.yarnpkg.com/@buerli.io/react-cad/-/react-cad-2.0.0-beta.20261017224040.tgz#057b15ec3d6ad1e64cffe4cfc7c363fcd9c97987"
-  integrity sha512-vUiv4wgm7x1C9UJx1trbPjKWkUmOfhOYnH6/HumTyEE7wb9BZ342NZi9ewgOJzIL4+SjrMl0E9GShYzz5TtqLg==
+"@buerli.io/react-cad@2.0.0-beta.20261018104453":
+  version "2.0.0-beta.20261018104453"
+  resolved "https://registry.yarnpkg.com/@buerli.io/react-cad/-/react-cad-2.0.0-beta.20261018104453.tgz#6fcc59b33a140ddff20a315cc867eb04039ede0b"
+  integrity sha512-Hs2nSmocqepDi20Xej6mquwc8MvOcyMjS9RMRsksp9lUEZy49oXx7Le7rRvx9Uay9pzWeP2xO2b4BA09m1Ph4Q==
   dependencies:
     "@babel/runtime" "^7.29.10"
-    "@buerli.io/classcad" "2.0.0-beta.20261017224040"
-    "@buerli.io/react" "2.0.0-beta.20261017224040"
+    "@buerli.io/classcad" "2.0.0-beta.20261018104453"
+    "@buerli.io/react" "2.0.0-beta.20261018104453"
     "@dnd-kit/core" "^6.3.1"
     "@dnd-kit/modifiers" "^9.0.0"
     "@dnd-kit/sortable" "^10.0.0"
@@ -283,14 +283,14 @@
     uuid "^11.1.1"
     zustand "^5.0.15"
 
-"@buerli.io/react@2.0.0-beta.20261017224040":
-  version "2.0.0-beta.20261017224040"
-  resolved "https://registry.yarnpkg.com/@buerli.io/react/-/react-2.0.0-beta.20261017224040.tgz#94003b50e70a3388a1753139b88dd568821b86d3"
-  integrity sha512-nBUO08OTrllkzEzckU1TiIMecrvMDrVVnTZ6YMQxEKOCfXT9jLpGmKbKjRJ9yqenGhY+PkyH9G/foOKHRhEdQw==
+"@buerli.io/react@2.0.0-beta.20261018104453":
+  version "2.0.0-beta.20261018104453"
+  resolved "https://registry.yarnpkg.com/@buerli.io/react/-/react-2.0.0-beta.20261018104453.tgz#b552de898d11a59ffc3c1133c2be537dcdcb3593"
+  integrity sha512-Q9CiZ1QrHJMSZ6osctJhmgrSSocoq/qVxT1ifAQ8H7JMjTpV1DQtFIhPb25dH+GiTyVVS1mOVn639NOg6VyT6g==
   dependencies:
     "@ant-design/icons" "^6.3.4"
-    "@buerli.io/core" "2.0.0-beta.20261017224040"
-    "@buerli.io/headless" "2.0.0-beta.20261017224040"
+    "@buerli.io/core" "2.0.0-beta.20261018104453"
+    "@buerli.io/headless" "2.0.0-beta.20261018104453"
     "@react-spring/web" "^10.1.2"
     antd "^6.6.6"
     deepmerge "^4.3.1"
