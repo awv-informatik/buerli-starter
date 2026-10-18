@@ -1,4 +1,3 @@
-/* eslint-env node */
 import 'antd/dist/reset.css'
 import './styles.css'
 

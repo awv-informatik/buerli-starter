@@ -52,7 +52,6 @@ function usePendingState(key, start, initialState, config = {}) {
 
 function WhiffleBall(props) {
   const { api: { v1: api }, facade } = useBuerliCadFacade('with-solid-claude') // prettier-ignore
-  const [hovered, hover] = useState(false)
   const [pending, start] = useTransition()
 
   const outerSize = usePendingState('outerSize', start, 90, { min: 60, max: 120, step: 5 })
@@ -130,7 +129,7 @@ function WhiffleBall(props) {
   return (
     <Center top>
       <group {...props}>
-        <mesh geometry={geo} castShadow receiveShadow onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
+        <mesh geometry={geo} castShadow receiveShadow>
           <meshStandardMaterial metalness={0} color={pending ? 'gray' : 'orange'} roughness={0.5} />
         </mesh>
         {pending && <Status>Pending</Status>}

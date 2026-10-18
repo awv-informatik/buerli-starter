@@ -11,6 +11,8 @@ export default defineConfig(
   js.configs.recommended,
   tseslint.configs.recommended,
   {
+    // the starters are .jsx, which ESLint only lints when a config names it
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     plugins: { 'react-hooks': reactHooks, 'no-only-tests': noOnlyTests },
     languageOptions: {
       ecmaVersion: 'latest',
