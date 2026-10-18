@@ -20,6 +20,8 @@ export default () => {
       outDir: './build',
     },
     plugins: [react()],
+    // One React for the app and its dependencies: tunnel-rat's zustand 4 brings React 18 along
+    resolve: { dedupe: ['react', 'react-dom'] },
     server: {
       cors: {
         origin: '*',

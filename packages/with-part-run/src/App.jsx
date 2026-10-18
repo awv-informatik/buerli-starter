@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
+import { Suspense, useLayoutEffect, useRef } from 'react'
 import { useBuerliCadFacade } from '@buerli.io/react'
 import { ScgGraphicType } from '@buerli.io/classcad'
 import { Canvas } from '@react-three/fiber'
@@ -31,20 +31,20 @@ export default function App() {
 }
 
 function Scene({ width = 50, ...props }) {
-  const { api: { v1: api }, facade, Geometry } = useBuerliCadFacade('with-history-run') // prettier-ignore
   const geometry = useRef()
-
-  useEffect(() => {
-    async function run() {
-      api.common.clear()
+  // Builds the part, and again when width changes; the chamfer waits for two circles picked in the view
+  const { facade, Geometry } = useBuerliCadFacade(
+    'with-history-run',
+    async ({ v1: api }) => {
+      await api.common.clear()
       const part = await api.part.create({ name: 'Part' })
       const wcsx = await api.part.workCSys({ id: part, rotation: [0, -width / 5, -width / 8] })
       await api.part.cylinder({ id: part, references: [wcsx], diameter: 10, height: width })
       const sel = (await facade.selectGeometry([ScgGraphicType.CIRCLE], 2)).map(sel => sel.graphicId)
-      api.part.chamfer({ id: part, type: 'EQUAL_DISTANCE', references: sel, distance1: 2, distance2: 2, angle: 45 })
-    }
-    run()
-  }, [])
+      await api.part.chamfer({ id: part, type: 'EQUAL_DISTANCE', references: sel, distance1: 2, distance2: 2, angle: 45 })
+    },
+    [width],
+  )
 
   useLayoutEffect(() => {
     geometry.current?.traverse(obj => {
