@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Suspense, useLayoutEffect, useRef, useState } from 'react'
 import { useDrawing, useBuerliCadFacade, BuerliPluginsGeometry } from '@buerli.io/react'
-import { GlobalPlugins } from '@buerli.io/react-cad'
+import { AppStyle, GlobalPlugins } from '@buerli.io/react-cad'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Environment, Center } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'
@@ -35,7 +35,14 @@ export default function App() {
 
 function Plugins({ dom = false }) {
   const { drawingId } = useBuerliCadFacade('with-solid-stepviewer')
-  if (dom) return <GlobalPlugins drawingId={drawingId} />
+  if (dom)
+    return (
+      // react-cad's styles: its windows (the measure plugin's) let the canvas below take the pointer
+      <div className="rcad">
+        <AppStyle />
+        <GlobalPlugins drawingId={drawingId} />
+      </div>
+    )
   else return <BuerliPluginsGeometry drawingId={drawingId} />
 }
 

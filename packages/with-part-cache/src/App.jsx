@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState, useTransition, useDeferredValue } from 'react'
+import { Suspense, useState, useTransition, useDeferredValue } from 'react'
 import { useFirstMountState } from 'react-use'
 import { Canvas } from '@react-three/fiber'
 import { Center, ContactShadows, CameraControls, Environment } from '@react-three/drei'

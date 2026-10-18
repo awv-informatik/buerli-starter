@@ -50,10 +50,9 @@ function Robot(props) {
   const { nodes } = suspend(async () => {
     const { id: rootAsm } = await api.common.load({ data: robotArm, format: 'OFB', ident: 'root' }) // prettier-ignore
     store.asm = rootAsm
-    for (let i = 0; i < store.constraints.length; i++) {
-      store.constraints[i].node = await api.assembly.getFastened({ id: rootAsm, name: store.constraints[i].name })
+    for (const constraint of store.constraints) {
+      constraint.node = await api.assembly.getFastened({ id: rootAsm, name: constraint.name })
     }
-    console.log(store)
     return await facade.createScene()
   }, ['robot'])
 
