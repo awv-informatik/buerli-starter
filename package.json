@@ -17,6 +17,7 @@
     "deploy:production": "firebase deploy --project buerli --only hosting:production"
   },
   "dependencies": {
+    "antd": "^6.6.6",
     "leva": "^0.10.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
