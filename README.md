@@ -61,6 +61,7 @@ All examples inside `/packages` are self contained and can be ran and forked ind
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache"><img width="32%" src="packages/with-solid-cache/thumbnail.jpg" alt="Demo"/></a>
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-solid-cache-reuse"><img width="32%" src="packages/with-solid-cache-reuse/thumbnail.jpg" alt="Demo"/></a>
   <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-stepviewer"><img width="32%" src="packages/with-stepviewer/thumbnail.jpg" alt="Demo"/></a>
+  <a href="https://github.com/awv-informatik/buerli-starter/tree/main/packages/with-buerligons"><img width="32%" src="packages/with-buerligons/thumbnail.jpg" alt="Demo"/></a>
 </p>
 
 ### Links to our homepages and documentations
