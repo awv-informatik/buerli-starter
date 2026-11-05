@@ -1,14 +1,12 @@
 /* prompt:
 
 under /packages create a new project called "with-solid-claude".
-You will be using the buerli.io react api, you must study it here https://buerli.io/docs/api/react
-Buerli is a wrapper around the ClassCAD API, for this project the solid part is very important, study it here: https://classcad.ch/docs/API/solid
-All the projects under /packages use these, so you can inspect them, too.
+you will be using the buerli.io react api: https://buerli.io/docs/api/react
+buerli is a javascript wrapper around the ClassCAD API, for this project the solid part is very important: https://classcad.ch/docs/API/solid
 
-Now for the project, i want you to read this tutorial: https://wiki.freecad.org/Whiffle%20Ball%20tutorial
-And then create the whiffle ball using the solid api.
+this is what you will build (using buerli and the solid API): https://wiki.freecad.org/Whiffle%20Ball%20tutorial
 
-Kepp in mind: when you make slices they create two cuts. Make intelligent use of the keepBoth attribute.
+keep in mind: when you make slices they create two cuts. make intelligent use of the keepBoth attribute.
 */
 
 import { Suspense, useState, useTransition, useDeferredValue } from 'react'
