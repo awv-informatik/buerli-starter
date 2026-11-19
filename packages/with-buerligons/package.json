@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@buerli.io/buerligons": "0.1.1-beta.20261102135059",
-    "@buerli.io/classcad": "2.0.0",
+    "@classcad/client": "3.0.0-beta.20261119100608",
+    "@classcad/modeler": "1.0.0-beta.20261119100608",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "react": "^19.3.1",

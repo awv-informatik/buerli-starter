@@ -2,9 +2,9 @@ import 'antd/dist/reset.css'
 import './styles.css'
 
 import { createRoot } from 'react-dom/client'
-import { init, WASMClient, WSClient, SocketIOClient } from '@buerli.io/classcad'
-import { elements } from '@buerli.io/react'
-import { Measure } from '@buerli.io/react-cad'
+import { init, WASMClient, WSClient, SocketIOClient } from '@classcad/client'
+import { elements } from '@classcad/react'
+import { Measure } from '@classcad/react-cad'
 
 import App from './App'
 

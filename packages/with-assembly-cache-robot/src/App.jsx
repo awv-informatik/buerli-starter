@@ -1,7 +1,7 @@
 import { Suspense, useState, useRef, useTransition, useDeferredValue } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, CameraControls, Environment } from '@react-three/drei'
-import { useBuerliCadFacade } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@classcad/react'
 import debounce from 'lodash/debounce'
 import { easing } from 'maath'
 import { Leva, useControls, folder } from 'leva'
