@@ -1,6 +1,6 @@
 # buerli-starter
 
-A collection of self-contained mini examples showing various features of Buerli, and how to employ them in a React context.
+A collection of self-contained mini examples showing various features of the ClassCAD SDK (`@classcad/*`), and how to employ them in a React context.
 
 First, clone the repository.
 
@@ -24,13 +24,13 @@ yarn
 CLASSCAD_PUBLIC_TOKEN=ccpk_…
 ```
 
-The token is public: it belongs in a page's code, and works on `localhost` and on the domains you register under **Domains** on your account. See [Quickstart with WebAssembly](https://buerli.io/docs/quickstart/wasm).
+The token is public: it belongs in a page's code, and works on `localhost` and on the domains you register under **Domains** on your account. See [Quickstart with WebAssembly](https://sdkjs.classcad.ch/docs/quickstart/wasm).
 
 > The first time ClassCAD starts in the browser, loading may take some time depending on your internet speed.
 
 ### Running ClassCAD natively
 
-The native engine (Business plan) runs on your server. Download it, give it its secret access token (`ccsk_…`, it never goes into a page) and start one of its two servers, as described in [Quickstart with a native engine](https://buerli.io/docs/quickstart/native). Then leave `CLASSCAD_PUBLIC_TOKEN` empty in `.env` and set the address of the server you started:
+The native engine (Business plan) runs on your server. Download it, give it its secret access token (`ccsk_…`, it never goes into a page) and start one of its two servers, as described in [Quickstart with a native engine](https://sdkjs.classcad.ch/docs/quickstart/native). Then leave `CLASSCAD_PUBLIC_TOKEN` empty in `.env` and set the address of the server you started:
 
 ```shell
 # classcad-cli worker, through WSClient
@@ -66,7 +66,7 @@ All examples inside `/packages` are self contained and can be ran and forked ind
 
 ### Links to our homepages and documentations
 
-- [buerligons.io](https://buerligons.io)
-- [buerli.io](https://buerli.io)
+- [modeler.classcad.ch](https://modeler.classcad.ch): the ClassCAD Modeler
+- [sdkjs.classcad.ch](https://sdkjs.classcad.ch): the ClassCAD SDK
 - [classcad.ch](https://classcad.ch)
 - [awv-informatik.ch](https://awv-informatik.ch)

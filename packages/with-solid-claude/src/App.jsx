@@ -1,16 +1,16 @@
 /* prompt:
 
 under /packages create a new project called "with-solid-claude".
-you will be using the buerli.io react api: https://buerli.io/docs/api/react
-buerli is a javascript wrapper around the ClassCAD API, for this project the solid part is very important: https://classcad.ch/docs/API/solid
+you will be using the ClassCAD SDK's react api (@classcad/react): https://sdkjs.classcad.ch/docs/api/react
+the ClassCAD SDK (sdkjs) is a javascript wrapper around the ClassCAD API, for this project the solid part is very important: https://classcad.ch/docs/API/solid
 
-this is what you will build (using buerli and the solid API): https://wiki.freecad.org/Whiffle%20Ball%20tutorial
+this is what you will build (using the SDK and the solid API): https://wiki.freecad.org/Whiffle%20Ball%20tutorial
 
 keep in mind: when you make slices they create two cuts. make intelligent use of the keepBoth attribute.
 */
 
 import { Suspense, useState, useTransition, useDeferredValue } from 'react'
-import { useBuerliCadFacade } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@classcad/react'
 import { Canvas } from '@react-three/fiber'
 import { AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'

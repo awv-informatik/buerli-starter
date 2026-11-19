@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react'
-import { useBuerliCadFacade } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@classcad/react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, SoftShadows, Outlines, Edges } from '@react-three/drei'
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier'

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { Suspense, memo, useState, useTransition, useDeferredValue } from 'react'
-import { useBuerliCadFacade } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@classcad/react'
 import { Canvas } from '@react-three/fiber'
 import { AccumulativeShadows, RandomizedLight, Center, OrbitControls, Environment } from '@react-three/drei'
 import { Leva, useControls, folder } from 'leva'

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { useRef, useCallback, useState, Suspense, useLayoutEffect } from 'react'
-import { useBuerliCadFacade } from '@buerli.io/react'
+import { useBuerliCadFacade } from '@classcad/react'
 import { Environment, AccumulativeShadows, RandomizedLight, Bounds, Center, OrbitControls, Resize, GizmoHelper, GizmoViewport } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Tabs } from 'antd'

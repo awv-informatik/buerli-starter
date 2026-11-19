@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Buerligons, EditorController } from '@buerli.io/buerligons'
+import { Buerligons, EditorController } from '@classcad/modeler'
 import clamp from './resources/Clamp.ofb?url'
 
 // Opens, saves and closes the documents Buerligons edits

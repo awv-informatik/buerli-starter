@@ -1,9 +1,9 @@
-import { CustomSelect, DrawingID, getDrawing, SelectedItem, SelectionFilter, SelectorID } from '@buerli.io/core'
+import { CustomSelect, DrawingID, getDrawing, SelectedItem, SelectionFilter, SelectorID } from '@classcad/sdkjs'
 import { Button, Tag } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { v4 } from 'uuid'
-import { useDrawing } from '@buerli.io/react'
+import { useDrawing } from '@classcad/react'
 import base from './base'
 
 const Base = styled.div.withConfig({ shouldForwardProp: prop => prop !== 'active' })<{ active?: boolean }>`
